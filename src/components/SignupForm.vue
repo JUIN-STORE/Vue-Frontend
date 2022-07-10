@@ -3,40 +3,57 @@
     <div class="form-wrapper form-wrapper-sm">
       <form @submit.prevent="submitForm" class="form">
         <div>
-          <label for="email">email: </label>
-          <input id="email" type="email" v-model="email" />
+          <label>ROLE</label>
+          <select id="accountRole" v-model="accountRole">
+            <option value="USER" selected>USER</option>
+            <option value="SELLER">SELLER</option>
+            <option value="ADMIN">ADMIN</option>
+          </select>
         </div>
-        <div>
-          <label for="password">password: </label>
-          <input id="password" type="text" v-model="passwordHash" />
-        </div>
-        <div>
-          <label for="name">name</label>
-          <input id="name" type="text" v-model="name" />
-        </div>
-
-        <form>
-          <div>
-            <label>role: {{ accountRole }}</label>
-            <select id="accountRole" v-model="accountRole">
-              <option value="USER" selected>USER</option>
-              <option value="SELLER">SELLER</option>
-              <option value="ADMIN">ADMIN</option>
-            </select>
-          </div>
-        </form>
+        <br />
 
         <div>
-          주소
-          <label for="address.city">city</label>
-          <input id="address.city" type="text" v-model="address.city" />
-
-          <label for="address.street">street</label>
-          <input id="address.street" type="text" v-model="address.street" />
-
-          <label for="address.zipCode">zipCode</label>
-          <input id="address.zipCode" type="number" v-model="address.zipCode" />
+          <label for="email">* EMAIL</label>
+          <input id="email" type="email" v-model="email" required />
         </div>
+
+        <div>
+          <label for="password">* PASSWORD</label>
+          <input id="password" type="password" v-model="password" required />
+        </div>
+
+        <div>
+          <label for="name">* NAME</label>
+          <input id="name" type="text" v-model="name" required />
+        </div>
+
+        <div>
+          <br />ADDRESS
+          <label for="address.city">* CITY</label>
+          <input
+            id="address.city"
+            type="text"
+            v-model="address.city"
+            required
+          />
+
+          <label for="address.street">* STREET</label>
+          <input
+            id="address.street"
+            type="text"
+            v-model="address.street"
+            required
+          />
+
+          <label for="address.zipCode">* ZIPCODE</label>
+          <input
+            id="address.zipCode"
+            type="number"
+            v-model="address.zipCode"
+            required
+          />
+        </div>
+
         <button type="submit" class="btn">회원 가입</button>
         <router-link to="/main" type="submit" class="btn">취소</router-link>
       </form>
@@ -45,15 +62,16 @@
 </template>
 
 <script>
-import { registerUser } from '@/api/index';
+import { registerUser } from '@/api/accounts';
+import { makePasswordHash } from '@/utils/make-password-hash';
 
 export default {
   data() {
     return {
-      email: '',
-      passwordHash: '',
-      name: '',
       accountRole: 'USER',
+      email: '',
+      password: '',
+      name: '',
       address: {
         defaultAddress: true,
         city: '',
@@ -64,27 +82,26 @@ export default {
   },
   methods: {
     async submitForm() {
-      const userData = {
-        email: this.email,
-        passwordHash: this.passwordHash,
-        name: this.name,
+      const payload = {
         accountRole: this.accountRole,
-        city: this.city,
+        email: this.email,
+        passwordHash: makePasswordHash(this.password),
+        name: this.name,
         address: {
           city: this.address.city,
           street: this.address.street,
           zipCode: this.address.zipCode,
         },
       };
-      const { data } = await registerUser(userData);
-      console.log(data.email);
+      await registerUser(payload);
       this.initForm();
     },
     initForm() {
+      this.accountRole = 'USER';
       this.email = '';
-      this.passwordHash = '';
+      this.password = '';
       this.name = '';
-      this.accountRole = '';
+      this.address.defaultAddress = true;
       this.address.city = '';
       this.address.street = '';
       this.address.zipCode = '';

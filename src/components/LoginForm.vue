@@ -3,10 +3,10 @@
     <div class="form-wrapper form-wrapper-sm">
       <form @submit.prevent="submitForm" class="form">
         <div>
-          <label for="username">email:</label>
-          <input id="username" type="text" v-model="username" />
+          <label for="email">email:</label>
+          <input id="email" type="text" v-model="email" required />
           <p class="validation-text">
-            <span class="warning" v-if="!isUsernameValid && username">
+            <span class="warning" v-if="!isEmailValid && email">
               Please enter an email address
             </span>
           </p>
@@ -16,62 +16,56 @@
           <input id="password" type="text" v-model="password" />
         </div>
         <button
-          :disabled="!isUsernameValid || !password"
+          :disabled="!isEmailValid || !password"
           type="submit"
           class="btn"
         >
           로그인
         </button>
       </form>
-      <p class="log">{{ logMessage }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import { loginUser } from '@/api/index';
+import { loginUser } from '@/api/accounts';
 import { validateEmail } from '@/utils/validation';
+import { makePasswordHash } from '@/utils/make-password-hash';
 
 export default {
   data() {
     return {
       // form values
-      username: '',
+      email: '',
       password: '',
-      // log
-      logMessage: '',
     };
   },
   computed: {
-    isUsernameValid() {
-      return validateEmail(this.username);
+    isEmailValid() {
+      return validateEmail(this.email);
     },
   },
   methods: {
     async submitForm() {
       try {
-        // 비즈니스 로직
-        const userData = {
-          username: this.username,
-          password: this.password,
+        const payload = {
+          email: this.email,
+          passwordHash: makePasswordHash(this.password),
         };
-        const { data } = await loginUser(userData);
-        console.log(data.user.username);
-        this.$store.commit('setUsername', data.user.username);
-        this.$router.push('/main');
-        // this.logMessage = `${data.user.username} 님 환영합니다`;
-        // this.initForm();
+        const { res } = loginUser(payload);
+        console.log(res);
+        // this.$store.commit('setEmail', data.user.username);
+        await this.$router.push('/main');
       } catch (error) {
         // 에러 핸들링할 코드
         console.log(error.response.data);
-        this.logMessage = error.response.data;
-        // this.initForm();
-      } finally {
         this.initForm();
+      } finally {
+        // this.initForm();
       }
     },
     initForm() {
-      this.username = '';
+      this.email = '';
       this.password = '';
     },
   },

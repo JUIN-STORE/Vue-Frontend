@@ -9,7 +9,7 @@
     <div class="navigations">
       <!-- 1 -->
       <template v-if="isUserLogin">
-        <a href="javascript:;" @click="logoutUser" class="logout-button">
+        <a href="javascript:" @click="logoutUser" class="logout-button">
           Logout
         </a>
       </template>
