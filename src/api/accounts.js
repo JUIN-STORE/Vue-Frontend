@@ -4,11 +4,11 @@ const instance = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
 });
 
-function registerUser(payload) {
-  return instance.post('/accounts/signup', payload);
+function registerUser(userData) {
+  return instance.post('/api/accounts/signup', userData);
 }
 
-function loginUser(payload) {
-  return instance.post('/accounts/login', payload);
+function loginUser(userData) {
+  return instance.post('/api/accounts/login', userData);
 }
 export { registerUser, loginUser };

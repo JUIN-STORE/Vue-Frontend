@@ -14,10 +14,10 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setUsername(state, email) {
+    setEmail(state, email) {
       state.email = email;
     },
-    clearUsername(state) {
+    clearEmail(state) {
       state.email = '';
     },
     setToken(state, token) {

@@ -3,13 +3,13 @@
     <div>
       <router-link to="/" class="logo">
         js-shop
-        <span v-if="isUserLogin"> by {{ $store.state.username }} </span>
+        <span v-if="isUserLogin"> by {{ $store.state.email }} </span>
       </router-link>
     </div>
     <div class="navigations">
       <!-- 1 -->
       <template v-if="isUserLogin">
-        <a href="javascript:" @click="logoutUser" class="logout-button">
+        <a href="javascript:;" @click="logoutUser" class="logout-button">
           Logout
         </a>
       </template>
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     logoutUser() {
-      this.$store.commit('clearUsername');
+      this.$store.commit('clearEmail');
       this.$router.push('/login');
     },
   },

@@ -3,7 +3,7 @@
     <div class="form-wrapper form-wrapper-sm">
       <form @submit.prevent="submitForm" class="form">
         <div>
-          <label for="email">email:</label>
+          <label for="email">EMAIL</label>
           <input id="email" type="text" v-model="email" required />
           <p class="validation-text">
             <span class="warning" v-if="!isEmailValid && email">
@@ -12,7 +12,7 @@
           </p>
         </div>
         <div>
-          <label for="password">password:</label>
+          <label for="password">PASSWORD</label>
           <input id="password" type="text" v-model="password" />
         </div>
         <button
@@ -52,14 +52,14 @@ export default {
           email: this.email,
           passwordHash: makePasswordHash(this.password),
         };
-        const { res } = loginUser(payload);
-        console.log(res);
-        // this.$store.commit('setEmail', data.user.username);
+        const { data } = await loginUser(payload);
+        console.log(data);
+        this.$store.commit('setEmail', data.data.email);
         await this.$router.push('/main');
       } catch (error) {
         // 에러 핸들링할 코드
-        console.log(error.response.data);
-        this.initForm();
+        console.log(error);
+        // console.log(error.response.data);
       } finally {
         // this.initForm();
       }
