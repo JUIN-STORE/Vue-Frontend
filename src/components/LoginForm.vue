@@ -55,6 +55,7 @@ export default {
         const { data } = await loginUser(payload);
         console.log(data);
         this.$store.commit('setEmail', data.data.email);
+        this.$store.commit('setToken', data.data.token);
         await this.$router.push('/main');
       } catch (error) {
         // 에러 핸들링할 코드
