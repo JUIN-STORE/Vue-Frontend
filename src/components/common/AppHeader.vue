@@ -9,7 +9,9 @@
     <div class="navigations">
       <!-- 1 -->
       <template v-if="isUserLogin">
-        <a href="javascript:;" @click="logoutUser" class="logout-button">
+        <router-link to="/profile">Profile</router-link>
+        <!--        <a href="javascript:" @click="myInfo" class="logout-button"> My </a>-->
+        <a href="javascript:" @click="logoutUser" class="logout-button">
           Logout
         </a>
       </template>
@@ -33,6 +35,9 @@ export default {
     logoutUser() {
       this.$store.commit('clearEmail');
       this.$router.push('/login');
+    },
+    myInfo() {
+      this.$router.push('/my');
     },
   },
 };

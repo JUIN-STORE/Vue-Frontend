@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { registerUser } from '@/api/accounts';
+import { signup } from '@/api/accounts';
 import { makePasswordHash } from '@/utils/make-password-hash';
 
 export default {
@@ -81,6 +81,7 @@ export default {
     };
   },
   methods: {
+    // return
     async submitForm() {
       const payload = {
         accountRole: this.accountRole,
@@ -93,7 +94,7 @@ export default {
           zipCode: this.address.zipCode,
         },
       };
-      await registerUser(payload);
+      await signup(payload);
       this.initForm();
     },
     initForm() {

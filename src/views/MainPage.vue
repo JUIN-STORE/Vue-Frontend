@@ -7,7 +7,19 @@
 </template>
 
 <script>
-export default {};
+import { profile } from '@/api/accounts';
+
+export default {
+  methods: {
+    async myInfoData() {
+      let newVar = await profile();
+      console.log(newVar);
+    },
+  },
+  created() {
+    this.myInfoData();
+  },
+};
 </script>
 
 <style></style>

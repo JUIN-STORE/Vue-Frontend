@@ -10,11 +10,18 @@ function createInstance() {
 
 const instance = createInstance();
 
-function registerUser(userData) {
-  return instance.post('/api/accounts/signup', userData);
+function signup(signupRequest) {
+  return instance.post('/api/accounts/signup', signupRequest);
 }
 
-function loginUser(userData) {
-  return instance.post('/api/accounts/login', userData);
+function login(loginRequest) {
+  return instance.post('/api/accounts/login', loginRequest);
 }
-export { registerUser, loginUser };
+
+function profile() {
+  return instance.get('/api/accounts/profile');
+}
+
+export { signup, login, profile };
+
+// 1번째

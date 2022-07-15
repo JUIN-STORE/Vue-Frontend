@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
+// 2번째
 export default new VueRouter({
   mode: 'history',
   routes: [
@@ -12,11 +13,15 @@ export default new VueRouter({
     },
     {
       path: '/login',
-      component: () => import('@/views/LoginPage.vue'),
+      component: () => import('@/views/accounts/LoginPage.vue'),
     },
     {
       path: '/signup',
-      component: () => import('@/views/SignupPage.vue'),
+      component: () => import('@/views/accounts/SignupPage.vue'),
+    },
+    {
+      path: '/profile',
+      component: () => import('@/views/accounts/ProfilePage.vue'),
     },
     {
       path: '/main',

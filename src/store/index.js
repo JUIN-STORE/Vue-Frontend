@@ -23,5 +23,8 @@ export default new Vuex.Store({
     setToken(state, token) {
       state.token = token;
     },
+    getToken(state) {
+      return state.token;
+    },
   },
 });

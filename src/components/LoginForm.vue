@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { loginUser } from '@/api/accounts';
+import { login } from '@/api/accounts';
 import { validateEmail } from '@/utils/validation';
 import { makePasswordHash } from '@/utils/make-password-hash';
 
@@ -52,17 +52,16 @@ export default {
           email: this.email,
           passwordHash: makePasswordHash(this.password),
         };
-        const { data } = await loginUser(payload);
-        console.log(data);
+        const { data } = await login(payload);
         this.$store.commit('setEmail', data.data.email);
-        this.$store.commit('setToken', data.data.token);
+        this.$store.commit('setToken', 'Bearer ' + data.data.token);
         await this.$router.push('/main');
       } catch (error) {
         // 에러 핸들링할 코드
         console.log(error);
-        // console.log(error.response.data);
+        console.log(error.response.data);
       } finally {
-        // this.initForm();
+        this.initForm();
       }
     },
     initForm() {
