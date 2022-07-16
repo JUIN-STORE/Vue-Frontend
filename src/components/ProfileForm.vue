@@ -38,7 +38,9 @@
             disabled
           />
         </div>
-        <button type="submit" class="btn">회원 정보 변경하기</button>
+        <router-link to="/modify" type="submit" class="btn"
+          >회원 정보 변경하기</router-link
+        >
         <router-link to="/main" type="submit" class="btn">취소</router-link>
       </form>
     </div>
@@ -66,13 +68,17 @@ export default {
     // return
     async getProfile() {
       const { data } = await profile();
-
       this.accountRole = data.data.accountRole;
       this.email = data.data.email;
       this.name = data.data.name;
       this.address.city = data.data.address.city;
       this.address.street = data.data.address.street;
       this.address.zipCode = data.data.address.zipCode;
+
+      this.$store.commit('setName', this.name);
+      this.$store.commit('setCity', this.address.city);
+      this.$store.commit('setStreet', this.address.street);
+      this.$store.commit('setZipCode', this.address.zipCode);
     },
   },
   created() {

@@ -22,6 +22,10 @@ function profile() {
   return instance.get('/api/accounts/profile');
 }
 
-export { signup, login, profile };
+function modify(updateRequest) {
+  return instance.post('/api/accounts/modify', updateRequest);
+}
+
+export { signup, login, profile, modify };
 
 // 1번째

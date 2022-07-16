@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-// 2번째
 export default new VueRouter({
   mode: 'history',
   routes: [
@@ -24,6 +23,10 @@ export default new VueRouter({
       component: () => import('@/views/accounts/ProfilePage.vue'),
     },
     {
+      path: '/modify',
+      component: () => import('@/views/accounts/ModifyPage.vue'),
+    },
+    {
       path: '/main',
       component: () => import('@/views/MainPage.vue'),
     },
@@ -33,3 +36,5 @@ export default new VueRouter({
     },
   ],
 });
+
+// 2번째
