@@ -28,9 +28,10 @@
 </template>
 
 <script>
-import { login } from '@/api/accounts';
 import { validateEmail } from '@/utils/validation';
 import { makePasswordHash } from '@/utils/make-password-hash';
+// import { saveAuthToCookie, saveEmailToCookie } from '@/utils/cookies';
+// import { login } from '@/api/accounts';
 
 export default {
   data() {
@@ -52,9 +53,12 @@ export default {
           email: this.email,
           passwordHash: makePasswordHash(this.password),
         };
-        const { data } = await login(payload);
-        this.$store.commit('setEmail', data.data.email);
-        this.$store.commit('setToken', 'Bearer ' + data.data.token);
+        // const { data } = await login(payload);
+        // this.$store.commit('setEmail', data.data.email);
+        // this.$store.commit('setToken', 'Bearer ' + data.data.token);
+        // saveAuthToCookie('Bearer ' + data.data.token);
+        // saveEmailToCookie(data.data.email);
+        await this.$store.dispatch('LOGIN', payload);
         await this.$router.push('/main');
       } catch (error) {
         // 에러 핸들링할 코드

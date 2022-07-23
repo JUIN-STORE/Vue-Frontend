@@ -23,9 +23,13 @@ function profile() {
 }
 
 function modify(updateRequest) {
-  return instance.post('/api/accounts/modify', updateRequest);
+  return instance.patch('/api/accounts/modify', updateRequest);
 }
 
-export { signup, login, profile, modify };
+function remove() {
+  return instance.delete('/api/accounts/remove');
+}
+
+export { signup, login, profile, modify, remove };
 
 // 1번째

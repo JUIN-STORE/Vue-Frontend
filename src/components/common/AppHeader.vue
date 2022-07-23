@@ -10,7 +10,6 @@
       <!-- 1 -->
       <template v-if="isUserLogin">
         <router-link to="/profile">Profile</router-link>
-        <!--        <a href="javascript:" @click="myInfo" class="logout-button"> My </a>-->
         <a href="javascript:" @click="logoutUser" class="logout-button">
           Logout
         </a>
@@ -25,6 +24,8 @@
 </template>
 
 <script>
+import { deleteCookie } from '@/utils/cookies';
+
 export default {
   computed: {
     isUserLogin() {
@@ -33,11 +34,12 @@ export default {
   },
   methods: {
     logoutUser() {
-      this.$store.commit('clearEmail');
-      this.$router.push('/login');
+      this.$store.commit('clearCookie');
+      deleteCookie('email');
+      deleteCookie('jwt');
     },
-    myInfo() {
-      this.$router.push('/my');
+    profile() {
+      this.$router.push('/profile');
     },
   },
 };

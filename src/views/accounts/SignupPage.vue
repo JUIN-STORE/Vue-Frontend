@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import SignupForm from '@/components/SignupForm.vue';
+import SignupForm from '@/components/accounts/SignupForm.vue';
 
 export default {
   components: {

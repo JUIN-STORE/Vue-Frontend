@@ -1,20 +1,27 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import {
+  getAuthFromCookie,
+  getEmailFromCookie,
+  saveAuthToCookie,
+  saveEmailToCookie,
+} from '@/utils/cookies';
+import { login } from '@/api/accounts';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    email: '',
+    email: getEmailFromCookie() || '',
     name: '',
     city: '',
     street: '',
     zipCode: '',
-    token: '',
+    token: getAuthFromCookie() || '',
   },
   getters: {
     isLogin(state) {
-      return state.email !== '';
+      return state.email !== '' && state.token !== '';
     },
     readEmail(state) {
       return state.email;
@@ -51,11 +58,22 @@ export default new Vuex.Store({
     setZipCode(state, zipCode) {
       state.zipCode = zipCode;
     },
-    clearEmail(state) {
+    clearCookie(state) {
       state.email = '';
+      state.token = '';
     },
     setToken(state, token) {
       state.token = token;
+    },
+  },
+  actions: {
+    async LOGIN({ commit }, payload) {
+      const { data } = await login(payload);
+      commit('setEmail', data.data.email);
+      commit('setToken', 'Bearer ' + data.data.token);
+      saveAuthToCookie('Bearer ' + data.data.token);
+      saveEmailToCookie(data.data.email);
+      return data;
     },
   },
 });

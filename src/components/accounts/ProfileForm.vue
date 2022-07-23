@@ -67,18 +67,22 @@ export default {
   methods: {
     // return
     async getProfile() {
-      const { data } = await profile();
-      this.accountRole = data.data.accountRole;
-      this.email = data.data.email;
-      this.name = data.data.name;
-      this.address.city = data.data.address.city;
-      this.address.street = data.data.address.street;
-      this.address.zipCode = data.data.address.zipCode;
+      try {
+        const { data } = await profile();
+        this.accountRole = data.data.accountRole;
+        this.email = data.data.email;
+        this.name = data.data.name;
+        this.address.city = data.data.address.city;
+        this.address.street = data.data.address.street;
+        this.address.zipCode = data.data.address.zipCode;
 
-      this.$store.commit('setName', this.name);
-      this.$store.commit('setCity', this.address.city);
-      this.$store.commit('setStreet', this.address.street);
-      this.$store.commit('setZipCode', this.address.zipCode);
+        this.$store.commit('setName', this.name);
+        this.$store.commit('setCity', this.address.city);
+        this.$store.commit('setStreet', this.address.street);
+        this.$store.commit('setZipCode', this.address.zipCode);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   created() {

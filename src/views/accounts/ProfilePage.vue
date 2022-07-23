@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ProfileForm from '@/components/ProfileForm.vue';
+import ProfileForm from '@/components/accounts/ProfileForm.vue';
 
 export default {
   components: {
