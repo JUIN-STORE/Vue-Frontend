@@ -63,8 +63,7 @@ export default {
         passwordHash: makePasswordHash(this.password),
         name: this.name,
       };
-      let newVar = await modify(payload);
-      console.log('test' + newVar);
+      await modify(payload);
     },
 
     async deleteForm() {

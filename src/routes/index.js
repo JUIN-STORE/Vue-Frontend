@@ -26,6 +26,12 @@ export default new VueRouter({
       path: '/modify',
       component: () => import('@/views/accounts/ModifyPage.vue'),
     },
+
+    // order
+    {
+      path: '/admin/register',
+      component: () => import('@/views/products/RegisterPage.vue'),
+    },
     {
       path: '/main',
       component: () => import('@/views/MainPage.vue'),
