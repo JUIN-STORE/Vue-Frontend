@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <h1 class="page-header">회원 가입 페이지</h1>
-    <SignupForm></SignupForm>
-  </div>
+  <SignupForm></SignupForm>
 </template>
 
 <script>

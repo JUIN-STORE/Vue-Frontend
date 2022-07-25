@@ -1,48 +1,74 @@
 <template>
-  <div class="contents">
-    <div class="form-wrapper form-wrapper-sm">
-      <form @submit.prevent="info" class="form">
-        <div>
-          <label for="email">* EMAIL</label>
-          <input id="email" type="email" v-model="email" disabled />
-        </div>
+  <div class="container">
+    <div class="layout-login">
+      <div class="card">
+        <div class="card-header">PROFILE</div>
+        <p></p>
 
-        <div>
-          <label for="name">* NAME</label>
-          <input id="name" type="text" v-model="name" disabled />
-        </div>
+        <form @submit.prevent="getProfile" class="form">
+          <label for="email">EMAIL</label>
+          <div class="card-text">
+            <input
+              type="email"
+              id="email"
+              v-model="email"
+              class="form-control"
+              disabled
+            />
+          </div>
 
-        <div>
-          <br />ADDRESS
-          <label for="address.city">* CITY</label>
-          <input
-            id="address.city"
-            type="text"
-            v-model="address.city"
-            disabled
-          />
+          <label for="name">NAME</label>
+          <div class="card-text">
+            <input
+              id="name"
+              type="text"
+              v-model="name"
+              class="form-control"
+              disabled
+            />
+          </div>
 
-          <label for="address.street">* STREET</label>
-          <input
-            id="address.street"
-            type="text"
-            v-model="address.street"
-            disabled
-          />
+          <div class="card-text">
+            <br />ADDRESS
+            <p></p>
 
-          <label for="address.zipCode">* ZIPCODE</label>
-          <input
-            id="address.zipCode"
-            type="number"
-            v-model="address.zipCode"
-            disabled
-          />
-        </div>
-        <router-link to="/modify" type="submit" class="btn"
-          >회원 정보 변경하기</router-link
-        >
-        <router-link to="/main" type="submit" class="btn">취소</router-link>
-      </form>
+            <label for="address.city">CITY</label>
+            <input
+              id="address.city"
+              type="text"
+              v-model="address.city"
+              class="form-control"
+              disabled
+            />
+
+            <label for="address.street">STREET</label>
+            <input
+              id="address.street"
+              type="text"
+              v-model="address.street"
+              class="form-control"
+              disabled
+            />
+
+            <label for="address.zipCode">ZIPCODE</label>
+            <input
+              id="address.zipCode"
+              type="number"
+              v-model="address.zipCode"
+              class="form-control"
+              disabled
+            />
+          </div>
+
+          <router-link
+            to="/modify"
+            type="submit"
+            class="btn btn-primary"
+            style="float: right"
+            >GO TO PROFILE CHANGE</router-link
+          >
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -91,19 +117,37 @@ export default {
 };
 </script>
 
-<style>
-select {
-  width: 200px;
-  padding: 0.8em 0.5em;
-  border: 1px solid #999;
-  font-family: inherit;
-  border-radius: 0px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+<style scoped>
+.card {
+  margin: auto;
+  max-width: 500px;
+  padding: 10px;
 }
-
-select::-ms-expand {
-  display: none;
+input {
+  width: 100%;
+  padding: 8px;
+}
+.card-title {
+  margin: 8px;
+}
+.btn {
+  margin-top: 10px;
+}
+.card-header {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+.layout-login {
+  margin: auto;
+  margin-top: 125px;
+}
+.link a,
+.link {
+  text-align: center;
+  text-decoration: none;
+}
+.card:hover {
+  transform: translate(0, 0);
 }
 </style>

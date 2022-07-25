@@ -1,26 +1,35 @@
 <template>
-  <header>
-    <div>
-      <router-link to="/" class="logo">
-        js-shop
-        <span v-if="isUserLogin"> by {{ $store.state.email }} </span>
-      </router-link>
+  <nav class="navbar">
+    <i class="material-icons menu-icon">MENU</i>
+    <div class="logo">
+      <div class="text">JS-SHOP</div>
     </div>
-    <div class="navigations">
-      <!-- 1 -->
-      <template v-if="isUserLogin">
-        <router-link to="/profile">Profile</router-link>
-        <a href="javascript:" @click="logoutUser" class="logout-button">
-          Logout
-        </a>
-      </template>
-      <!-- 2 -->
-      <template v-else>
-        <router-link to="/login">로그인</router-link>
-        <router-link to="/signup">회원가입</router-link>
-      </template>
+    <div class="item search right" tabindex="0">
+      <div class="search-group">
+        <input type="text" />
+        <i class="material-icons search-icon"> search </i>
+      </div>
     </div>
-  </header>
+
+    <div class="item">
+      <div class="group">
+        <i class="material-icons"> account_circle </i>
+        <div class="detail">
+          <button class="action-btn" v-if="!checkLogin" @click="login()">
+            LON-IN
+          </button>
+
+          <button class="action-btn" v-if="checkLogin" @click="profile()">
+            PROFILE
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button class="action-btn" v-if="checkLogin" @click="logout()">
+      LOG-OUT
+    </button>
+  </nav>
 </template>
 
 <script>
@@ -28,15 +37,19 @@ import { deleteCookie } from '@/utils/cookies';
 
 export default {
   computed: {
-    isUserLogin() {
+    checkLogin() {
       return this.$store.getters.isLogin;
     },
   },
   methods: {
-    logoutUser() {
+    login() {
+      this.$router.push('/login');
+    },
+    logout() {
       this.$store.commit('clearCookie');
       deleteCookie('email');
       deleteCookie('jwt');
+      this.$route.push('/login');
     },
     profile() {
       this.$router.push('/profile');
@@ -45,53 +58,137 @@ export default {
 };
 </script>
 
-<style scoped>
-.username {
-  color: white;
+<style>
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+:root {
+  --theme-bg-color: #9ab9f3;
+  --theme-color: rgb(0, 0, 0);
 }
-
-header {
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
+}
+.navbar {
   display: flex;
-  justify-content: space-between;
+  box-shadow: 0 0 2px 0 grey;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #927dfc;
-  z-index: 2;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05);
+  font-size: 1em;
+
+  background-color: #3761af;
+  background-color: var(--theme-bg-color);
+
+  color: white;
+  color: var(--theme-color);
 }
 
-a {
-  color: #dedede;
-  font-size: 18px;
+.item {
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+  color: var(--theme-color);
 }
 
-a.logo {
+.item.right {
+  margin: 0 0 0 auto;
+}
+
+.navbar .logo {
+  font-size: 1.2em;
+  align-items: center;
+  display: flex;
+}
+
+.logo img {
+  max-width: 40px;
+}
+.logo .text {
+  margin-left: 20px;
   font-size: 30px;
-  font-weight: 900;
-  color: white;
+  font-weight: 600;
+}
+.item.search {
+  transition: 0.2s linear;
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+.item.search .search-icon {
+  border-left: 1px solid grey;
+  margin: 2px;
+  padding-left: 10px;
+  cursor: pointer;
+  color: grey;
+}
+.item.search .search-icon:hover {
+  color: black;
 }
 
-.logo > span {
-  font-size: 14px;
-  font-weight: normal;
-}
-
-.navigations a {
-  margin-left: 15px;
-}
-
-.fixed {
-  position: fixed;
-  top: 0;
+.item.search input {
   width: 100%;
+  padding: 6px;
+  outline: none;
+  border: 2px solid grey;
+  max-width: 100%;
+  border: 0;
 }
 
-.logout-button {
-  font-size: 14px;
+.item .search-group {
+  display: flex;
+  width: 100%;
+  max-width: 700px;
+  border-radius: 20px;
+  border: 2px solid grey;
+  overflow: hidden;
+  background: white;
+
+  border-color: white;
+  color: var(--theme-color);
+}
+.item .search-group select {
+  border: 0;
+  margin: 2px;
+  border-right: 1px solid grey;
+  max-width: 5em;
+  outline: none;
+  color: grey;
 }
 
-a.router-link-exact-active {
-  color: white;
-  font-weight: bold;
+.item .group {
+  display: flex;
+  align-items: center;
+  font-size: 1em;
+}
+
+.item .group .sub {
+  font-size: 0.8em;
+}
+
+.material-icons {
+  font-size: 1.8rem;
+}
+
+.menu-icon {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .item.search input {
+    display: none;
+  }
+  .menu-icon {
+    display: block;
+  }
+  .detail,
+  .logo .text {
+    display: none;
+  }
+}
+
+.action-btn {
+  background-color: transparent;
+  border: none;
 }
 </style>

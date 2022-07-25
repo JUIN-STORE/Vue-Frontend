@@ -1,43 +1,65 @@
 <template>
-  <div class="contents">
-    <div class="form-wrapper form-wrapper-sm">
-      <form @submit.prevent="modifyForm" class="form">
-        <div>
-          <label>ROLE</label>
-          <select id="accountRole" v-model="accountRole">
-            <option value="USER" selected>USER</option>
-            <option value="SELLER">SELLER</option>
-            <option value="ADMIN">ADMIN</option>
-          </select>
-        </div>
-        <br />
-
-        <div>
-          <label for="email">* EMAIL</label>
-          <input id="email" type="email" v-model="email" disabled />
-        </div>
-
-        <div>
-          <label for="password">PASSWORD</label>
-          <input id="password" type="password" v-model="password" />
-        </div>
-
-        <div>
-          <label for="name">NAME</label>
-          <input id="name" type="text" v-model="name" />
-        </div>
-
-        <div>
-          <button type="submit" class="btn">수정 완료</button>
-          <button type="submit" class="btn">주소 변경하기</button>
-        </div>
+  <div class="container">
+    <div class="layout-login">
+      <div class="card">
+        <div class="card-header">ACCOUNT MODIFY</div>
         <p></p>
-        <router-link to="/main" type="submit" class="btn">취소</router-link>
-      </form>
+        <form @submit.prevent="modifyForm" class="form">
+          <div>
+            <label>ROLE</label>
+            <select class="form-select" id="accountRole" v-model="accountRole">
+              <option value="USER" selected>USER</option>
+              <option value="SELLER">SELLER</option>
+              <option value="ADMIN">ADMIN</option>
+            </select>
+          </div>
+          <br />
 
-      <form @submit.prevent="deleteForm" class="form">
-        <button type="submit" class="btn">회원 탈퇴하기</button>
-      </form>
+          <label for="email">EMAIL</label>
+          <div class="card-text">
+            <input
+              id="email"
+              type="email"
+              v-model="email"
+              class="form-control"
+              disabled
+            />
+          </div>
+
+          <label for="password">PASSWORD</label>
+          <div class="card-text">
+            <input id="password" type="password" v-model="password" />
+          </div>
+
+          <label for="name">NAME</label>
+          <div class="card-text">
+            <input id="name" type="text" v-model="name" />
+          </div>
+
+          <router-link
+            to="/main"
+            type="submit"
+            class="btn btn-primary"
+            style="float: right"
+          >
+            취소
+          </router-link>
+          <button type="submit" class="btn btn-primary" style="float: right">
+            PROFILE 수정 완료
+          </button>
+        </form>
+
+        <form @submit.prevent="deleteForm" class="form">
+          <p></p>
+          <button
+            type="submit"
+            class="btn btn-outline-danger"
+            style="float: right"
+          >
+            회원 탈퇴하기
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -68,23 +90,44 @@ export default {
 
     async deleteForm() {
       await remove();
+      alert(this.email + ' 탈퇴되었습니다.');
+      this.$router.push('/main');
     },
   },
 };
 </script>
 
-<style>
-select {
-  width: 200px;
-  padding: 0.8em 0.5em;
-  border: 1px solid #999;
-  font-family: inherit;
-  border-radius: 0px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+<style scoped>
+.card {
+  margin: auto;
+  max-width: 500px;
+  padding: 10px;
 }
-select::-ms-expand {
-  display: none;
+input {
+  width: 100%;
+  padding: 8px;
+}
+.card-title {
+  margin: 8px;
+}
+.btn {
+  margin-top: 10px;
+}
+.card-header {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+.layout-login {
+  margin: auto;
+  margin-top: 125px;
+}
+.link a,
+.link {
+  text-align: center;
+  text-decoration: none;
+}
+.card:hover {
+  transform: translate(0, 0);
 }
 </style>
