@@ -8,7 +8,7 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login',
+      component: () => import('@/views/products/AllProductPage.vue'),
     },
     {
       path: '/login',

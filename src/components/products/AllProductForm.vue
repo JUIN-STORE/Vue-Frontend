@@ -1,13 +1,41 @@
 <template>
-  <div>
-    <div class="main list-container contents">
-      <h1 class="page-header">Today I Learned</h1>
+  <div class="layout">
+    <div class="section2">
+      <div class="item2" v-for="product in productList" v-bind:key="product.id">
+        <item-card :product="product"></item-card>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { readAllProduct } from '@/api/products';
+import ItemCard from '@/components/products/ItemCard';
+
+export default {
+  components: {
+    ItemCard,
+  },
+  data() {
+    return {
+      productList: [],
+    };
+  },
+
+  methods: {
+    async fill() {
+      const { data } = await readAllProduct();
+
+      for (var i = 0; i < data.data.length; i++) {
+        this.productList.push(data.data[i]);
+      }
+      console.log(data.data.length);
+    },
+  },
+  created() {
+    this.fill();
+  },
+};
 </script>
 
 <style>

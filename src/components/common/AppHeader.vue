@@ -2,7 +2,9 @@
   <nav class="navbar">
     <i class="material-icons menu-icon">MENU</i>
     <div class="logo">
-      <div class="text">JS-SHOP</div>
+      <div class="text" onclick="location.href='/main'" style="cursor: pointer">
+        JS-SHOP
+      </div>
     </div>
     <div class="item search right" tabindex="0">
       <div class="search-group">
