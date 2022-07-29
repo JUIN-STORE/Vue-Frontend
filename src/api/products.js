@@ -12,10 +12,14 @@ const productEndPoint = '/api/products';
 
 const instance = createInstance();
 
-function readAllProduct() {
-  return instance.get(productEndPoint);
+function readAllProduct(page, size) {
+  return instance.get(productEndPoint + '?page=' + page + '&size=' + size);
 }
 
-export { readAllProduct };
+function readCount() {
+  return instance.get(productEndPoint + '/count');
+}
+
+export { readAllProduct, readCount };
 
 // 1번째

@@ -1,15 +1,15 @@
 <template>
   <div>
-    <AllProductForm />
+    <HomeForm />
   </div>
 </template>
 
 <script>
-import AllProductForm from '@/components/products/AllProductForm.vue';
+import HomeForm from '@/components/HomeForm.vue';
 
 export default {
   components: {
-    AllProductForm,
+    HomeForm,
   },
 };
 </script>

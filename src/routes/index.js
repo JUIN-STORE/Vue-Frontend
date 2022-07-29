@@ -8,7 +8,7 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
-      component: () => import('@/views/products/AllProductPage.vue'),
+      component: () => import('@/views/products/HomePage.vue'),
     },
     {
       path: '/login',
@@ -31,10 +31,6 @@ export default new VueRouter({
     {
       path: '/admin/register',
       component: () => import('@/views/products/RegisterPage.vue'),
-    },
-    {
-      path: '/main',
-      component: () => import('@/views/MainPage.vue'),
     },
     {
       path: '*',

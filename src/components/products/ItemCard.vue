@@ -88,7 +88,4 @@ button {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.item2 {
-  flex: 0 0 33%;
-}
 </style>

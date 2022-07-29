@@ -24,6 +24,7 @@ module.exports = {
         printWidth: 80,
         bracketSpacing: true,
         arrowParens: 'avoid',
+        'vue/no-multiple-template-root': 'off',
       },
     ],
   },
