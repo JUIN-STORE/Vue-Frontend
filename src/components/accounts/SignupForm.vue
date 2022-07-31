@@ -85,7 +85,6 @@
 
 <script>
 import { signup } from '@/api/accounts';
-import { makePasswordHash } from '@/utils/make-password-hash';
 
 export default {
   data() {
@@ -108,7 +107,7 @@ export default {
         const payload = {
           accountRole: this.accountRole,
           email: this.email,
-          passwordHash: makePasswordHash(this.password),
+          passwordHash: this.password,
           name: this.name,
           address: {
             city: this.address.city,

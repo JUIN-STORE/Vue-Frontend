@@ -37,7 +37,6 @@
 
 <script>
 import { validateEmail } from '@/utils/validation';
-import { makePasswordHash } from '@/utils/make-password-hash';
 
 export default {
   data() {
@@ -57,11 +56,12 @@ export default {
       try {
         const payload = {
           email: this.email,
-          passwordHash: makePasswordHash(this.password),
+          passwordHash: this.password,
         };
         await this.$store.dispatch('LOGIN', payload);
-        await this.$router.push('/main');
+        await this.$router.push('/');
       } catch (error) {
+        alert('EMAIL/PASSWORD가 일치하지 않습니다');
         console.log(error.response.data);
       } finally {
         this.initForm();
