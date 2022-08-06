@@ -20,7 +20,7 @@
         <tr v-for="product in allItems" :key="product.id">
           <td>{{ product.id }}</td>
           <td class="d-flex">
-            <img :src="product" />
+            <img :src="product.img" />
             <span>{{ product.title }}</span>
           </td>
           <td>
@@ -61,6 +61,7 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+
 export default {
   created() {
     console.log('Created', this.cart);
@@ -87,7 +88,7 @@ export default {
       this.cart.forEach(each => {
         sum = sum + each.price * each.count;
       });
-      return parseFloat(sum * 70).toFixed(2);
+      return sum;
     },
   },
   methods: {
@@ -100,9 +101,7 @@ export default {
         const arr = [id, count];
         this.SET_QUANTITY(arr);
         console.log('completed');
-        this.$store
-          .dispatch('cart/updateCart')
-          .then(console.log('dispatched methosd'));
+        this.$store.dispatch('cart/updateCart');
       } else {
         alert('invalid input');
       }
