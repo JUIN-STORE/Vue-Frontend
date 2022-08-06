@@ -14,7 +14,7 @@ function signup(signupRequest) {
   return instance.post('/api/accounts/signup', signupRequest);
 }
 
-function login(loginRequest) {
+function loginCall(loginRequest) {
   return instance.post('/api/accounts/login', loginRequest);
 }
 
@@ -30,6 +30,6 @@ function remove() {
   return instance.delete('/api/accounts/remove');
 }
 
-export { signup, login, profile, modify, remove };
+export { signup, loginCall, profile, modify, remove };
 
 // 1번째

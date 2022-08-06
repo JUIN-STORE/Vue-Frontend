@@ -8,7 +8,7 @@ export default new VueRouter({
   routes: [
     {
       path: '/',
-      component: () => import('@/views/products/HomePage.vue'),
+      component: () => import('@/views/HomePage.vue'),
     },
     {
       path: '/login',
@@ -25,6 +25,12 @@ export default new VueRouter({
     {
       path: '/modify',
       component: () => import('@/views/accounts/ModifyPage.vue'),
+    },
+
+    // cart
+    {
+      path: '/carts',
+      component: () => import('@/views/carts/CartPage.vue'),
     },
 
     // order

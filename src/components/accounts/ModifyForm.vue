@@ -37,7 +37,7 @@
           </div>
 
           <router-link
-            to="/main"
+            to="/"
             type="submit"
             class="btn btn-primary"
             style="float: right"
@@ -66,23 +66,22 @@
 
 <script>
 import { modify, remove } from '@/api/accounts';
-import { makePasswordHash } from '@/utils/make-password-hash';
 
 export default {
   // 화면에 표시됨
   data() {
     return {
       accountRole: 'USER',
-      email: this.$store.getters.readEmail,
+      email: this.$store.getters['accounts/readEmail'],
       password: '',
-      name: this.$store.getters.readName,
+      name: this.$store.getters['accounts/readName'],
     };
   },
   methods: {
     async modifyForm() {
       const payload = {
         accountRole: this.accountRole,
-        passwordHash: makePasswordHash(this.password),
+        passwordHash: this.password,
         name: this.name,
       };
       await modify(payload);
@@ -91,7 +90,7 @@ export default {
     async deleteForm() {
       await remove();
       alert(this.email + ' 탈퇴되었습니다.');
-      this.$router.push('/main');
+      this.$router.push('/');
     },
   },
 };

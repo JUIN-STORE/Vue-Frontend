@@ -102,10 +102,10 @@ export default {
         this.address.street = data.data.address.street;
         this.address.zipCode = data.data.address.zipCode;
 
-        this.$store.commit('setName', this.name);
-        this.$store.commit('setCity', this.address.city);
-        this.$store.commit('setStreet', this.address.street);
-        this.$store.commit('setZipCode', this.address.zipCode);
+        this.$store.commit('accounts/setName', this.name);
+        this.$store.commit('accounts/setCity', this.address.city);
+        this.$store.commit('accounts/setStreet', this.address.street);
+        this.$store.commit('accounts/setZipCode', this.address.zipCode);
       } catch (error) {
         console.log(error);
       }

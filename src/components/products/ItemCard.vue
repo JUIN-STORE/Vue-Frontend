@@ -9,9 +9,10 @@
       alt="Card image cap"
     />
     <div class="card-body">
-      {{ product.productName }}
-      <h5 class="card-title">Rs. &#8377; {{ product.price * 70 }}</h5>
-      <p class="card-text desc">{{ product.description }}</p>
+      <h3 class="card-title">PRODUCT ID: {{ product.id }}</h3>
+      <h4 class="card-title">PRODUCT ID: {{ product.productName }}</h4>
+      <h5 class="card-title">PRICE: \ {{ product.price }}</h5>
+      <p class="card-text desc">DESC: {{ product.description }}</p>
       <div class="d-flex" style="justify-content: space-around">
         <button
           class="btn btn-warning btn-text"
@@ -33,21 +34,29 @@
 export default {
   props: ['product'],
   data() {
-    return {};
+    return {
+      id: 0,
+      productName: '',
+      price: 0,
+      img: '',
+    };
   },
   methods: {
-    addToCart() {
-      alert(`${this.product.title} is Added to cart!!`);
+    async addToCart() {
+      alert(this.product.productName + ' is Added to cart!!');
       const product = {
         id: this.product.id,
-        title: this.product.title,
-        img: this.product.image,
+        productName: this.product.productName,
         price: this.product.price,
+        img: require('@/assets/products/' +
+          this.product.productImageList[0].imageName),
       };
-      this.$store.commit('cart/SET_ITEM', product);
-      this.$store
-        .dispatch('cart/updateCart')
-        .then(() => console.log('dispatched methosd'));
+      try {
+        this.$store.commit('cart/SET_ITEM', product);
+        // await this.$store.dispatch('cart/addCart', product);
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };

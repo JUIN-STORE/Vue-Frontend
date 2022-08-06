@@ -58,7 +58,7 @@ export default {
           email: this.email,
           passwordHash: this.password,
         };
-        await this.$store.dispatch('LOGIN', payload);
+        await this.$store.dispatch('accounts/loginSetting', payload);
         await this.$router.push('/');
       } catch (error) {
         alert('EMAIL/PASSWORD가 일치하지 않습니다');

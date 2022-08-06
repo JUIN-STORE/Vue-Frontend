@@ -3,7 +3,7 @@
     <div class="form-wrapper form-wrapper-sm">
       <form @submit.prevent="submit" class="form">
         <div>
-          <label for="productName">productName</label>
+          <label for="productName">PRODUCT NAME</label>
           <input id="productName" type="text" v-model="productName" required />
         </div>
         <div>
@@ -11,14 +11,21 @@
           <input id="price" type="text" v-model="price" />
         </div>
         <div>
-          <label for="quantity">quantity</label>
+          <label for="quantity">QUANTITY</label>
           <input id="quantity" type="text" v-model="quantity" />
         </div>
         <div>
-          <label for="description">description</label>
+          <label for="description">DESCRIPTION</label>
           <input id="description" type="text" v-model="description" />
         </div>
-        <button @click="submit()" type="submit" class="btn">상품등록</button>
+        <button
+          @click="submit()"
+          type="submit"
+          class="btn btn-primary"
+          style="float: right"
+        >
+          상품등록하기
+        </button>
       </form>
       <input
         class="input"
@@ -30,7 +37,7 @@
         dense
         multiple
         prepend-icon="mdi-camera"
-        style="width: 400px; margin-left: 100px"
+        style="width: 500px"
         @change="onImageChange($event)"
       />
       <!--      <v-img v-for="(item, i) in fileList" :key="i" :src="item.url" />-->
@@ -50,10 +57,10 @@ export default {
   data() {
     return {
       fileList: '',
-      productName: '1',
-      price: '1',
-      quantity: '1',
-      description: '1',
+      productName: '',
+      price: '',
+      quantity: '',
+      description: '',
     };
   },
   computed: {
@@ -123,8 +130,37 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.card {
+  margin: auto;
+  max-width: 500px;
+  padding: 10px;
+}
+input {
+  width: 100%;
+  padding: 8px;
+}
+.card-title {
+  margin: 8px;
+}
 .btn {
-  color: white;
+  margin-top: 10px;
+}
+.card-header {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+.layout-login {
+  margin: auto;
+  margin-top: 125px;
+}
+.link a,
+.link {
+  text-align: center;
+  text-decoration: none;
+}
+.card:hover {
+  transform: translate(0, 0);
 }
 </style>

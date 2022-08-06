@@ -2,7 +2,7 @@
   <nav class="navbar">
     <i class="material-icons menu-icon">MENU</i>
     <div class="logo">
-      <div class="text" onclick="location.href='/main'" style="cursor: pointer">
+      <div class="text" onclick="location.href='/'" style="cursor: pointer">
         JS-SHOP
       </div>
     </div>
@@ -40,7 +40,8 @@ import { deleteCookie } from '@/utils/cookies';
 export default {
   computed: {
     checkLogin() {
-      return this.$store.getters.isLogin;
+      console.log(this.$store.getters['accounts/isLogin']);
+      return this.$store.getters['accounts/isLogin'];
     },
   },
   methods: {
@@ -48,10 +49,10 @@ export default {
       this.$router.push('/login');
     },
     logout() {
-      this.$store.commit('clearCookie');
+      this.$store.commit('accounts/clearCookie');
       deleteCookie('email');
       deleteCookie('jwt');
-      this.$route.push('/login');
+      this.login();
     },
     profile() {
       this.$router.push('/profile');
