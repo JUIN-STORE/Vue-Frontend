@@ -64,10 +64,10 @@ const mutations = {
   },
 };
 
+// actions: 카멜 케이스
 const actions = {
   async loginSetting({ commit }, payload) {
     const { data } = await loginCall(payload);
-    alert(data.data.token);
     commit('setEmail', data.data.email);
     commit('setToken', data.data.token);
     saveAuthToCookie(data.data.token);

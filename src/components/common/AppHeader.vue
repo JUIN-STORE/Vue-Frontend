@@ -15,16 +15,20 @@
 
     <div class="item">
       <div class="group">
-        <i class="material-icons"> account_circle </i>
+        <router-link to="/carts">
+          <i class="material-icons" v-if="checkLogin"> shopping_cart </i>
+        </router-link>
+
         <div class="detail">
           <button class="action-btn" v-if="!checkLogin" @click="login()">
             LON-IN
           </button>
-
-          <button class="action-btn" v-if="checkLogin" @click="profile()">
-            PROFILE
-          </button>
         </div>
+        <router-link to="/profile">
+          <i class="material-icons action-btn" v-if="checkLogin">
+            account_circle
+          </i>
+        </router-link>
       </div>
     </div>
 
@@ -40,7 +44,6 @@ import { deleteCookie } from '@/utils/cookies';
 export default {
   computed: {
     checkLogin() {
-      console.log(this.$store.getters['accounts/isLogin']);
       return this.$store.getters['accounts/isLogin'];
     },
   },
@@ -53,9 +56,6 @@ export default {
       deleteCookie('email');
       deleteCookie('jwt');
       this.login();
-    },
-    profile() {
-      this.$router.push('/profile');
     },
   },
 };

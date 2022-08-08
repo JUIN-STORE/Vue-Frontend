@@ -90,7 +90,7 @@ export default {
     async deleteForm() {
       await remove();
       alert(this.email + ' 탈퇴되었습니다.');
-      this.$router.push('/');
+      await this.$router.push('/');
     },
   },
 };

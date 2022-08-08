@@ -12,18 +12,26 @@ const cartEndPoint = '/api/carts';
 
 const instance = createInstance();
 
-// function readFirst(page, size) {
-//   return instance.get(cartEndPoint + '?page=' + page + '&size=' + size);
-// }
+function readCall() {
+  return instance.get(cartEndPoint);
+}
 
 function readCount() {
   return instance.get(cartEndPoint + '/count');
 }
 
-function addCount(payload) {
+function addCountCall(payload) {
   return instance.post(cartEndPoint + '/add', payload);
 }
 
-export { readCount, addCount };
+function updateQuantityCall(payload) {
+  return instance.put(cartEndPoint + '/quantity', payload);
+}
+
+function clearCartCall(payload) {
+  return instance.delete(cartEndPoint + '/clear', { data: payload });
+}
+
+export { readCall, readCount, addCountCall, updateQuantityCall, clearCartCall };
 
 // 1번째

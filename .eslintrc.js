@@ -13,6 +13,8 @@ module.exports = {
   },
   rules: {
     'no-console': 'off',
+    'no-unused-vars': 'off',
+    'vue/no-multiple-template-root': 'off',
     'prettier/prettier': [
       'error',
       {
@@ -24,7 +26,6 @@ module.exports = {
         printWidth: 80,
         bracketSpacing: true,
         arrowParens: 'avoid',
-        'vue/no-multiple-template-root': 'off',
       },
     ],
   },

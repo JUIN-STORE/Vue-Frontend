@@ -51,11 +51,15 @@ export default {
         img: require('@/assets/products/' +
           this.product.productImageList[0].imageName),
       };
+      const payload = {
+        productId: this.product.id,
+        count: 1,
+      };
       try {
         this.$store.commit('cart/SET_ITEM', product);
-        // await this.$store.dispatch('cart/addCart', product);
+        await this.$store.dispatch('cart/addCart', payload);
       } catch (e) {
-        console.log(e);
+        await this.$router.push('/login');
       }
     },
   },
