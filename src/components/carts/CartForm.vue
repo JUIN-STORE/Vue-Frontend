@@ -25,14 +25,14 @@
           </td>
           <td>
             <input
+              v-model="product.count"
               type="number"
               name=""
               id=""
               @change="onChange(product.productId, $event)"
-              :value="product.count"
               size="4"
               min="1"
-              max="10"
+              max="100"
             />
           </td>
           <td>
@@ -51,8 +51,8 @@
         <tr>
           <td></td>
           <td></td>
-          <td>TOTAL Quantity: {{ totalCount }}</td>
-          <td>TOTAL PRICE: \{{ totalPrice }}</td>
+          <td>TOTAL Quantity: {{ totalQuantity }}</td>
+          <td>TOTAL PRICE: &#8361;{{ totalPrice }}</td>
           <td>
             <button class="btn btn-success">Buy Now</button>
           </td>
@@ -74,14 +74,14 @@ export default {
   },
   created() {
     this.loadCart();
-    // this.cartProductList = this.cart;
   },
   computed: {
     ...mapState('cart', ['cart_list']),
 
-    totalCount() {
+    totalQuantity() {
       let sum = 0;
       this.cart_list.forEach(each => {
+        console.log(each.count);
         sum = sum + Number(each.count);
       });
       return sum;
@@ -99,19 +99,17 @@ export default {
     ...mapMutations('cart', ['SET_QUANTITY']),
     ...mapMutations('cart', ['DEL_ITEM']),
 
-    onChange(productId, e) {
-      const count = e.target.value;
+    async onChange(productId, e) {
+      const value = e.target.value;
+
+      console.log(value);
       const payload = {
         productId: productId,
-        count: count,
+        count: value,
       };
 
-      if (count > 0 && count <= 10) {
-        const arr = [productId, count];
-        this.SET_QUANTITY(arr);
-        console.log('completed');
-
-        this.$store.dispatch('cart/updateQuantity', payload);
+      if (value > 0 && value <= 100) {
+        await this.$store.dispatch('cart/updateQuantityAction', payload);
       } else {
         alert('invalid input');
       }
@@ -136,7 +134,10 @@ export default {
       for (let i = 0; i < data.data.length; i++) {
         this.cartProductList.push(data.data[i]);
       }
-      return data.data;
+      let result = data.data;
+
+      this.cartProductList = result;
+      return result;
     },
   },
 };

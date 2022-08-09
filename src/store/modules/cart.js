@@ -4,7 +4,6 @@ import { addCountCall, clearCartCall, updateQuantityCall } from '@/api/carts';
 const state = {
   cart_list: [],
   total: 0,
-  count: 0,
 };
 
 // mutations: 대문자 스네이크
@@ -30,15 +29,16 @@ const mutations = {
         });
 
     state.cart_list = result;
-    // state.cart_list.push(item);
   },
 
-  SET_QUANTITY(state, arr) {
-    const id = arr[0];
-    const count = arr[1];
+  SET_QUANTITY(state, payload) {
+    const id = payload.productId;
+    const count = payload.count;
 
+    console.log(state.cart_list);
     state.cart_list.forEach((each, index) => {
-      if (each.id == id) {
+      console.log('test');
+      if (each.id === id) {
         state.cart_list[index].count = count;
       }
     });
@@ -46,7 +46,7 @@ const mutations = {
 
   DEL_ITEM(state, id) {
     state.cart_list.forEach((each, index) => {
-      if (each.id == id) {
+      if (each.id === id) {
         state.cart_list.splice(index, 1);
       }
     });
@@ -55,11 +55,11 @@ const mutations = {
 
 // getters: 카멜 케이스
 const getters = {
-  getCart(state) {
+  getCartList(state) {
     return state.cart_list;
   },
 
-  itemsInCart(state) {
+  getCartListLength(state) {
     return state.cart_list.length;
   },
 
@@ -71,7 +71,7 @@ const getters = {
 // actions: 카멜 케이스
 const actions = {
   // eslint-disable-next-line no-unused-vars
-  async addCart({ commit }, payload) {
+  async addCartAction({ commit }, payload) {
     const { data } = await addCountCall(payload);
     return data;
   },
@@ -81,11 +81,9 @@ const actions = {
     return data;
   },
 
-  async updateQuantity({ commit }, payload) {
+  async updateQuantityAction({ commit }, payload) {
+    commit('SET_QUANTITY', payload);
     const { data } = await updateQuantityCall(payload);
-    console.log(state.count);
-    console.log(Number(payload.count));
-    // commit(this.SET_QUANTITY, payload.count);
     return data.data;
   },
 };
