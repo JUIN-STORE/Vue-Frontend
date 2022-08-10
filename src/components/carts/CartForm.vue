@@ -27,8 +27,6 @@
             <input
               v-model="product.count"
               type="number"
-              name=""
-              id=""
               @change="onChange(product.productId, $event)"
               size="4"
               min="1"
