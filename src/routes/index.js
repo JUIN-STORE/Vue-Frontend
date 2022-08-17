@@ -1,48 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import accounts from '@/routes/accounts';
+import carts from '@/routes/carts';
+import products from '@/routes/products';
+import orders from '@/routes/orders';
+import common from '@/routes/common';
 
 Vue.use(VueRouter);
 
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
-  routes: [
-    {
-      path: '/',
-      component: () => import('@/views/HomePage.vue'),
-    },
-    {
-      path: '/login',
-      component: () => import('@/views/accounts/LoginPage.vue'),
-    },
-    {
-      path: '/signup',
-      component: () => import('@/views/accounts/SignupPage.vue'),
-    },
-    {
-      path: '/profile',
-      component: () => import('@/views/accounts/ProfilePage.vue'),
-    },
-    {
-      path: '/modify',
-      component: () => import('@/views/accounts/ModifyPage.vue'),
-    },
-
-    // cart
-    {
-      path: '/carts',
-      component: () => import('@/views/carts/CartPage.vue'),
-    },
-
-    // order
-    {
-      path: '/admin/register',
-      component: () => import('@/views/products/RegisterPage.vue'),
-    },
-    {
-      path: '*',
-      component: () => import('@/views/NotFoundPage.vue'),
-    },
-  ],
+  routes: [...common, ...accounts, ...carts, ...products, ...orders],
 });
-
-// 2번째
+export default router;
