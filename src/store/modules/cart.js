@@ -1,4 +1,9 @@
-import { addCountCall, clearCartCall, updateQuantityCall } from '@/api/carts';
+import {
+  addCountCall,
+  clearCartCall,
+  updateQuantityCall,
+  readBuyInfoCartCall,
+} from '@/api/carts';
 
 // state: 소문자 스네이크
 const state = {
@@ -37,7 +42,6 @@ const mutations = {
 
     console.log(state.cart_list);
     state.cart_list.forEach((each, index) => {
-      console.log('test');
       if (each.id === id) {
         state.cart_list[index].count = count;
       }
@@ -85,6 +89,11 @@ const actions = {
     commit('SET_QUANTITY', payload);
     const { data } = await updateQuantityCall(payload);
     return data.data;
+  },
+
+  async readBuyInfoCartAction({ commit }, param) {
+    const { data } = await readBuyInfoCartCall(param);
+    return data;
   },
 };
 

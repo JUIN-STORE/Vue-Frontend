@@ -32,6 +32,10 @@ function clearCartCall(payload) {
   return instance.delete(cartEndPoint + '/clear', { data: payload });
 }
 
+export function readBuyInfoCartCall(param) {
+  return instance.get(cartEndPoint + '/buy' + '?productList=' + param);
+}
+
 export { readCall, readCount, addCountCall, updateQuantityCall, clearCartCall };
 
 // 1번째

@@ -1,11 +1,7 @@
 <template>
   <div class="container">
-    <span class="d-flex mb-3 mt-2">
-      <router-link to="/">
-        <span class="material-symbols-outlined"> arrow_back </span>
-        Back To Shopping
-      </router-link>
-    </span>
+    <span class="d-flex mb-3 mt-2" />
+    <div class="hc vc">주문 상품 확인</div>
     <table class="table cart">
       <thead>
         <tr>
@@ -41,14 +37,6 @@
           <td>
             <span>\ {{ product.price }}</span>
           </td>
-          <td>
-            <button
-              class="btn btn-danger"
-              @click="deleteItem(product.productId)"
-            >
-              <span class="material-symbols-outlined"> DELETE </span>
-            </button>
-          </td>
         </tr>
 
         <tr>
@@ -56,11 +44,6 @@
           <td></td>
           <td>TOTAL Quantity: {{ totalQuantity }}</td>
           <td>TOTAL PRICE: &#8361;{{ totalPrice }}</td>
-          <td>
-            <router-link to="/carts/buy">
-              <button class="btn btn-success" @click="buy()">Buy Now</button>
-            </router-link>
-          </td>
         </tr>
       </tbody>
     </table>
@@ -219,4 +202,19 @@ tr {
   font-size: 45px;
   text-decoration: none;
 }
+
+.hc {
+  width: 200px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+} /* 가로 중앙 정렬 */
+.vc {
+  height: 40px;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+} /* 세로 중앙 정렬 */
 </style>
