@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import cart from './modules/cart';
 import accounts from './modules/accounts';
+import cart from './modules/cart';
+import orders from './modules/orders';
 
 import createPersistedState from 'vuex-persistedstate';
 
@@ -16,6 +17,7 @@ const store = new Vuex.Store({
   modules: {
     accounts,
     cart,
+    orders,
   },
 });
 

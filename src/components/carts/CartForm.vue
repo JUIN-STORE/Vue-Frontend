@@ -79,8 +79,6 @@ export default {
   },
   created() {
     this.loadCart();
-    console.log(this.cartProductList);
-    console.log(this.cart_list);
   },
 
   computed: {
@@ -89,7 +87,6 @@ export default {
     totalQuantity() {
       let sum = 0;
       this.cart_list.forEach(each => {
-        console.log(each.count);
         sum = sum + Number(each.count);
       });
       return sum;
@@ -106,11 +103,13 @@ export default {
   methods: {
     ...mapMutations('cart', ['SET_QUANTITY']),
     ...mapMutations('cart', ['DEL_ITEM']),
+    ...mapMutations('orders', ['SET_COUNT']),
+    ...mapMutations('orders', ['SET_GRAND_TOTAL']),
+    ...mapMutations('orders', ['SET_PRODUCT_ID_LIST']),
 
     async onChange(productId, e) {
       const value = e.target.value;
 
-      console.log(value);
       const payload = {
         productId: productId,
         count: value,
@@ -145,6 +144,8 @@ export default {
       });
 
       await this.$store.dispatch('cart/readBuyInfoCartAction', productList);
+
+      this.setCreateOrderState();
     },
 
     async loadCart() {
@@ -156,6 +157,17 @@ export default {
 
       this.cartProductList = result;
       return result;
+    },
+
+    setCreateOrderState() {
+      this.SET_COUNT(this.totalQuantity);
+      this.SET_GRAND_TOTAL(this.totalPrice);
+
+      let productIdList = [];
+      this.cartProductList.forEach(each => {
+        productIdList.push(each.productId);
+      });
+      this.SET_PRODUCT_ID_LIST(productIdList);
     },
   },
 };

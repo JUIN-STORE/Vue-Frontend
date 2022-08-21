@@ -1,3 +1,5 @@
+<!--주문 상품 확인-->
+
 <template>
   <div class="container">
     <span class="d-flex mb-3 mt-2" />
@@ -62,8 +64,6 @@ export default {
   },
   created() {
     this.loadCart();
-    console.log(this.cartProductList);
-    console.log(this.cart_list);
   },
 
   computed: {
@@ -72,7 +72,6 @@ export default {
     totalQuantity() {
       let sum = 0;
       this.cart_list.forEach(each => {
-        console.log(each.count);
         sum = sum + Number(each.count);
       });
       return sum;
@@ -93,7 +92,6 @@ export default {
     async onChange(productId, e) {
       const value = e.target.value;
 
-      console.log(value);
       const payload = {
         productId: productId,
         count: value,

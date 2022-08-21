@@ -65,8 +65,8 @@
             type="submit"
             class="btn btn-primary"
             style="float: right"
-            >GO TO PROFILE CHANGE</router-link
-          >
+            >GO TO PROFILE CHANGE
+          </router-link>
         </form>
       </div>
     </div>
@@ -103,6 +103,7 @@ export default {
         this.address.zipCode = data.data.address.zipCode;
 
         this.$store.commit('accounts/setName', this.name);
+        this.$store.commit('accounts/setEmail', this.email);
         this.$store.commit('accounts/setCity', this.address.city);
         this.$store.commit('accounts/setStreet', this.address.street);
         this.$store.commit('accounts/setZipCode', this.address.zipCode);
