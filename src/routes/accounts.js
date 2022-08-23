@@ -1,18 +1,18 @@
 export default [
   {
-    path: '/login',
+    path: '/accounts/login',
     component: () => import('@/views/accounts/LoginPage.vue'),
   },
   {
-    path: '/signup',
+    path: '/accounts/sign-up',
     component: () => import('@/views/accounts/SignupPage.vue'),
   },
   {
-    path: '/profile',
+    path: '/accounts/profile',
     component: () => import('@/views/accounts/ProfilePage.vue'),
   },
   {
-    path: '/modify',
+    path: '/accounts/modify',
     component: () => import('@/views/accounts/ModifyPage.vue'),
   },
 ];

@@ -59,7 +59,7 @@ export default {
         this.$store.commit('cart/SET_ITEM', product);
         await this.$store.dispatch('cart/addCartAction', payload);
       } catch (e) {
-        await this.$router.push('/login');
+        await this.$router.push('/accounts/login');
       }
     },
   },

@@ -28,7 +28,9 @@
 
         <div class="link">
           <p></p>
-          <router-link to="/signup">Don't have an account? Signup</router-link>
+          <router-link to="/accounts/sign-up"
+            >Don't have an account? Signup</router-link
+          >
         </div>
       </div>
     </div>

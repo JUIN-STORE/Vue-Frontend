@@ -61,7 +61,7 @@
           </div>
 
           <router-link
-            to="/modify"
+            to="/accounts/modify"
             type="submit"
             class="btn btn-primary"
             style="float: right"

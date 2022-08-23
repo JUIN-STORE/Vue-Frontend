@@ -31,6 +31,16 @@
             <input id="name" type="text" v-model="name" required />
           </div>
 
+          <label for="name">* PHONE NUMBER</label>
+          <div class="card-text">
+            <input
+              id="phoneNumber"
+              type="text"
+              v-model="phoneNumber"
+              required
+            />
+          </div>
+
           <div class="card-text">
             <br />ADDRESS
             <p></p>
@@ -76,7 +86,9 @@
 
         <div class="link">
           <p></p>
-          <router-link to="/login">Already have an account? Login</router-link>
+          <router-link to="/accounts/login"
+            >Already have an account? Login</router-link
+          >
         </div>
       </div>
     </div>
@@ -84,7 +96,7 @@
 </template>
 
 <script>
-import { signup } from '@/api/accounts';
+import { signUpCall } from '@/api/accounts';
 
 export default {
   data() {
@@ -93,6 +105,7 @@ export default {
       email: '',
       password: '',
       name: '',
+      phoneNumber: '',
       address: {
         defaultAddress: true,
         city: '',
@@ -109,6 +122,7 @@ export default {
           email: this.email,
           passwordHash: this.password,
           name: this.name,
+          phoneNumber: this.phoneNumber,
           address: {
             city: this.address.city,
             street: this.address.street,
@@ -116,9 +130,9 @@ export default {
           },
         };
 
-        await signup(payload);
-        alert(this.email + ' 가입되었습니다');
-        await this.$router.push('/login');
+        await signUpCall(payload);
+        alert(this.email + '님 가입되었습니다. 로그인 페이지로 이동합니다.');
+        await this.$router.push('/accounts/login');
       } catch (error) {
         alert(error.response.data.message);
         this.initForm();
@@ -126,6 +140,7 @@ export default {
     },
     initForm() {
       this.email = '';
+      this.phoneNumber = '';
     },
   },
 };

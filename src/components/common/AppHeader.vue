@@ -24,7 +24,7 @@
             LON-IN
           </button>
         </div>
-        <router-link to="/profile">
+        <router-link to="/accounts/profile">
           <i class="material-icons action-btn" v-if="checkLogin">
             account_circle
           </i>
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     login() {
-      this.$router.push('/login');
+      this.$router.push('/accounts/login');
     },
     logout() {
       this.$store.commit('accounts/clearCookie');

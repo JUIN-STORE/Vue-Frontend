@@ -10,8 +10,8 @@ function createInstance() {
 
 const instance = createInstance();
 
-function signup(signupRequest) {
-  return instance.post('/api/accounts/signup', signupRequest);
+function signUpCall(signupRequest) {
+  return instance.post('/api/accounts/sign-up', signupRequest);
 }
 
 function loginCall(loginRequest) {
@@ -30,6 +30,6 @@ function remove() {
   return instance.delete('/api/accounts/remove');
 }
 
-export { signup, loginCall, profile, modify, remove };
+export { signUpCall, loginCall, profile, modify, remove };
 
 // 1번째
