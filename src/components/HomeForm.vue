@@ -28,7 +28,7 @@
             href="#"
             class="num"
             :class="{ active: page - 1 === selectedPage }"
-            @click.prevent="loadPage(page)"
+            @click.prevent="loadPage(page - 1)"
           >
             {{ page }}
           </a>
@@ -42,7 +42,7 @@
           >
         </li>
         <li>
-          <a href="#" class="last" @click.prevent="loadPage(pages.length)"
+          <a href="#" class="last" @click.prevent="loadPage(pages.length - 1)"
             >마지막 페이지</a
           >
         </li>
@@ -53,11 +53,11 @@
 
 <script>
 import { readAllProduct, readCount } from '@/api/products';
-import ItemCard from '@/components/products/ItemCard';
+import AllProduct from '@/components/products/AllProduct';
 
 export default {
   components: {
-    ItemCard,
+    ItemCard: AllProduct,
   },
   data() {
     return {
@@ -82,7 +82,8 @@ export default {
     },
   },
   async mounted() {
-    await this.loadPage(this.selectedPage);
+    await this.loadPage(this.selectedPage - 1);
+    console.log(this.totalData);
   },
   methods: {
     async count() {
@@ -94,6 +95,8 @@ export default {
      * @param {Number} page [1,2,3...]
      */
     async loadPage(page) {
+      if (0 > page || this.pages.length - 1 < page) return;
+      console.log('pages = ', this.pages.length);
       this.selectedPage = page;
       const { data } = await readAllProduct(page, this.size);
       this.productList = data.data;
@@ -101,7 +104,7 @@ export default {
   },
   created() {
     this.count();
-    this.loadPage(this.selectedPage - 1);
+    // this.loadPage(this.selectedPage - 1);
   },
 };
 </script>

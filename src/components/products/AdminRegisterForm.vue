@@ -20,7 +20,7 @@
         </div>
         <button
           @click="submit()"
-          type="submit"
+          type="button"
           class="btn btn-primary"
           style="float: right"
         >
@@ -70,6 +70,7 @@ export default {
   },
   methods: {
     onImageChange(e) {
+      console.log('onImageChacne = ', e);
       const fileList = e?.target?.files; // FileList Type
       files = Array.from(fileList); // File Array Type
       // v-file-input 변경시

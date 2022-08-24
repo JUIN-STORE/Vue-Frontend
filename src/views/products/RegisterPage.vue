@@ -1,16 +1,16 @@
 <template>
   <div>
     <h1 class="page-header">상품 등록 페이지</h1>
-    <RegisterForm />
+    <AdminRegisterForm />
   </div>
 </template>
 
 <script>
-import RegisterForm from '@/components/products/RegisterForm.vue';
+import AdminRegisterForm from '@/components/products/AdminRegisterForm.vue';
 
 export default {
   components: {
-    RegisterForm,
+    AdminRegisterForm,
   },
 };
 </script>
