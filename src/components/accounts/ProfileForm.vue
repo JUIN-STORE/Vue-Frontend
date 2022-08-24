@@ -28,6 +28,17 @@
             />
           </div>
 
+          <label for="name">* PHONE NUMBER</label>
+          <div class="card-text">
+            <input
+              id="phoneNumber"
+              type="text"
+              v-model="phoneNumber"
+              class="form-control"
+              disabled
+            />
+          </div>
+
           <div class="card-text">
             <br />ADDRESS
             <p></p>
@@ -74,7 +85,7 @@
 </template>
 
 <script>
-import { profile } from '@/api/accounts';
+import { profileCall } from '@/api/accounts';
 
 export default {
   data() {
@@ -82,6 +93,7 @@ export default {
       accountRole: 'USER',
       email: '',
       name: '',
+      phoneNumber: '',
       address: {
         defaultAddress: true,
         city: '',
@@ -94,16 +106,18 @@ export default {
     // return
     async getProfile() {
       try {
-        const { data } = await profile();
+        const { data } = await profileCall();
         this.accountRole = data.data.accountRole;
         this.email = data.data.email;
         this.name = data.data.name;
+        this.phoneNumber = data.data.phoneNumber;
         this.address.city = data.data.address.city;
         this.address.street = data.data.address.street;
         this.address.zipCode = data.data.address.zipCode;
 
-        this.$store.commit('accounts/setName', this.name);
         this.$store.commit('accounts/setEmail', this.email);
+        this.$store.commit('accounts/setName', this.name);
+        this.$store.commit('accounts/setPhoneNumber', this.phoneNumber);
         this.$store.commit('accounts/setCity', this.address.city);
         this.$store.commit('accounts/setStreet', this.address.street);
         this.$store.commit('accounts/setZipCode', this.address.zipCode);

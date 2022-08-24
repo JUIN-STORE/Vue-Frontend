@@ -18,18 +18,18 @@ function loginCall(loginRequest) {
   return instance.post('/api/accounts/login', loginRequest);
 }
 
-function profile() {
+function profileCall() {
   return instance.get('/api/accounts/profile');
 }
 
-function modify(updateRequest) {
+function modifyCall(updateRequest) {
   return instance.patch('/api/accounts/modify', updateRequest);
 }
 
-function remove() {
+function removeCall() {
   return instance.delete('/api/accounts/remove');
 }
 
-export { signUpCall, loginCall, profile, modify, remove };
+export { signUpCall, loginCall, profileCall, modifyCall, removeCall };
 
 // 1번째

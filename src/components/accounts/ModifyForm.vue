@@ -36,6 +36,16 @@
             <input id="name" type="text" v-model="name" />
           </div>
 
+          <label for="name">* PHONE NUMBER</label>
+          <div class="card-text">
+            <input
+              id="phoneNumber"
+              type="text"
+              v-model="phoneNumber"
+              class="form-control"
+            />
+          </div>
+
           <router-link
             to="/"
             type="submit"
@@ -65,7 +75,7 @@
 </template>
 
 <script>
-import { modify, remove } from '@/api/accounts';
+import { modifyCall, removeCall } from '@/api/accounts';
 
 export default {
   // 화면에 표시됨
@@ -73,23 +83,29 @@ export default {
     return {
       accountRole: 'USER',
       email: this.$store.getters['accounts/readEmail'],
-      password: '',
       name: this.$store.getters['accounts/readName'],
+      phoneNumber: this.$store.getters['accounts/readPhoneNumber'],
+      password: '',
     };
   },
   methods: {
     async modifyForm() {
       const payload = {
         accountRole: this.accountRole,
-        passwordHash: this.password,
         name: this.name,
+        phoneNumber: this.phoneNumber,
+        passwordHash: this.password,
       };
-      await modify(payload);
+      await modifyCall(payload);
+      alert('수정되었습니다.');
+      await this.$router.push('/accounts/profile');
     },
 
     async deleteForm() {
-      await remove();
-      alert(this.email + ' 탈퇴되었습니다.');
+      await removeCall();
+      alert(this.email + '님, 탈퇴되었습니다.');
+      this.$store.commit('accounts/setEmail', null);
+      this.$store.commit('accounts/setToken', null);
       await this.$router.push('/');
     },
   },

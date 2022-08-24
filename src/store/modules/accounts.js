@@ -9,6 +9,7 @@ import { loginCall } from '@/api/accounts';
 const state = {
   email: getEmailFromCookie() || '',
   name: '',
+  phoneNumber: '',
   city: '',
   street: '',
   zipCode: '',
@@ -24,6 +25,9 @@ const getters = {
   },
   readName(state) {
     return state.name;
+  },
+  readPhoneNumber(state) {
+    return state.phoneNumber;
   },
   readCity(state) {
     return state.city;
@@ -45,6 +49,9 @@ const mutations = {
   },
   setName(state, name) {
     state.name = name;
+  },
+  setPhoneNumber(state, phoneNumber) {
+    state.phoneNumber = phoneNumber;
   },
   setCity(state, city) {
     state.city = city;
