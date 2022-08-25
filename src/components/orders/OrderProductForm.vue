@@ -67,7 +67,7 @@ export default {
   },
 
   computed: {
-    ...mapState('cart', ['cart_list']),
+    ...mapState('carts', ['cart_list']),
 
     totalQuantity() {
       let sum = 0;
@@ -86,8 +86,8 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('cart', ['SET_QUANTITY']),
-    ...mapMutations('cart', ['DEL_ITEM']),
+    ...mapMutations('carts', ['SET_QUANTITY']),
+    ...mapMutations('carts', ['DEL_ITEM']),
 
     async onChange(productId, e) {
       const value = e.target.value;
@@ -98,7 +98,7 @@ export default {
       };
 
       if (value > 0 && value <= 100) {
-        await this.$store.dispatch('cart/updateQuantityAction', payload);
+        await this.$store.dispatch('carts/updateQuantityAction', payload);
       } else {
         alert('invalid input');
       }
@@ -113,7 +113,7 @@ export default {
         this.DEL_ITEM(productId);
         this.cartProductList = this.cart_list;
         this.$store.commit('cart/DEL_ITEM');
-        await this.$store.dispatch('cart/clearCartAction', payload);
+        await this.$store.dispatch('carts/clearCartAction', payload);
       } catch (e) {
         console.log(e);
       }
@@ -125,7 +125,7 @@ export default {
         productList += each.productId + ',';
       });
 
-      await this.$store.dispatch('cart/readBuyInfoCartAction', productList);
+      await this.$store.dispatch('carts/readBuyInfoCartAction', productList);
     },
 
     async loadCart() {

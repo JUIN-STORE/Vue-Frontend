@@ -16,10 +16,28 @@ function readAllProduct(page, size) {
   return instance.get(productEndPoint + '?page=' + page + '&size=' + size);
 }
 
-function readCount() {
+function allCountCall() {
   return instance.get(productEndPoint + '/count');
 }
 
-export { readAllProduct, readCount };
+function searchCall(page, size, searchTitle) {
+  return instance.get(
+    productEndPoint +
+      '/search?productName=' +
+      searchTitle +
+      '&page=' +
+      page +
+      '&size=' +
+      size,
+  );
+}
+
+function searchCountCall(searchTitle) {
+  return instance.get(
+    productEndPoint + '/search/count' + '?productName=' + searchTitle,
+  );
+}
+
+export { readAllProduct, allCountCall, searchCall, searchCountCall };
 
 // 1번째

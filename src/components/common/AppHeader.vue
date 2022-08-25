@@ -8,7 +8,13 @@
     </div>
     <div class="item search right" tabindex="0">
       <div class="search-group">
-        <input type="text" />
+        <input
+          v-on:keyup.enter="searchForm()"
+          id="searchTitle"
+          type="text"
+          class="input-group-text"
+          placeholder="상품을 검색하세요."
+        />
         <i class="material-icons search-icon"> search </i>
       </div>
     </div>
@@ -56,6 +62,15 @@ export default {
       deleteCookie('email');
       deleteCookie('jwt');
       this.login();
+    },
+    async searchForm() {
+      let searchTitle = document.getElementById('searchTitle').value;
+      this.$store.commit('products/SET_SEARCH_TITLE', searchTitle);
+
+      await this.$router.push({
+        path: '/products/search',
+        query: { productName: searchTitle },
+      });
     },
   },
 };

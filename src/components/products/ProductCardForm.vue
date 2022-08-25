@@ -56,8 +56,8 @@ export default {
         count: 1,
       };
       try {
-        this.$store.commit('cart/SET_ITEM', product);
-        await this.$store.dispatch('cart/addCartAction', payload);
+        this.$store.commit('carts/SET_ITEM', product);
+        await this.$store.dispatch('carts/addCartAction', payload);
       } catch (e) {
         await this.$router.push('/accounts/login');
       }

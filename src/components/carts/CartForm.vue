@@ -116,7 +116,7 @@ export default {
       };
 
       if (value > 0 && value <= 100) {
-        await this.$store.dispatch('cart/updateQuantityAction', payload);
+        await this.$store.dispatch('carts/updateQuantityAction', payload);
       } else {
         alert('invalid input');
       }
@@ -130,8 +130,8 @@ export default {
       try {
         this.DEL_ITEM(productId);
         this.cartProductList = this.cart_list;
-        this.$store.commit('cart/DEL_ITEM');
-        await this.$store.dispatch('cart/clearCartAction', payload);
+        this.$store.commit('carts/DEL_ITEM');
+        await this.$store.dispatch('carts/clearCartAction', payload);
       } catch (e) {
         console.log(e);
       }
@@ -143,7 +143,7 @@ export default {
         productList += each.productId + ',';
       });
 
-      await this.$store.dispatch('cart/readBuyInfoCartAction', productList);
+      await this.$store.dispatch('carts/readBuyInfoCartAction', productList);
 
       this.setCreateOrderState();
     },

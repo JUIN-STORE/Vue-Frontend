@@ -2,7 +2,7 @@
   <div class="layout">
     <div class="section2">
       <div class="item3" v-for="product in productList" v-bind:key="product.id">
-        <product-card-form :product="product"></product-card-form>
+        <search-product-form :product="product"></search-product-form>
       </div>
     </div>
     <div class="page">
@@ -11,13 +11,15 @@
         style="justify-content: center; align-items: center"
       >
         <li>
-          <a href="#" class="first" @click.prevent="loadPage(0)">처음 페이지</a>
+          <a href="#" class="first" @click.prevent="searchPage(0)"
+            >처음 페이지</a
+          >
         </li>
         <li>
           <a
             href="#"
             class="arrow left"
-            @click.prevent="loadPage(selectedPage - 1)"
+            @click.prevent="searchPage(selectedPage - 1)"
             >이전</a
           >
         </li>
@@ -28,7 +30,7 @@
             href="#"
             class="num"
             :class="{ active: page - 1 === selectedPage }"
-            @click.prevent="loadPage(page - 1)"
+            @click.prevent="searchPage(page - 1)"
           >
             {{ page }}
           </a>
@@ -37,12 +39,12 @@
           <a
             href="#"
             class="arrow right"
-            @click.prevent="loadPage(selectedPage + 1)"
+            @click.prevent="searchPage(selectedPage + 1)"
             >다음</a
           >
         </li>
         <li>
-          <a href="#" class="last" @click.prevent="loadPage(pages.length - 1)"
+          <a href="#" class="last" @click.prevent="searchPage(pages.length - 1)"
             >마지막 페이지</a
           >
         </li>
@@ -52,13 +54,13 @@
 </template>
 
 <script>
-import { readAllProduct, allCountCall } from '@/api/products';
-import ProductCardForm from '@/components/products/ProductCardForm';
+import { searchCountCall } from '@/api/products';
+import AllProductForm from '@/components/products/ProductCardForm';
 
 export default {
   components: {
     // eslint-disable-next-line vue/no-unused-components
-    ProductCardForm: ProductCardForm,
+    SearchProductForm: AllProductForm,
   },
   data() {
     return {
@@ -68,6 +70,7 @@ export default {
       //페이지네이션
       size: 10,
       selectedPage: 1,
+      componentKey: 0,
     };
   },
   computed: {
@@ -82,28 +85,41 @@ export default {
       return pages > 1 ? Array.from({ length: pages }, (_, i) => i + 1) : [1];
     },
   },
-  async mounted() {
-    await this.loadPage(this.selectedPage - 1);
+  async renderTriggered() {
+    await this.searchCount();
+    await this.searchPage(this.selectedPage - 1);
+    console.log(this.totalData);
   },
   methods: {
-    async count() {
-      const { data } = await allCountCall();
+    async searchCount() {
+      let searchTitle = this.$store.getters['products/getSearchTitle'];
+      const { data } = await searchCountCall(searchTitle);
       this.totalData = data;
     },
     /**
      * 페이지 클릭시 호출
      * @param {Number} page [1,2,3...]
      */
-    async loadPage(page) {
+    async searchPage(page) {
       if (0 > page || this.pages.length - 1 < page) return;
       this.selectedPage = page;
-      const { data } = await readAllProduct(page, this.size);
-      this.productList = data.data;
+
+      console.log('productList = ' + this.productList.length);
+
+      const payload = {
+        p: page,
+        s: this.size,
+        st: this.$store.getters['products/getSearchTitle'],
+      };
+
+      this.productList = await this.$store.dispatch(
+        'products/searchAction',
+        payload,
+      );
+      // const { data } = await searchCall(page, this.size, this.searchTitle);
+      // this.productList = data.data;
+      // console.log(this.productList);
     },
-  },
-  created() {
-    this.count();
-    // this.loadPage(this.selectedPage - 1);
   },
 };
 </script>
