@@ -85,7 +85,7 @@ export default {
       return pages > 1 ? Array.from({ length: pages }, (_, i) => i + 1) : [1];
     },
   },
-  async renderTriggered() {
+  async mounted() {
     await this.searchCount();
     await this.searchPage(this.selectedPage - 1);
     console.log(this.totalData);

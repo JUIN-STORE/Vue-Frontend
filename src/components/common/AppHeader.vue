@@ -67,10 +67,21 @@ export default {
       let searchTitle = document.getElementById('searchTitle').value;
       this.$store.commit('products/SET_SEARCH_TITLE', searchTitle);
 
-      await this.$router.push({
-        path: '/products/search',
-        query: { productName: searchTitle },
-      });
+      // 검색조건은 프로덕트 이름만 사용됩니다
+      const searchConditions = { productName: searchTitle };
+
+      // 검색페이지가 아닐때만 이동함
+      if (!this.$route.path.startsWith('/products/search')) {
+        // 검색 페이지에 있는 경우 - 페이지 이동
+        await this.$router.push({
+          path: '/products/search',
+          query: searchConditions,
+        });
+      } else {
+        // 검색 페이지에 있지 않은 경우 - 쿼리 파라미터만 수정
+        const query = new URLSearchParams(searchConditions).toString();
+        history.pushState({}, null, `${this.$route.path}?${query}`);
+      }
     },
   },
 };
