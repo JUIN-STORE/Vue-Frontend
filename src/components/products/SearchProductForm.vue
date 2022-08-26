@@ -70,7 +70,6 @@ export default {
       //페이지네이션
       size: 10,
       selectedPage: 1,
-      componentKey: 0,
     };
   },
   computed: {
@@ -82,8 +81,9 @@ export default {
       const pages = Math.ceil(this.totalData / this.size);
 
       // 페이지가 1보다 크면 [1,,,pages] 배열을, 작으면 [1] 반환
-      return pages > 1 ? Array.from({ length: pages }, (_, i) => i + 1) : [1];
+      return pages > 0 ? Array.from({ length: pages }, (_, i) => i + 1) : [1];
     },
+
     searchConditions() {
       const searchTitle = this.$store.getters['products/getSearchTitle'];
       return { searchTitle };
@@ -100,7 +100,7 @@ export default {
       deep: true, // searchConditions 는 객체이므로
       async handler() {
         await this.searchCount();
-        await this.searchPage(this.selectedPage - 1);
+        await this.searchPage(this.selectedPage);
       },
     },
   },
@@ -118,8 +118,6 @@ export default {
       if (0 > page || this.pages.length - 1 < page) return;
       this.selectedPage = page;
 
-      console.log('productList = ' + this.productList.length);
-
       const payload = {
         p: page,
         s: this.size,
@@ -130,9 +128,8 @@ export default {
         'products/searchAction',
         payload,
       );
-      // const { data } = await searchCall(page, this.size, this.searchTitle);
-      // this.productList = data.data;
-      // console.log(this.productList);
+
+      console.log('productList = ' + this.productList.length);
     },
   },
 };

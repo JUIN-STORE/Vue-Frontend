@@ -91,7 +91,7 @@ export default {
     },
     async searchForm() {
       let searchTitle = document.getElementById('searchTitle').value;
-      console.log('searchForm', searchTitle);
+      console.log('searchForm = ', searchTitle);
       this.$store.commit('products/SET_SEARCH_TITLE', searchTitle);
 
       // 검색조건은 프로덕트 이름만 사용됩니다
