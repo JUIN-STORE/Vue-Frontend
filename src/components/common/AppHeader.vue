@@ -53,6 +53,32 @@ export default {
       return this.$store.getters['accounts/isLogin'];
     },
   },
+  watch: {
+    // 현재 페이지 추적
+    '$route.path': {
+      immediate: true,
+      handler(path) {
+        // 현재 쿼리를 추출합니다.
+        const query = this.$route.query;
+        // 현재 페이지를 검사합니다.
+        if (path.includes('/search')) {
+          // 현재 페이지가 검색 페이지라면 쿼리 파라미터는 검색 조건입니다
+          const searchConditions = query;
+          if (Object.keys(searchConditions).length) {
+            // 만약 검색조건이 하나라도 존재한다면 해당 값이 현재 검색어와 일치하는지 확인합니다
+            if (
+              document.getElementById('searchTitle').value !== query.productName
+            ) {
+              // 만약 다르다면 업데이트 합니다
+              document.getElementById('searchTitle').value = query.productName;
+              // 검색도 합니다
+              this.searchForm();
+            }
+          }
+        }
+      },
+    },
+  },
   methods: {
     login() {
       this.$router.push('/accounts/login');
@@ -65,6 +91,7 @@ export default {
     },
     async searchForm() {
       let searchTitle = document.getElementById('searchTitle').value;
+      console.log('searchForm', searchTitle);
       this.$store.commit('products/SET_SEARCH_TITLE', searchTitle);
 
       // 검색조건은 프로덕트 이름만 사용됩니다
@@ -72,13 +99,13 @@ export default {
 
       // 검색페이지가 아닐때만 이동함
       if (!this.$route.path.startsWith('/products/search')) {
-        // 검색 페이지에 있는 경우 - 페이지 이동
+        // 검색 페이지에 있는 않은 경우 - 페이지 이동
         await this.$router.push({
           path: '/products/search',
           query: searchConditions,
         });
       } else {
-        // 검색 페이지에 있지 않은 경우 - 쿼리 파라미터만 수정
+        // 검색 페이지에 있는 경우 - 쿼리 파라미터만 수정
         const query = new URLSearchParams(searchConditions).toString();
         history.pushState({}, null, `${this.$route.path}?${query}`);
       }
