@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow-sm">
+  <div class="card shadow-sm" @click="productDetail(product.id)">
     <img
       class="card-img-top card-image"
       v-if="product.productImageList.length > 0"
@@ -42,6 +42,13 @@ export default {
     };
   },
   methods: {
+    async productDetail() {
+      let productId = this.$props.product.id;
+      console.log('product.id = ' + productId);
+
+      await this.$store.dispatch('products/detailAction', productId);
+      await this.$router.push('/products/' + productId);
+    },
     async addToCart() {
       alert(this.product.productName + ' is Added to cart!!');
       const product = {

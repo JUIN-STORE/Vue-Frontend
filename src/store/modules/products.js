@@ -1,7 +1,8 @@
-import { searchCall } from '@/api/products';
+import { detailCall, searchCall } from '@/api/products';
 
 // state: 소문자 스네이크
 const state = {
+  product: {},
   searchTitle: '',
 };
 
@@ -10,12 +11,18 @@ const mutations = {
   SET_SEARCH_TITLE(state, searchTitle) {
     state.searchTitle = searchTitle;
   },
+  SET_PRODUCT(state, product) {
+    state.product = product;
+  },
 };
 
 // getters: 카멜 케이스
 const getters = {
   getSearchTitle(state) {
     return state.searchTitle;
+  },
+  getProduct(state) {
+    return state.product;
   },
 };
 
@@ -28,6 +35,13 @@ const actions = {
 
     const { data } = await searchCall(page, size, searchTitle);
     return data.data;
+  },
+
+  async detailAction({ commit }, productId) {
+    const { data } = await detailCall(productId);
+    let p = data.data;
+    commit('SET_PRODUCT', p);
+    return p;
   },
 };
 

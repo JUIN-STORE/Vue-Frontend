@@ -6,6 +6,7 @@ import {
 } from '@/utils/cookies';
 import { loginCall } from '@/api/accounts';
 
+// state: 소문자 스네이크
 const state = {
   email: getEmailFromCookie() || '',
   name: '',
@@ -16,30 +17,7 @@ const state = {
   token: getAuthFromCookie() || '',
 };
 
-const getters = {
-  isLogin(state) {
-    return state.email !== '' && state.token !== '';
-  },
-  readEmail(state) {
-    return state.email;
-  },
-  readName(state) {
-    return state.name;
-  },
-  readPhoneNumber(state) {
-    return state.phoneNumber;
-  },
-  readCity(state) {
-    return state.city;
-  },
-  readStreet(state) {
-    return state.street;
-  },
-  readZipCode(state) {
-    return state.zipCode;
-  },
-};
-
+// mutations: 대문자 스네이크
 const mutations = {
   setRole(state, role) {
     state.accountRole = role;
@@ -68,6 +46,31 @@ const mutations = {
   },
   setToken(state, token) {
     state.token = token;
+  },
+};
+
+// getters: 카멜 케이스
+const getters = {
+  isLogin(state) {
+    return state.email !== '' && state.token !== '';
+  },
+  readEmail(state) {
+    return state.email;
+  },
+  readName(state) {
+    return state.name;
+  },
+  readPhoneNumber(state) {
+    return state.phoneNumber;
+  },
+  readCity(state) {
+    return state.city;
+  },
+  readStreet(state) {
+    return state.street;
+  },
+  readZipCode(state) {
+    return state.zipCode;
   },
 };
 

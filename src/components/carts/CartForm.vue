@@ -101,8 +101,8 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('cart', ['SET_QUANTITY']),
-    ...mapMutations('cart', ['DEL_ITEM']),
+    ...mapMutations('carts', ['SET_QUANTITY']),
+    ...mapMutations('carts', ['DEL_ITEM']),
     ...mapMutations('orders', ['SET_COUNT']),
     ...mapMutations('orders', ['SET_GRAND_TOTAL']),
     ...mapMutations('orders', ['SET_PRODUCT_ID_LIST']),

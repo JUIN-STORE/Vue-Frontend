@@ -38,6 +38,16 @@ function searchCountCall(searchTitle) {
   );
 }
 
-export { readAllProduct, allCountCall, searchCall, searchCountCall };
+function detailCall(productId) {
+  return instance.get(productEndPoint + '/' + productId);
+}
+
+export {
+  readAllProduct,
+  allCountCall,
+  searchCall,
+  searchCountCall,
+  detailCall,
+};
 
 // 1번째
