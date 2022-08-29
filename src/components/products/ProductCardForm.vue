@@ -9,10 +9,8 @@
       alt="Card image cap"
     />
     <div class="card-body">
-      <h3 class="card-title">PRODUCT ID: {{ product.id }}</h3>
-      <h4 class="card-title">PRODUCT ID: {{ product.productName }}</h4>
-      <h5 class="card-title">PRICE: \ {{ product.price }}</h5>
-      <p class="card-text desc">DESC: {{ product.description }}</p>
+      <h4 class="card-title">{{ product.productName }}</h4>
+      <h5 class="card-title">\ {{ product.price }}</h5>
       <div class="d-flex" style="justify-content: space-around">
         <button
           class="btn btn-warning btn-text"
