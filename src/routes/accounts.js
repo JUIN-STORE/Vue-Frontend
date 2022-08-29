@@ -12,7 +12,7 @@ export default [
     component: () => import('@/views/accounts/ProfilePage.vue'),
   },
   {
-    path: '/accounts/modify',
-    component: () => import('@/views/accounts/ModifyPage.vue'),
+    path: '/accounts/update',
+    component: () => import('@/views/accounts/UpdatePage.vue'),
   },
 ];

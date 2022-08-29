@@ -102,10 +102,10 @@ export default {
     },
 
     async deleteForm() {
-      await removeCall();
+      let accountId = this.$store.getters['accounts/readId'];
+      await removeCall(accountId);
       alert(this.email + '님, 탈퇴되었습니다.');
-      this.$store.commit('accounts/setEmail', null);
-      this.$store.commit('accounts/setToken', null);
+      this.$store.commit('accounts/CLEAR_COOKIE');
       await this.$router.push('/');
     },
   },

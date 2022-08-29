@@ -112,7 +112,7 @@ export default {
       try {
         this.DEL_ITEM(productId);
         this.cartProductList = this.cart_list;
-        this.$store.commit('cart/DEL_ITEM');
+        this.$store.commit('carts/DEL_ITEM');
         await this.$store.dispatch('carts/clearCartAction', payload);
       } catch (e) {
         console.log(e);

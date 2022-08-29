@@ -218,6 +218,7 @@ export default {
 }
 
 .item3 {
-  flex: 0 0 20%;
+  flex: 0 0 33%;
+  flex-basis: 400px;
 }
 </style>

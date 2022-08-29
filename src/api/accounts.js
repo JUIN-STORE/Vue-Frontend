@@ -23,11 +23,11 @@ function profileCall() {
 }
 
 function modifyCall(updateRequest) {
-  return instance.patch('/api/accounts/modify', updateRequest);
+  return instance.patch('/api/accounts/update', updateRequest);
 }
 
-function removeCall() {
-  return instance.delete('/api/accounts/remove');
+function removeCall(accountId) {
+  return instance.delete('/api/accounts/' + accountId);
 }
 
 export { signUpCall, loginCall, profileCall, modifyCall, removeCall };

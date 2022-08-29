@@ -1,16 +1,16 @@
 <template>
   <div>
     <h1 class="page-header">회원 수정 페이지</h1>
-    <ModifyForm></ModifyForm>
+    <UpdateForm></UpdateForm>
   </div>
 </template>
 
 <script>
-import ModifyForm from '@/components/accounts/ModifyForm.vue';
+import UpdateForm from '@/components/accounts/UpdateForm.vue';
 
 export default {
   components: {
-    ModifyForm,
+    UpdateForm,
   },
 };
 </script>

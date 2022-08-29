@@ -2,6 +2,21 @@
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
       <form @submit.prevent="submit" class="form">
+        <label for="productName">CATEGORY</label>
+        <select
+          @change="selectCategory($event)"
+          id="category"
+          v-model="categoryId"
+        >
+          <option value="default" selected>Please Select Category</option>
+          <option
+            v-for="category in categoryList"
+            :value="category.id"
+            :key="category.id"
+          >
+            {{ category.categoryName }}
+          </option>
+        </select>
         <div>
           <label for="productName">PRODUCT NAME</label>
           <input id="productName" type="text" v-model="productName" required />
@@ -49,18 +64,28 @@
 import { validateEmail } from '@/utils/validation';
 import axios from 'axios';
 import { getAuthFromCookie } from '@/utils/cookies';
+import { categoriesCall } from '@/api/products';
 
 let formData;
 let files;
 
 export default {
+  created() {
+    this.readCategoryList();
+  },
+
   data() {
     return {
-      fileList: '',
+      // 셀렉트박스에서 사용하기 위한 API를 통해 받은 데이터
+      categoryList: [],
+
+      // 아래부터는 리퀘스트
+      categoryId: 0,
       productName: '',
       price: '',
       quantity: '',
       description: '',
+      fileList: '',
     };
   },
   computed: {
@@ -70,7 +95,6 @@ export default {
   },
   methods: {
     onImageChange(e) {
-      console.log('onImageChacne = ', e);
       const fileList = e?.target?.files; // FileList Type
       files = Array.from(fileList); // File Array Type
       // v-file-input 변경시
@@ -90,8 +114,21 @@ export default {
         reader.readAsDataURL(item);
       });
     },
+
+    async readCategoryList() {
+      const { data } = await categoriesCall();
+      this.categoryList = data.data;
+    },
+
+    async selectCategory(e) {
+      this.category = Number(e.target.value);
+      console.log('categoryId=' + this.category);
+    },
+
     async submit() {
       const payload = {
+        categoryId: this.categoryId,
+        categoryList: this.categoryList,
         productName: this.productName,
         price: this.price,
         quantity: this.quantity,

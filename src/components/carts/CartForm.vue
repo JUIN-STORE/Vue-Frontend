@@ -82,7 +82,7 @@ export default {
   },
 
   computed: {
-    ...mapState('cart', ['cart_list']),
+    ...mapState('carts', ['cart_list']),
 
     totalQuantity() {
       let sum = 0;

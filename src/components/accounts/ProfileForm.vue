@@ -72,7 +72,7 @@
           </div>
 
           <router-link
-            to="/accounts/modify"
+            to="/accounts/update"
             type="submit"
             class="btn btn-primary"
             style="float: right"
@@ -90,6 +90,7 @@ import { profileCall } from '@/api/accounts';
 export default {
   data() {
     return {
+      id: 0,
       accountRole: 'USER',
       email: '',
       name: '',
@@ -107,6 +108,7 @@ export default {
     async getProfile() {
       try {
         const { data } = await profileCall();
+        this.id = data.data.id;
         this.accountRole = data.data.accountRole;
         this.email = data.data.email;
         this.name = data.data.name;
@@ -115,12 +117,13 @@ export default {
         this.address.street = data.data.address.street;
         this.address.zipCode = data.data.address.zipCode;
 
-        this.$store.commit('accounts/setEmail', this.email);
-        this.$store.commit('accounts/setName', this.name);
-        this.$store.commit('accounts/setPhoneNumber', this.phoneNumber);
-        this.$store.commit('accounts/setCity', this.address.city);
-        this.$store.commit('accounts/setStreet', this.address.street);
-        this.$store.commit('accounts/setZipCode', this.address.zipCode);
+        this.$store.commit('accounts/SET_ID', this.id);
+        this.$store.commit('accounts/SET_EMAIL', this.email);
+        this.$store.commit('accounts/SET_NAME', this.name);
+        this.$store.commit('accounts/SET_PHONE_NUMBER', this.phoneNumber);
+        this.$store.commit('accounts/SET_CITY', this.address.city);
+        this.$store.commit('accounts/SET_STREET', this.address.street);
+        this.$store.commit('accounts/SET_ZIP_CODE', this.address.zipCode);
       } catch (error) {
         console.log(error);
       }

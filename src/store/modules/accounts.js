@@ -8,6 +8,7 @@ import { loginCall } from '@/api/accounts';
 
 // state: 소문자 스네이크
 const state = {
+  id: 0,
   email: getEmailFromCookie() || '',
   name: '',
   phoneNumber: '',
@@ -19,33 +20,35 @@ const state = {
 
 // mutations: 대문자 스네이크
 const mutations = {
-  setRole(state, role) {
-    state.accountRole = role;
+  SET_ID(state, id) {
+    state.id = id;
   },
-  setEmail(state, email) {
+  SET_EMAIL(state, email) {
     state.email = email;
   },
-  setName(state, name) {
+  SET_NAME(state, name) {
     state.name = name;
   },
-  setPhoneNumber(state, phoneNumber) {
+  SET_PHONE_NUMBER(state, phoneNumber) {
     state.phoneNumber = phoneNumber;
   },
-  setCity(state, city) {
+  SET_CITY(state, city) {
     state.city = city;
   },
-  setStreet(state, street) {
+  SET_STREET(state, street) {
     state.street = street;
   },
-  setZipCode(state, zipCode) {
+  SET_ZIP_CODE(state, zipCode) {
     state.zipCode = zipCode;
   },
-  clearCookie(state) {
+
+  SET_TOKEN(state, token) {
+    state.token = token;
+  },
+
+  CLEAR_COOKIE(state) {
     state.email = '';
     state.token = '';
-  },
-  setToken(state, token) {
-    state.token = token;
   },
 };
 
@@ -53,6 +56,9 @@ const mutations = {
 const getters = {
   isLogin(state) {
     return state.email !== '' && state.token !== '';
+  },
+  readId(state) {
+    return state.id;
   },
   readEmail(state) {
     return state.email;
@@ -78,8 +84,8 @@ const getters = {
 const actions = {
   async loginSetting({ commit }, payload) {
     const { data } = await loginCall(payload);
-    commit('setEmail', data.data.email);
-    commit('setToken', data.data.token);
+    commit('SET_EMAIL', data.data.email);
+    commit('SET_TOKEN', data.data.token);
     saveAuthToCookie(data.data.token);
     saveEmailToCookie(data.data.email);
     return data;

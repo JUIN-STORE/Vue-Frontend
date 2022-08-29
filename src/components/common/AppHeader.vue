@@ -15,7 +15,6 @@
           class="input-group-text"
           placeholder="상품을 검색하세요."
         />
-        <i class="material-icons search-icon"> search </i>
       </div>
     </div>
 
@@ -27,7 +26,7 @@
 
         <div class="detail">
           <button class="action-btn" v-if="!checkLogin" @click="login()">
-            LON-IN
+            LOG-IN
           </button>
         </div>
         <router-link to="/accounts/profile">
@@ -84,7 +83,7 @@ export default {
       this.$router.push('/accounts/login');
     },
     logout() {
-      this.$store.commit('accounts/clearCookie');
+      this.$store.commit('accounts/CLEAR_COOKIE');
       deleteCookie('email');
       deleteCookie('jwt');
       this.login();
@@ -196,12 +195,7 @@ export default {
   width: 100%;
   max-width: 700px;
   border-radius: 20px;
-  border: 2px solid grey;
   overflow: hidden;
-  background: white;
-
-  border-color: white;
-  color: var(--theme-color);
 }
 .item .search-group select {
   border: 0;
