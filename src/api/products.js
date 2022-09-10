@@ -42,17 +42,12 @@ function detailCall(productId) {
   return instance.get(productEndPoint + '/' + productId);
 }
 
-function categoriesCall() {
-  return instance.get(productEndPoint + '/categories');
-}
-
 export {
   readAllProduct,
   allCountCall,
   searchCall,
   searchCountCall,
   detailCall,
-  categoriesCall,
 };
 
 // 1번째

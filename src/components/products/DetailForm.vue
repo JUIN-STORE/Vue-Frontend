@@ -1,12 +1,8 @@
 <template>
   <div class="container">
     <div class="card shadow">
+      <img :src="require('@/assets/products/' + img)" alt="Card image cap" />
       <h5 class="card-title">{{ productName }}</h5>
-      <img
-        class="card-img-top card-image"
-        :src="require('@/assets/products/' + img)"
-        alt="Card image cap"
-      />
       <div class="card-body">
         <h5 class="card-title">\ {{ price }}</h5>
         <p class="card-text desc">{{ description }}</p>
@@ -46,6 +42,28 @@ export default {
       img: this.$store.getters['products/getProduct'].productImageList[0]
         .imageName,
     };
+  },
+  methods: {
+    async addToCart() {
+      alert(this.product.productName + ' is Added to cart!!');
+      const product = {
+        id: this.product.id,
+        productName: this.product.productName,
+        price: this.product.price,
+        img: require('@/assets/products/' +
+          this.product.productImageList[0].imageName),
+      };
+      const payload = {
+        productId: this.product.id,
+        count: 1,
+      };
+      try {
+        this.$store.commit('carts/SET_ITEM', product);
+        await this.$store.dispatch('carts/addCartAction', payload);
+      } catch (e) {
+        await this.$router.push('/accounts/login');
+      }
+    },
   },
 };
 </script>

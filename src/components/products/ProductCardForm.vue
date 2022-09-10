@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow-sm" @click="productDetail(product.id)">
+  <div class="card shadow-sm">
     <img
       class="card-img-top card-image"
       v-if="product.productImageList.length > 0"
@@ -9,8 +9,10 @@
       alt="Card image cap"
     />
     <div class="card-body">
-      <h4 class="card-title">{{ product.productName }}</h4>
-      <h5 class="card-title">\ {{ product.price }}</h5>
+      <h4 class="card-title2" @click="productDetail(product.id)">
+        {{ product.productName }}
+      </h4>
+      <h5>\ {{ product.price }}</h5>
       <div class="d-flex" style="justify-content: space-around">
         <button
           class="btn btn-warning btn-text"
@@ -29,6 +31,8 @@
 </template>
 
 <script>
+import { getAuthFromCookie, getEmailFromCookie } from '@/utils/cookies';
+
 export default {
   props: ['product'],
   data() {
@@ -48,6 +52,11 @@ export default {
       await this.$router.push('/products/' + productId);
     },
     async addToCart() {
+      if (getAuthFromCookie() === '') {
+        alert('로그인을 해야 추가할 수 있습니다. 로그인 페이지로 이동합니다.');
+        await this.$router.push('/accounts/login');
+        return;
+      }
       alert(this.product.productName + ' is Added to cart!!');
       const product = {
         id: this.product.id,
@@ -86,7 +95,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.card-title:hover {
+.card-title2:hover {
   text-decoration: underline;
   cursor: pointer;
 }

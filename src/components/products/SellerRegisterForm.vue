@@ -2,21 +2,26 @@
   <div class="contents">
     <div class="form-wrapper form-wrapper-sm">
       <form @submit.prevent="submit" class="form">
-        <label for="productName">CATEGORY</label>
-        <select
-          @change="selectCategory($event)"
-          id="category"
-          v-model="categoryId"
-        >
-          <option value="default" selected>Please Select Category</option>
-          <option
-            v-for="category in categoryList"
-            :value="category.id"
-            :key="category.id"
+        <div>
+          <label for="productName">CATEGORY</label>
+          <select
+            class="form-select"
+            @change="selectCategory($event)"
+            id="category"
+            v-model="categoryId"
           >
-            {{ category.categoryName }}
-          </option>
-        </select>
+            <option value="0" selected>Please Select Category</option>
+            <option
+              v-for="category in categoryList"
+              :value="category.id"
+              :key="category.id"
+            >
+              {{ category.categoryName }}
+            </option>
+          </select>
+        </div>
+        <br />
+
         <div>
           <label for="productName">PRODUCT NAME</label>
           <input id="productName" type="text" v-model="productName" required />
@@ -64,14 +69,22 @@
 import { validateEmail } from '@/utils/validation';
 import axios from 'axios';
 import { getAuthFromCookie } from '@/utils/cookies';
-import { categoriesCall } from '@/api/products';
+import { categoriesCall } from '@/api/categories';
 
 let formData;
 let files;
 
 export default {
   created() {
-    this.readCategoryList();
+    let accountRole = this.$store.getters['accounts/readAccountRole'];
+
+    console.log(accountRole);
+    if (accountRole === 'USER') {
+      alert('일반 유저는 접근할 수 없습니다. 판매자만 접근 가능합니다.');
+      this.$router.push('/');
+    } else {
+      this.readCategoryList();
+    }
   },
 
   data() {
@@ -141,7 +154,7 @@ export default {
       formData.append('request', res);
 
       await axios({
-        url: 'http://localhost:12345/api/products/admin/register', // 이미지 저장을 위해 back서버와 통신
+        url: 'http://localhost:12345/api/products/seller/register', // 이미지 저장을 위해 back서버와 통신
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data;',
@@ -150,10 +163,12 @@ export default {
         data: formData,
       })
         .then(res => {
+          alert('상품 등록에 완료하였습니다.');
           console.log(res.data.message);
           this.imagecnt = files.length; // 이미지 개수 저장
         })
         .catch(err => {
+          alert('상품 등록에 실패하였습니다.');
           console.log(err);
         });
     },

@@ -1,6 +1,6 @@
 export default [
   {
-    path: '/admin/register',
+    path: '/seller/register',
     component: () => import('@/views/products/RegisterPage.vue'),
   },
 

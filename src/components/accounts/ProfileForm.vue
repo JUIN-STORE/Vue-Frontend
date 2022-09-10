@@ -6,6 +6,17 @@
         <p></p>
 
         <form @submit.prevent="getProfile" class="form">
+          <label for="email">ROLE</label>
+          <div class="card-text">
+            <input
+              type="accountRole"
+              id="accountRole"
+              v-model="accountRole"
+              class="form-control"
+              disabled
+            />
+          </div>
+
           <label for="email">EMAIL</label>
           <div class="card-text">
             <input
@@ -28,7 +39,7 @@
             />
           </div>
 
-          <label for="name">* PHONE NUMBER</label>
+          <label for="name">PHONE NUMBER</label>
           <div class="card-text">
             <input
               id="phoneNumber"
@@ -118,6 +129,7 @@ export default {
         this.address.zipCode = data.data.address.zipCode;
 
         this.$store.commit('accounts/SET_ID', this.id);
+        this.$store.commit('accounts/SET_ACCOUNT_ROLE', this.accountRole);
         this.$store.commit('accounts/SET_EMAIL', this.email);
         this.$store.commit('accounts/SET_NAME', this.name);
         this.$store.commit('accounts/SET_PHONE_NUMBER', this.phoneNumber);

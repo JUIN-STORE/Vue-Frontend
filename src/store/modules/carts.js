@@ -17,6 +17,10 @@ const mutations = {
     state.cart_list = [];
   },
 
+  SET_CART_LIST(sate, catProductList) {
+    state.cart_list = catProductList;
+  },
+
   SET_ITEM(state, item) {
     // let: 변수 중복 선언 불가, 선언만 가능
     // const: 변수 중복 선언 불가, 선언과 동시에 초기화

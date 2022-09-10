@@ -9,6 +9,7 @@ import { loginCall } from '@/api/accounts';
 // state: 소문자 스네이크
 const state = {
   id: 0,
+  accountRole: '',
   email: getEmailFromCookie() || '',
   name: '',
   phoneNumber: '',
@@ -22,6 +23,9 @@ const state = {
 const mutations = {
   SET_ID(state, id) {
     state.id = id;
+  },
+  SET_ACCOUNT_ROLE(state, accountRole) {
+    state.accountRole = accountRole;
   },
   SET_EMAIL(state, email) {
     state.email = email;
@@ -59,6 +63,9 @@ const getters = {
   },
   readId(state) {
     return state.id;
+  },
+  readAccountRole(state) {
+    return state.accountRole;
   },
   readEmail(state) {
     return state.email;

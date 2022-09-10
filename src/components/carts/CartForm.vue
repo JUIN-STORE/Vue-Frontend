@@ -79,6 +79,7 @@ export default {
   },
   created() {
     this.loadCart();
+    console.log('아니 왜', this.cart_list);
   },
 
   computed: {
@@ -153,10 +154,7 @@ export default {
       for (let i = 0; i < data.data.length; i++) {
         this.cartProductList.push(data.data[i]);
       }
-      let result = data.data;
-
-      this.cartProductList = result;
-      return result;
+      this.$store.commit('carts/SET_CART_LIST', this.cartProductList);
     },
 
     setCreateOrderState() {
