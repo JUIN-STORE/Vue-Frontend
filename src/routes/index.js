@@ -6,6 +6,7 @@ import products from '@/routes/products';
 import orders from '@/routes/orders';
 import common from '@/routes/common';
 import categories from '@/routes/categories';
+import personal from '@/routes/personal-color';
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,7 @@ const router = new VueRouter({
     ...products,
     ...orders,
     ...categories,
+    ...personal,
   ],
 });
 export default router;

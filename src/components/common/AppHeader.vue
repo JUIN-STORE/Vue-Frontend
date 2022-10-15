@@ -34,6 +34,11 @@
             account_circle
           </i>
         </router-link>
+        <router-link to="/">
+          <i class="material-icons action-btn" v-if="checkLogin">
+            delivery_dining_sharp
+          </i>
+        </router-link>
       </div>
     </div>
 

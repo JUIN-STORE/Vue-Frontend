@@ -19,7 +19,7 @@ export default {
       try {
         await this.$store.dispatch('orders/createOrderAction', payload);
         alert('주문이 완료되었습니다.');
-        this.$router.push('/');
+        await this.$router.push('/');
       } catch (e) {
         alert('주문에 실패하였습니다.');
       }

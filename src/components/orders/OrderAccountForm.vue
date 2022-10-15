@@ -12,9 +12,9 @@
           </tr>
 
           <tr>
-            <th>연락처 수정해야 됨</th>
+            <th>연락처</th>
             <td>
-              <em> {{ name }}</em>
+              <em> {{ phoneNumber }}</em>
             </td>
           </tr>
 
@@ -31,12 +31,53 @@
 </template>
 
 <script>
+import { profileCall } from '@/api/accounts';
+
 export default {
   data() {
     return {
-      email: this.$store.getters['accounts/readEmail'],
-      name: this.$store.getters['accounts/readName'],
+      id: 0,
+      accountRole: 'USER',
+      email: '',
+      name: '',
+      phoneNumber: '',
+      address: {
+        defaultAddress: true,
+        city: '',
+        street: '',
+        zipCode: '',
+      },
     };
+  },
+  methods: {
+    // return
+    async getProfile() {
+      try {
+        const { data } = await profileCall();
+        this.id = data.data.id;
+        this.accountRole = data.data.accountRole;
+        this.email = data.data.email;
+        this.name = data.data.name;
+        this.phoneNumber = data.data.phoneNumber;
+        this.address.city = data.data.address.city;
+        this.address.street = data.data.address.street;
+        this.address.zipCode = data.data.address.zipCode;
+
+        this.$store.commit('accounts/SET_ID', this.id);
+        this.$store.commit('accounts/SET_ACCOUNT_ROLE', this.accountRole);
+        this.$store.commit('accounts/SET_EMAIL', this.email);
+        this.$store.commit('accounts/SET_NAME', this.name);
+        this.$store.commit('accounts/SET_PHONE_NUMBER', this.phoneNumber);
+        this.$store.commit('accounts/SET_CITY', this.address.city);
+        this.$store.commit('accounts/SET_STREET', this.address.street);
+        this.$store.commit('accounts/SET_ZIP_CODE', this.address.zipCode);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  created() {
+    this.getProfile();
   },
 };
 </script>

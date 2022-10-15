@@ -96,7 +96,7 @@ export default {
   },
   watch: {
     searchConditions: {
-      immediate: false, // 처음 설정됬을 때부터 추적하는 옵션이지만, mounted 에서 첫 검색이 시작되므로 false
+      immediate: false, // 처음 설정됐을 때부터 추적하는 옵션이지만, mounted 에서 첫 검색이 시작되므로 false
       deep: true, // searchConditions 는 객체이므로
       async handler() {
         await this.searchCount();
