@@ -107,10 +107,10 @@ export default {
       name: '',
       phoneNumber: '',
       address: {
-        defaultAddress: true,
         city: '',
         street: '',
         zipCode: '',
+        defaultAddress: true,
       },
     };
   },
@@ -127,6 +127,7 @@ export default {
             city: this.address.city,
             street: this.address.street,
             zipCode: this.address.zipCode,
+            defaultAddress: this.address.defaultAddress,
           },
         };
 

@@ -26,6 +26,15 @@
           </tr>
         </tbody>
       </table>
+      <form @submit.prevent="createOrder" class="form">
+        <button
+          type="submit"
+          class="btn btn-outline-danger"
+          style="float: right"
+        >
+          배송지 추가
+        </button>
+      </form>
     </div>
   </div>
 </template>

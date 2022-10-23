@@ -7,21 +7,21 @@
           <tr>
             <th>이름</th>
             <td>
-              <em> {{ name }}</em>
+              <input type="text" v-model="name" />
             </td>
           </tr>
 
           <tr>
             <th>연락처</th>
             <td>
-              <em> {{ phoneNumber }}</em>
+              <input type="text" v-model="phoneNumber" />
             </td>
           </tr>
 
           <tr>
             <th>EMAIL</th>
             <td>
-              <em> {{ email }}</em>
+              <input type="text" v-model="email" />
             </td>
           </tr>
         </tbody>

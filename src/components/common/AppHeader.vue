@@ -35,6 +35,7 @@
           </i>
         </router-link>
         <router-link to="/">
+          <!-- 주문정보조회용 -->
           <i class="material-icons action-btn" v-if="checkLogin">
             delivery_dining_sharp
           </i>
