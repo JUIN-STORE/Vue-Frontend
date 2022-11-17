@@ -77,7 +77,7 @@
         <div class="col-lg-3 d-none d-lg-block">
           <a
             class="btn d-flex align-items-center justify-content-between bg-primary2 w-100"
-            data-toggle="collapse"
+            data-bs-toggle="collapse"
             href="#navbar-vertical"
             style="height: 65px; padding: 0 30px"
           >
@@ -92,11 +92,8 @@
             style="width: calc(100% - 30px); z-index: 999"
           >
             <div class="navbar-nav w-100">
-              <div class="nav-item dropdown dropright">
-                <a
-                  href="#"
-                  class="nav-link dropdown-toggle"
-                  data-toggle="dropdown"
+              <div class="nav-item dropdown dropend">
+                <a href="#" class="nav-link" data-bs-toggle="dropdown"
                   >Dresses <i class="fa fa-angle-right float-right mt-1"></i
                 ></a>
                 <div
@@ -3493,7 +3490,7 @@ input[type='button'].btn-block {
 }
 
 .dropup,
-.dropright,
+.dropend,
 .dropdown,
 .dropleft {
   position: relative;
@@ -3613,7 +3610,7 @@ input[type='button'].btn-block {
   margin-left: 0;
 }
 
-.dropright .dropdown-menu {
+.dropend .dropdown-menu {
   top: 0;
   right: auto;
   left: 100%;
@@ -3621,7 +3618,7 @@ input[type='button'].btn-block {
   margin-left: 0.125rem;
 }
 
-.dropright .dropdown-toggle::after {
+.dropend .dropdown-toggle::after {
   display: inline-block;
   margin-left: 0.255em;
   vertical-align: 0.255em;
@@ -3632,11 +3629,11 @@ input[type='button'].btn-block {
   border-left: 0.3em solid;
 }
 
-.dropright .dropdown-toggle:empty::after {
+.dropend .dropdown-toggle:empty::after {
   margin-left: 0;
 }
 
-.dropright .dropdown-toggle::after {
+.dropend .dropdown-toggle::after {
   vertical-align: 0;
 }
 
@@ -3794,7 +3791,7 @@ input[type='button'].btn-block {
 
 .dropdown-toggle-split::after,
 .dropup .dropdown-toggle-split::after,
-.dropright .dropdown-toggle-split::after {
+.dropend .dropdown-toggle-split::after {
   margin-left: 0;
 }
 
