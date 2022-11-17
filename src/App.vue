@@ -17,6 +17,8 @@ export default {
 </script>
 
 <style>
-@import './css/reset.css';
-@import './css/common.css';
+/* 새로운 헤더를 위해 잠시 주석 처리 (나중에 수정 예정) */
+/* @import './css/reset.css'; */
+/* @import './css/common.css'; */
+@import './css/common-style.css';
 </style>
