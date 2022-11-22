@@ -92,27 +92,37 @@
             style="width: calc(100% - 30px); z-index: 999"
           >
             <div class="navbar-nav w-100">
-              <div class="nav-item dropdown dropend">
+              <div
+                v-for="category in categories"
+                :key="category"
+                class="nav-item dropdown dropend"
+              >
                 <a href="#" class="nav-link" data-bs-toggle="dropdown"
-                  >Dresses <i class="fa fa-angle-right float-right mt-1"></i
+                  >{{ category.categoryName }}
+                  <i class="fa fa-angle-right float-right mt-1"></i
                 ></a>
                 <div
                   class="dropdown-menu position-absolute rounded-0 border-0 m-0"
                 >
-                  <a href="" class="dropdown-item">Men's Dresses</a>
-                  <a href="" class="dropdown-item">Women's Dresses</a>
-                  <a href="" class="dropdown-item">Baby's Dresses</a>
+                  <div
+                    v-for="first_child in category.childList"
+                    :key="first_child"
+                  >
+                    <a href="" class="dropdown-item">{{
+                      first_child.categoryName
+                    }}</a>
+                    <div
+                      v-for="second_child in first_child.childList"
+                      :key="second_child"
+                      class="submenu dropdown-menu position-absolute rounded-0 border-0 m-0"
+                    >
+                      <a href="" class="dropdown-item">{{
+                        second_child.categoryName
+                      }}</a>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <a href="" class="nav-item nav-link">Shirts</a>
-              <a href="" class="nav-item nav-link">Jeans</a>
-              <a href="" class="nav-item nav-link">Swimwear</a>
-              <a href="" class="nav-item nav-link">Sleepwear</a>
-              <a href="" class="nav-item nav-link">Sportswear</a>
-              <a href="" class="nav-item nav-link">Jumpsuits</a>
-              <a href="" class="nav-item nav-link">Blazers</a>
-              <a href="" class="nav-item nav-link">Jackets</a>
-              <a href="" class="nav-item nav-link">Shoes</a>
             </div>
           </nav>
         </div>
@@ -186,8 +196,17 @@
 
 <script>
 import { deleteCookie } from '@/utils/cookies';
+import { categoriesCall } from '@/api/categories';
 
 export default {
+  data() {
+    return {
+      categories: [],
+    };
+  },
+  async mounted() {
+    await this.getAllCategories();
+  },
   computed: {
     checkLogin() {
       return this.$store.getters['accounts/isLogin'];
@@ -229,6 +248,10 @@ export default {
       deleteCookie('jwt');
       this.login();
     },
+    async getAllCategories() {
+      const { data } = await categoriesCall();
+      this.categories = data.data;
+    },
     async searchForm() {
       let searchTitle = document.getElementById('searchTitle').value;
       console.log('searchForm = ', searchTitle);
@@ -252,8 +275,75 @@ export default {
     },
   },
 };
+
+document.addEventListener('DOMContentLoaded', function () {
+  // make it as accordion for smaller screens
+  if (window.innerWidth < 992) {
+    // close all inner dropdowns when parent is closed
+    document
+      .querySelectorAll('.navbar .dropdown')
+      .forEach(function (everydropdown) {
+        everydropdown.addEventListener('hidden.bs.dropdown', function () {
+          // after dropdown is hidden, then find all submenus
+          this.querySelectorAll('.submenu').forEach(function (everysubmenu) {
+            // hide every submenu as well
+            everysubmenu.style.display = 'none';
+          });
+        });
+      });
+
+    document.querySelectorAll('.dropdown-menu a').forEach(function (element) {
+      element.addEventListener('click', function (e) {
+        let nextEl = this.nextElementSibling;
+        if (nextEl && nextEl.classList.contains('submenu')) {
+          // prevent opening link if link needs to open dropdown
+          e.preventDefault();
+          if (nextEl.style.display == 'block') {
+            nextEl.style.display = 'none';
+          } else {
+            nextEl.style.display = 'block';
+          }
+        }
+      });
+    });
+  }
+  // end if innerWidth
+});
 </script>
 
 <style>
 @import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css';
+
+/* ============ desktop view ============ */
+@media all and (min-width: 992px) {
+  .dropdown-menu li {
+    position: relative;
+  }
+  .nav-item .submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0px;
+  }
+  .nav-item .submenu-left {
+    right: 100%;
+    left: auto;
+  }
+  .dropdown-menu > li:hover {
+    background-color: #f1f1f1;
+  }
+  .dropdown-menu > div:hover > .submenu {
+    display: block;
+  }
+}
+/* ============ desktop view .end// ============ */
+
+/* ============ small devices ============ */
+@media (max-width: 991px) {
+  .dropdown-menu .dropdown-menu {
+    margin-left: 0.7rem;
+    margin-right: 0.7rem;
+    margin-bottom: 0.5rem;
+  }
+}
 </style>
