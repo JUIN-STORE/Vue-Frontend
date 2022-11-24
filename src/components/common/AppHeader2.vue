@@ -97,28 +97,35 @@
                 :key="category"
                 class="nav-item dropdown dropend"
               >
-                <a href="#" class="nav-link" data-bs-toggle="dropdown"
+                <a
+                  class="nav-link"
+                  data-bs-toggle="dropdown"
+                  @click="searchProductByCategoryId(category.id)"
                   >{{ category.categoryName }}
                   <i class="fa fa-angle-right float-right mt-1"></i
                 ></a>
                 <div
-                  class="dropdown-menu position-absolute rounded-0 border-0 m-0"
+                  class="inner-category dropdown-menu rounded-0 border-0 m-0"
                 >
                   <div
                     v-for="first_child in category.childList"
                     :key="first_child"
                   >
-                    <a href="" class="dropdown-item">{{
-                      first_child.categoryName
-                    }}</a>
+                    <a
+                      class="dropdown-item"
+                      @click="searchProductByCategoryId(first_child.id)"
+                      >{{ first_child.categoryName }}</a
+                    >
                     <div
                       v-for="second_child in first_child.childList"
                       :key="second_child"
-                      class="submenu dropdown-menu position-absolute rounded-0 border-0 m-0"
+                      class="submenu dropdown-menu rounded-0 border-0 m-0"
                     >
-                      <a href="" class="dropdown-item">{{
-                        second_child.categoryName
-                      }}</a>
+                      <a
+                        class="dropdown-item"
+                        @click="searchProductByCategoryId(second_child.id)"
+                        >{{ second_child.categoryName }}</a
+                      >
                     </div>
                   </div>
                 </div>
@@ -131,9 +138,7 @@
             class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0"
           >
             <a href="" class="text-decoration-none d-block d-lg-none">
-              <span class="h1 text-uppercase text-dark bg-light px-2"
-                >Multi</span
-              >
+              <span class="h1 text-uppercase text-dark bg-light px-2">JS</span>
               <span class="h1 text-uppercase text-light bg-primary2 px-2 ml-n1"
                 >Shop</span
               >
@@ -197,6 +202,8 @@
 <script>
 import { deleteCookie } from '@/utils/cookies';
 import { categoriesCall } from '@/api/categories';
+import { readAllProduct } from '@/api/products';
+import $ from 'jquery';
 
 export default {
   data() {
@@ -238,6 +245,29 @@ export default {
       },
     },
   },
+  updated() {
+    $(document).ready(function () {
+      function toggleNavbarMethod() {
+        if ($(window).width() > 992) {
+          // $('.dropdown-toggle').on('click', function () {
+          //   alert('hi');
+          // });
+
+          $('.navbar .dropend')
+            .on('mouseover', function () {
+              $('.inner-category', this).show();
+            })
+            .on('mouseout', function () {
+              $('.inner-category', this).hide();
+            });
+        } else {
+          $('.navbar .dropend').off('mouseover').off('mouseout');
+        }
+      }
+      toggleNavbarMethod();
+      $(window).resize(toggleNavbarMethod);
+    });
+  },
   methods: {
     login() {
       this.$router.push('/accounts/login');
@@ -247,6 +277,10 @@ export default {
       deleteCookie('email');
       deleteCookie('jwt');
       this.login();
+    },
+    async searchProductByCategoryId(categoryId) {
+      const data = await readAllProduct(categoryId);
+      console.log(data.data);
     },
     async getAllCategories() {
       const { data } = await categoriesCall();
@@ -316,6 +350,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* ============ desktop view ============ */
 @media all and (min-width: 992px) {
+  .inner-category {
+    background-color: red;
+  }
+
   .dropdown-menu li {
     position: relative;
   }
