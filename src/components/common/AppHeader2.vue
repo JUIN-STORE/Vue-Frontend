@@ -10,13 +10,39 @@
             <a class="text-body mr-3" href="">FAQs</a>
           </div>
         </div>
-        <div class="col-lg-6 text-center text-lg-right">
-          <div
-            class="d-inline-flex align-items-center"
-            style="background-color: red"
-          >
-            <button @click="login()">Sign in</button>
-            <button>Sign up</button>
+        <div class="col-lg-6 text-lg-right">
+          <div class="d-inline-flex align-items-center">
+            <a
+              class="px-1 ml-2 text-dark"
+              v-if="!checkLogin"
+              @click="signUp"
+              style="cursor: pointer"
+            >
+              <i class="fas fa-user-plus"> Sign Up</i>
+            </a>
+            <a
+              class="px-1 ml-2 text-dark"
+              v-if="!checkLogin"
+              @click="login"
+              style="cursor: pointer"
+            >
+              <i class="fas fa-sign-in-alt"> Login</i>
+            </a>
+            <a
+              class="px-1 ml-2 text-dark"
+              v-if="checkLogin"
+              style="cursor: pointer"
+            >
+              <i class="fas fa-user"> My Page</i>
+            </a>
+            <a
+              class="px-1 ml-2 text-dark"
+              v-if="checkLogin"
+              @click="logout"
+              style="cursor: pointer"
+            >
+              <i class="fas fa-sign-out-alt"> Log Out</i>
+            </a>
           </div>
           <div class="d-inline-flex align-items-center d-block d-lg-none">
             <a href="" class="btn px-0 ml-2">
@@ -42,7 +68,11 @@
         class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex"
       >
         <div class="col-lg-4">
-          <a href="" class="text-decoration-none">
+          <a
+            onclick="location.href = '/'"
+            class="text-decoration-none"
+            style="cursor: pointer"
+          >
             <span class="h1 text-uppercase text-primary2 bg-dark px-2">JS</span>
             <span class="h1 text-uppercase text-dark bg-primary2 px-2 ml-n1"
               >Shop</span
@@ -64,10 +94,6 @@
               </span>
             </div>
           </div>
-        </div>
-        <div class="col-lg-4 col-6 text-right">
-          <p class="m-0">Customer Service</p>
-          <h5 class="m-0">+012 345 6789</h5>
         </div>
       </div>
     </div>
@@ -272,6 +298,9 @@ export default {
     login() {
       this.$router.push('/accounts/login');
     },
+    signUp() {
+      this.$router.push('/accounts/sign-up');
+    },
     logout() {
       this.$store.commit('accounts/CLEAR_COOKIE');
       deleteCookie('email');
@@ -350,10 +379,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* ============ desktop view ============ */
 @media all and (min-width: 992px) {
-  .inner-category {
-    background-color: red;
-  }
-
   .dropdown-menu li {
     position: relative;
   }
