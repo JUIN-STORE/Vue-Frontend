@@ -3389,6 +3389,7 @@
   .input-group-prepend,
   .input-group-append {
     display: flex;
+    cursor: pointer;
   }
   
   .input-group-prepend .btn,

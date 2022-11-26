@@ -10,13 +10,39 @@
             <a class="text-body mr-3" href="">FAQs</a>
           </div>
         </div>
-        <div class="col-lg-6 text-center text-lg-right">
-          <div
-            class="d-inline-flex align-items-center"
-            style="background-color: red"
-          >
-            <button @click="login()">Sign in</button>
-            <button>Sign up</button>
+        <div class="col-lg-6 text-lg-right">
+          <div class="d-inline-flex align-items-center">
+            <a
+              class="px-1 ml-2 text-dark"
+              v-if="!checkLogin"
+              @click="signUp"
+              style="cursor: pointer"
+            >
+              <i class="fas fa-user-plus"> Sign Up</i>
+            </a>
+            <a
+              class="px-1 ml-2 text-dark"
+              v-if="!checkLogin"
+              @click="login"
+              style="cursor: pointer"
+            >
+              <i class="fas fa-sign-in-alt"> Login</i>
+            </a>
+            <a
+              class="px-1 ml-2 text-dark"
+              v-if="checkLogin"
+              style="cursor: pointer"
+            >
+              <i class="fas fa-user"> My Page</i>
+            </a>
+            <a
+              class="px-1 ml-2 text-dark"
+              v-if="checkLogin"
+              @click="logout"
+              style="cursor: pointer"
+            >
+              <i class="fas fa-sign-out-alt"> Log Out</i>
+            </a>
           </div>
           <div class="d-inline-flex align-items-center d-block d-lg-none">
             <a href="" class="btn px-0 ml-2">
@@ -42,7 +68,11 @@
         class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex"
       >
         <div class="col-lg-4">
-          <a href="" class="text-decoration-none">
+          <a
+            onclick="location.href = '/'"
+            class="text-decoration-none"
+            style="cursor: pointer"
+          >
             <span class="h1 text-uppercase text-primary2 bg-dark px-2">JS</span>
             <span class="h1 text-uppercase text-dark bg-primary2 px-2 ml-n1"
               >Shop</span
@@ -50,24 +80,20 @@
           </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
-          <form action="">
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Search for products"
-              />
-              <div class="input-group-append">
-                <span class="input-group-text bg-transparent text-primary2">
-                  <i class="fa fa-search"></i>
-                </span>
-              </div>
+          <div class="input-group">
+            <input
+              id="searchTitle"
+              v-on:keyup.enter="searchForm"
+              type="text"
+              class="form-control"
+              placeholder="Search for products"
+            />
+            <div class="input-group-append" @click="searchForm">
+              <span class="input-group-text bg-transparent text-primary2">
+                <i class="fa fa-search"></i>
+              </span>
             </div>
-          </form>
-        </div>
-        <div class="col-lg-4 col-6 text-right">
-          <p class="m-0">Customer Service</p>
-          <h5 class="m-0">+012 345 6789</h5>
+          </div>
         </div>
       </div>
     </div>
@@ -97,28 +123,35 @@
                 :key="category"
                 class="nav-item dropdown dropend"
               >
-                <a href="#" class="nav-link" data-bs-toggle="dropdown"
+                <a
+                  class="nav-link"
+                  data-bs-toggle="dropdown"
+                  @click="searchProductByCategoryId(category.id)"
                   >{{ category.categoryName }}
                   <i class="fa fa-angle-right float-right mt-1"></i
                 ></a>
                 <div
-                  class="dropdown-menu position-absolute rounded-0 border-0 m-0"
+                  class="inner-category dropdown-menu rounded-0 border-0 m-0"
                 >
                   <div
                     v-for="first_child in category.childList"
                     :key="first_child"
                   >
-                    <a href="" class="dropdown-item">{{
-                      first_child.categoryName
-                    }}</a>
+                    <a
+                      class="dropdown-item"
+                      @click="searchProductByCategoryId(first_child.id)"
+                      >{{ first_child.categoryName }}</a
+                    >
                     <div
                       v-for="second_child in first_child.childList"
                       :key="second_child"
-                      class="submenu dropdown-menu position-absolute rounded-0 border-0 m-0"
+                      class="submenu dropdown-menu rounded-0 border-0 m-0"
                     >
-                      <a href="" class="dropdown-item">{{
-                        second_child.categoryName
-                      }}</a>
+                      <a
+                        class="dropdown-item"
+                        @click="searchProductByCategoryId(second_child.id)"
+                        >{{ second_child.categoryName }}</a
+                      >
                     </div>
                   </div>
                 </div>
@@ -131,9 +164,7 @@
             class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0"
           >
             <a href="" class="text-decoration-none d-block d-lg-none">
-              <span class="h1 text-uppercase text-dark bg-light px-2"
-                >Multi</span
-              >
+              <span class="h1 text-uppercase text-dark bg-light px-2">JS</span>
               <span class="h1 text-uppercase text-light bg-primary2 px-2 ml-n1"
                 >Shop</span
               >
@@ -197,6 +228,8 @@
 <script>
 import { deleteCookie } from '@/utils/cookies';
 import { categoriesCall } from '@/api/categories';
+import { readAllProduct } from '@/api/products';
+import $ from 'jquery';
 
 export default {
   data() {
@@ -238,15 +271,45 @@ export default {
       },
     },
   },
+  updated() {
+    $(document).ready(function () {
+      function toggleNavbarMethod() {
+        if ($(window).width() > 992) {
+          // $('.dropdown-toggle').on('click', function () {
+          //   alert('hi');
+          // });
+
+          $('.navbar .dropend')
+            .on('mouseover', function () {
+              $('.inner-category', this).show();
+            })
+            .on('mouseout', function () {
+              $('.inner-category', this).hide();
+            });
+        } else {
+          $('.navbar .dropend').off('mouseover').off('mouseout');
+        }
+      }
+      toggleNavbarMethod();
+      $(window).resize(toggleNavbarMethod);
+    });
+  },
   methods: {
     login() {
       this.$router.push('/accounts/login');
+    },
+    signUp() {
+      this.$router.push('/accounts/sign-up');
     },
     logout() {
       this.$store.commit('accounts/CLEAR_COOKIE');
       deleteCookie('email');
       deleteCookie('jwt');
       this.login();
+    },
+    async searchProductByCategoryId(categoryId) {
+      const data = await readAllProduct(categoryId);
+      console.log(data.data);
     },
     async getAllCategories() {
       const { data } = await categoriesCall();
