@@ -12,8 +12,16 @@ const productEndPoint = '/api/products';
 
 const instance = createInstance();
 
-function readAllProduct(page, size) {
-  return instance.get(productEndPoint + '?page=' + page + '&size=' + size);
+function readAllProduct(page, size, categoryId) {
+  return instance.get(
+    productEndPoint +
+      '?categoryId=' +
+      categoryId +
+      '&page=' +
+      page +
+      '&size=' +
+      size,
+  );
 }
 
 function allCountCall() {
