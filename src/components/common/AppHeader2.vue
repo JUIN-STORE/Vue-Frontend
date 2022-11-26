@@ -127,6 +127,7 @@
                   class="nav-link"
                   data-bs-toggle="dropdown"
                   @click="searchProductByCategoryId(category.id)"
+                  style="cursor: pointer"
                   >{{ category.categoryName }}
                   <i class="fa fa-angle-right float-right mt-1"></i
                 ></a>
@@ -140,6 +141,7 @@
                     <a
                       class="dropdown-item"
                       @click="searchProductByCategoryId(first_child.id)"
+                      style="cursor: pointer"
                       >{{ first_child.categoryName }}</a
                     >
                     <div
@@ -150,6 +152,7 @@
                       <a
                         class="dropdown-item"
                         @click="searchProductByCategoryId(second_child.id)"
+                        style="cursor: pointer"
                         >{{ second_child.categoryName }}</a
                       >
                     </div>
@@ -224,7 +227,7 @@
     </div>
   </div>
 </template>
-
+~
 <script>
 import { deleteCookie } from '@/utils/cookies';
 import { categoriesCall } from '@/api/categories';
@@ -307,9 +310,22 @@ export default {
       deleteCookie('jwt');
       this.login();
     },
-    async searchProductByCategoryId(categoryId) {
-      const data = await readAllProduct(categoryId);
-      console.log(data.data);
+    async searchProductByCategoryId(ci) {
+      this.$store.commit('products/SET_CATEGORY_ID', ci);
+
+      const byCategoryConditions = { categoryId: ci };
+
+      if (!this.$route.path.startsWith('/products')) {
+        // 검색 페이지에 있는 않은 경우 - 페이지 이동
+        await this.$router.push({
+          path: '/products',
+          query: byCategoryConditions,
+        });
+      } else {
+        // 검색 페이지에 있는 경우 - 쿼리 파라미터만 수정
+        const query = new URLSearchParams(byCategoryConditions).toString();
+        history.pushState({}, null, `${this.$route.path}?${query}`);
+      }
     },
     async getAllCategories() {
       const { data } = await categoriesCall();
