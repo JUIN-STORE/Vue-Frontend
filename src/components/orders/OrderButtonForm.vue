@@ -13,8 +13,10 @@ export default {
       const payload = {
         count: this.$store.getters['orders/getCount'],
         grandTotal: this.$store.getters['orders/getGrandTotal'],
-        orderStatus: 'READY',
+        orderStatus: this.$store.getters['orders/getOrderStatus'],
         productIdList: this.$store.getters['orders/getProductIdList'],
+        deliveryReceiver: this.$store.getters['orders/getDeliveryReceiver'],
+        deliveryAddress: this.$store.getters['orders/getDeliveryAddress'],
       };
       try {
         await this.$store.dispatch('orders/createOrderAction', payload);

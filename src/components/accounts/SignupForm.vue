@@ -43,14 +43,27 @@
 
           <div class="card-text">
             <br />ADDRESS
-            <p></p>
 
-            <label for="address.city">* CITY</label>
+            <button type="submit" class="btn btn-primary" @click="showApi()">
+              우편번호 찾기</button
+            ><br />
+
+            <label>* ZIPCODE</label>
             <input
-              id="address.city"
               type="text"
-              v-model="address.city"
+              id="zipCode"
+              placeholder="우편번호"
               required
+              disabled
+            />
+
+            <label>* CITY</label>
+            <input
+              type="text"
+              id="city"
+              placeholder="도로명 주소"
+              required
+              disabled
             />
 
             <label for="address.street">* STREET</label>
@@ -58,14 +71,7 @@
               id="address.street"
               type="text"
               v-model="address.street"
-              required
-            />
-
-            <label for="address.zipCode">* ZIPCODE</label>
-            <input
-              id="address.zipCode"
-              type="number"
-              v-model="address.zipCode"
+              placeholder="상세 주소"
               required
             />
           </div>
@@ -97,6 +103,7 @@
 
 <script>
 import { signUpCall } from '@/api/accounts';
+import { getAddress } from '@/utils/address-api';
 
 export default {
   data() {
@@ -115,6 +122,10 @@ export default {
     };
   },
   methods: {
+    showApi() {
+      getAddress(this.address);
+    },
+
     async submitForm() {
       try {
         const payload = {

@@ -5,15 +5,24 @@ const state = {
   count: 0,
   grandTotal: 0,
   orderStatus: 'READY',
+  deliveryReceiver: {
+    receiverName: '',
+    receiverPhoneNumber: '',
+    receiverEmail: '',
+  },
+  deliveryAddress: {
+    zipCode: '',
+    city: '',
+    street: '',
+    defaultAddress: true,
+  },
   productIdList: [],
 };
 
 // mutations: 대문자 스네이크
 const mutations = {
   SET_COUNT(state, count) {
-    console.log('count = ', count);
     state.count = count;
-    console.log('state.count = ', state.count);
   },
 
   SET_GRAND_TOTAL(state, grandTotal) {
@@ -22,6 +31,14 @@ const mutations = {
 
   SET_PRODUCT_ID_LIST(state, productIdList) {
     state.productIdList = productIdList;
+  },
+
+  SET_DELIVERY_RECEIVER(state, deliveryReceiver) {
+    state.deliveryReceiver = deliveryReceiver;
+  },
+
+  SET_DELIVERY_ADDRESS(state, deliveryAddress) {
+    state.deliveryAddress = deliveryAddress;
   },
 };
 
@@ -41,6 +58,14 @@ const getters = {
 
   getProductIdList(state) {
     return state.productIdList;
+  },
+
+  getDeliveryReceiver(state) {
+    return state.deliveryReceiver;
+  },
+
+  getDeliveryAddress(state) {
+    return state.deliveryAddress;
   },
 };
 
