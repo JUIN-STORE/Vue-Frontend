@@ -13,22 +13,28 @@
       <div class="row px-xl-5">
         <div class="py-3">
           <div class="btn-group">
-            <button
-              type="button"
-              class="btn btn-sm btn-light dropdown-toggle"
-              data-bs-toggle="dropdown"
+            <select
+              id="orderStatus"
+              class="form-select mr-2"
+              v-model="orderStatus"
             >
-              Order Status
-            </button>
-            <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="#">Ready</a>
-              <a class="dropdown-item" href="#">Order</a>
-              <a class="dropdown-item" href="#">Cancel</a>
-            </div>
+              <option value="">All</option>
+              <option value="READY">Ready</option>
+              <option value="ORDER">Order</option>
+              <option value="CANCEL">Cancel</option>
+            </select>
           </div>
-          <input type="date" id="startDate" class="text-dark" />
+          <input
+            type="date"
+            id="startDate"
+            class="text-dark"
+            v-model="startDate"
+          />
           ~
-          <input type="date" id="endDate" class="" />
+          <input type="date" id="endDate" class="text-dark" v-model="endDate" />
+          <button class="btn btn-primary px-3 ml-2" @click="manageOrderList">
+            Search
+          </button>
         </div>
         <div class="table-responsive mb-5">
           <table
@@ -44,77 +50,20 @@
               </tr>
             </thead>
             <tbody class="align-middle">
-              <tr>
-                <td class="align-middle">2022.10.24</td>
+              <tr v-for="order in orderList" v-bind:key="order">
+                <td class="align-middle">{{ order.orderDate }}</td>
                 <td class="align-middle">
                   <img
                     src="../../assets/products/1_cat.jpg"
                     alt=""
                     style="width: 50px"
                   />
-                  Product Name
+                  {{ order.productName }}
                 </td>
 
-                <td class="align-middle">1</td>
-                <td class="align-middle">$150</td>
-                <td class="align-middle">주문 완료</td>
-              </tr>
-              <tr>
-                <td class="align-middle">2022.10.24</td>
-
-                <td class="align-middle">
-                  <img
-                    src="../../assets/products/1_cat.jpg"
-                    alt=""
-                    style="width: 50px"
-                  />
-                  Product Name
-                </td>
-                <td class="align-middle">1024</td>
-                <td class="align-middle">$150</td>
-                <td class="align-middle">주문 완료</td>
-              </tr>
-              <tr>
-                <td class="align-middle">2022.10.24</td>
-                <td class="align-middle">
-                  <img
-                    src="../../assets/products/1_cat.jpg"
-                    alt=""
-                    style="width: 50px"
-                  />
-                  Product Name
-                </td>
-                <td class="align-middle">1024</td>
-                <td class="align-middle">$150</td>
-                <td class="align-middle">주문 완료</td>
-              </tr>
-              <tr>
-                <td class="align-middle">2022.10.24</td>
-                <td class="align-middle">
-                  <img
-                    src="../../assets/products/1_cat.jpg"
-                    alt=""
-                    style="width: 50px"
-                  />
-                  Product Name
-                </td>
-                <td class="align-middle">1024</td>
-                <td class="align-middle">$150</td>
-                <td class="align-middle">주문 완료</td>
-              </tr>
-              <tr>
-                <td class="align-middle">2022.10.24</td>
-                <td class="align-middle">
-                  <img
-                    src="../../assets/products/1_cat.jpg"
-                    alt=""
-                    style="width: 50px"
-                  />
-                  Product Name
-                </td>
-                <td class="align-middle">1024</td>
-                <td class="align-middle">$150</td>
-                <td class="align-middle">주문 완료</td>
+                <td class="align-middle">{{ order.orderCount }}</td>
+                <td class="align-middle">{{ order.price }}</td>
+                <td class="align-middle">{{ order.orderStatus }}</td>
               </tr>
             </tbody>
           </table>
@@ -143,4 +92,80 @@
   </div>
 </template>
 
+<script>
+import { getOrderList } from '@/api/orders';
+import orders from '@/routes/orders';
+import { onDeactivated } from '@vue/runtime-core';
+
+export default {
+  data() {
+    return {
+      startDate: '',
+      endDate: '',
+      orderStatus: '',
+      page: 0,
+      size: 10,
+      orderList: [],
+    };
+  },
+  updated() {
+    console.log('test');
+    console.log(document.getElementById('startDate').value);
+  },
+  watch: {
+    // 현재 페이지 추적
+    '$route.path': {
+      immediate: true,
+      handler(path) {
+        // 현재 쿼리를 추출합니다.
+        const query = this.$route.query;
+        // 현재 페이지를 검사합니다.
+        if (path.includes('/orders/info')) {
+          this.startDate = query.startDate;
+          this.endDate = query.endDate;
+          this.orderStatus = query.orderStatus;
+          this.page = query.page;
+
+          this.manageOrderList();
+        }
+      },
+    },
+  },
+  methods: {
+    async manageOrderList() {
+      const orderInfoConditions = {
+        startDate: this.startDate,
+        endDate: this.endDate,
+        orderStatus: this.orderStatus,
+        page: this.page,
+      };
+
+      if (!this.$route.path.startsWith('/orders/info')) {
+        await this.$router.push({
+          path: '/orders/info',
+          query: orderInfoConditions,
+        });
+      } else {
+        const query = new URLSearchParams(orderInfoConditions).toString();
+        history.pushState({}, null, `${this.$route.path}?${query}`);
+      }
+      this.getOrderList();
+
+      document.querySelector('startDate').value = this.startDate;
+      console.log(document.getElementById('startDate').value);
+    },
+    async getOrderList() {
+      const { data } = await getOrderList(
+        this.startDate,
+        this.endDate,
+        this.orderStatus,
+        this.size,
+        this.page,
+      );
+
+      this.orderList = data.data.content;
+    },
+  },
+};
+</script>
 <style></style>

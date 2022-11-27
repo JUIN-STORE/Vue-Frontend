@@ -4,7 +4,7 @@ export default [
     component: () => import('@/views/orders/OrderPage.vue'),
   },
   {
-    path: '/order/info',
+    path: '/orders/info',
     component: () => import('@/views/orders/OrderInfoPage.vue'),
   },
 ];

@@ -23,4 +23,20 @@ function cancelOrder(payload) {
   return instance.delete(orderEndPoint + '/cancel', { data: payload });
 }
 
-export { createOrder, cancelOrder };
+function getOrderList(startDate, endDate, orderStatus, size, page) {
+  return instance.get(
+    orderEndPoint +
+      '?startDate=' +
+      startDate +
+      '&endDate=' +
+      endDate +
+      '&orderStatus=' +
+      orderStatus +
+      '&size=' +
+      size +
+      '&page=' +
+      page,
+  );
+}
+
+export { createOrder, cancelOrder, getOrderList };
