@@ -315,14 +315,12 @@ export default {
 
       const byCategoryConditions = { categoryId: ci };
 
-      if (!this.$route.path.startsWith('/products')) {
-        // 검색 페이지에 있는 않은 경우 - 페이지 이동
+      if (!this.$route.path.startsWith('/products?')) {
         await this.$router.push({
           path: '/products',
           query: byCategoryConditions,
         });
       } else {
-        // 검색 페이지에 있는 경우 - 쿼리 파라미터만 수정
         const query = new URLSearchParams(byCategoryConditions).toString();
         history.pushState({}, null, `${this.$route.path}?${query}`);
       }
