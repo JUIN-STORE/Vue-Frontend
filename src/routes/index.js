@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import accounts from '@/routes/accounts';
+import addresses from '@/routes/addresses';
 import carts from '@/routes/carts';
 import products from '@/routes/products';
 import orders from '@/routes/orders';
@@ -15,6 +16,7 @@ const router = new VueRouter({
   routes: [
     ...common,
     ...accounts,
+    ...addresses,
     ...carts,
     ...products,
     ...orders,

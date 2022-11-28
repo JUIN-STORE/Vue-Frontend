@@ -1,23 +1,20 @@
 <template>
   <div>
     <OrderProductForm />
-    <OrderAccountForm />
-    <OrderAddressForm />
+    <OrderDeliveryInfoForm />
     <OrderButtonForm />
   </div>
 </template>
 
 <script>
 import OrderProductForm from '@/components/orders/OrderProductForm';
-import OrderAccountForm from '@/components/orders/OrderAccountForm';
-import OrderAddressForm from '@/components/orders/OrderAddressForm';
+import OrderDeliveryInfoForm from '@/components/orders/OrderDeliveryInfoForm';
 import OrderButtonForm from '@/components/orders/OrderButtonForm';
 
 export default {
   components: {
     OrderProductForm,
-    OrderAccountForm,
-    OrderAddressForm,
+    OrderDeliveryInfoForm,
     OrderButtonForm,
   },
 };

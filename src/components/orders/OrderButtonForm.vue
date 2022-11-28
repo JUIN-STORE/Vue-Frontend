@@ -15,6 +15,8 @@ export default {
         grandTotal: this.$store.getters['orders/getGrandTotal'],
         orderStatus: 'READY',
         productIdList: this.$store.getters['orders/getProductIdList'],
+        deliveryReceiver: this.$store.getters['orders/getDeliveryReceiver'],
+        deliveryAddress: this.$store.getters['orders/getDeliveryAddress'],
       };
       try {
         await this.$store.dispatch('orders/createOrderAction', payload);
