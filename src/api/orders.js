@@ -35,7 +35,7 @@ function getOrderList(startDate, endDate, orderStatus, size, page) {
       '&size=' +
       size +
       '&page=' +
-      page,
+      (page - 1),
   );
 }
 

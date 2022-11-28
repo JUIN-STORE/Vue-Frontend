@@ -4,7 +4,7 @@
       <div class="row px-xl-5">
         <div class="col-12">
           <nav class="breadcrumb bg-light mb-30">
-            <span class="breadcrumb-item active p-1">주문 조회</span>
+            <span class="breadcrumb-item active p-1 my-2 ml-2">주문 조회</span>
           </nav>
         </div>
       </div>
@@ -18,7 +18,8 @@
               class="form-select mr-2"
               v-model="orderStatus"
             >
-              <option value="">All</option>
+              <option value selected disabled="">주문 상태</option>
+              <option value="ALL">All</option>
               <option value="READY">Ready</option>
               <option value="ORDER">Order</option>
               <option value="CANCEL">Cancel</option>
@@ -76,12 +77,13 @@
           <li class="page-item disabled">
             <a class="page-link" href="#">Previous</a>
           </li>
-          <li class="page-item active"><a class="page-link" href="#">1</a></li>
-          <li class="page-item">
-            <a class="page-link text-primary2" href="#">2</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link text-primary2" href="#">3</a>
+          <li class="page-item" v-for="n in totalPages" v-bind:key="n">
+            <a
+              class="page-link text-primary2"
+              @click.prevent="loadPage(n)"
+              style="cursor: pointer"
+              >{{ n }}</a
+            >
           </li>
           <li class="page-item">
             <a class="page-link text-primary2" href="#">Next</a>
@@ -94,8 +96,6 @@
 
 <script>
 import { getOrderList } from '@/api/orders';
-import orders from '@/routes/orders';
-import { onDeactivated } from '@vue/runtime-core';
 
 export default {
   data() {
@@ -103,15 +103,13 @@ export default {
       startDate: '',
       endDate: '',
       orderStatus: '',
-      page: 0,
+      page: 1,
       size: 10,
       orderList: [],
+      totalPages: 0,
     };
   },
-  updated() {
-    console.log('test');
-    console.log(document.getElementById('startDate').value);
-  },
+  updated() {},
   watch: {
     // 현재 페이지 추적
     '$route.path': {
@@ -120,18 +118,21 @@ export default {
         // 현재 쿼리를 추출합니다.
         const query = this.$route.query;
         // 현재 페이지를 검사합니다.
-        if (path.includes('/orders/info')) {
+        if (path.includes('/orders/info') && Object.keys(query).length) {
           this.startDate = query.startDate;
           this.endDate = query.endDate;
           this.orderStatus = query.orderStatus;
           this.page = query.page;
-
-          this.manageOrderList();
         }
+        this.manageOrderList();
       },
     },
   },
   methods: {
+    async loadPage(page) {
+      this.page = page;
+      this.manageOrderList();
+    },
     async manageOrderList() {
       const orderInfoConditions = {
         startDate: this.startDate,
@@ -152,18 +153,18 @@ export default {
       this.getOrderList();
 
       document.querySelector('startDate').value = this.startDate;
-      console.log(document.getElementById('startDate').value);
     },
     async getOrderList() {
       const { data } = await getOrderList(
         this.startDate,
         this.endDate,
-        this.orderStatus,
+        this.orderStatus == 'ALL' ? '' : this.orderStatus,
         this.size,
         this.page,
       );
 
       this.orderList = data.data.content;
+      this.totalPages = data.data.totalPages;
     },
   },
 };
