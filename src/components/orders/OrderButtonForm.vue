@@ -13,7 +13,7 @@ export default {
       const payload = {
         count: this.$store.getters['orders/getCount'],
         grandTotal: this.$store.getters['orders/getGrandTotal'],
-        orderStatus: this.$store.getters['orders/getOrderStatus'],
+        orderStatus: 'READY',
         productIdList: this.$store.getters['orders/getProductIdList'],
         deliveryReceiver: this.$store.getters['orders/getDeliveryReceiver'],
         deliveryAddress: this.$store.getters['orders/getDeliveryAddress'],
