@@ -1,10 +1,10 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap';
 import Vue from 'vue';
 import App from './App.vue';
 import router from '@/routes/index';
 import store from '@/store/index';
 import Vuetify from 'vuetify';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap';
 
 Vue.use(Vuetify);
 Vue.config.productionTip = false;

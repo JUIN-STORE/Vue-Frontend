@@ -73,8 +73,8 @@
             class="text-decoration-none"
             style="cursor: pointer"
           >
-            <span class="h1 text-uppercase text-primary2 bg-dark px-2">JS</span>
-            <span class="h1 text-uppercase text-dark bg-primary2 px-2 ml-n1"
+            <span class="h1 text-uppercase text-primary bg-dark px-2">JS</span>
+            <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1"
               >Shop</span
             >
           </a>
@@ -89,7 +89,7 @@
               placeholder="Search for products"
             />
             <div class="input-group-append" @click="searchForm">
-              <span class="input-group-text bg-transparent text-primary2">
+              <span class="input-group-text bg-transparent text-primary">
                 <i class="fa fa-search"></i>
               </span>
             </div>
@@ -102,7 +102,7 @@
       <div class="row px-xl-5">
         <div class="col-lg-3 d-none d-lg-block">
           <a
-            class="btn d-flex align-items-center justify-content-between bg-primary2 w-100"
+            class="btn d-flex align-items-center justify-content-between bg-primary w-100"
             data-bs-toggle="collapse"
             href="#navbar-vertical"
             style="height: 65px; padding: 0 30px"
@@ -168,7 +168,7 @@
           >
             <a href="" class="text-decoration-none d-block d-lg-none">
               <span class="h1 text-uppercase text-dark bg-light px-2">JS</span>
-              <span class="h1 text-uppercase text-light bg-primary2 px-2 ml-n1"
+              <span class="h1 text-uppercase text-light bg-primary px-2 ml-n1"
                 >Shop</span
               >
             </a>
@@ -195,7 +195,7 @@
                     data-toggle="dropdown"
                     >Pages <i class="fa fa-angle-down mt-1"></i
                   ></a>
-                  <div class="dropdown-menu bg-primary2 rounded-0 border-0 m-0">
+                  <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
                     <a href="cart.html" class="dropdown-item">Shopping Cart</a>
                     <a href="checkout.html" class="dropdown-item">Checkout</a>
                   </div>
@@ -204,7 +204,7 @@
               </div>
               <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                 <a href="" class="btn px-0">
-                  <i class="fas fa-heart text-primary2"></i>
+                  <i class="fas fa-heart text-primary"></i>
                   <span
                     class="badge text-secondary border border-secondary rounded-circle"
                     style="padding-bottom: 2px"
@@ -212,7 +212,7 @@
                   >
                 </a>
                 <a href="" class="btn px-0 ml-3">
-                  <i class="fas fa-shopping-cart text-primary2"></i>
+                  <i class="fas fa-shopping-cart text-primary"></i>
                   <span
                     class="badge text-secondary border border-secondary rounded-circle"
                     style="padding-bottom: 2px"
