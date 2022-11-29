@@ -88,7 +88,7 @@
               </div>
             </div>
             <div>
-              <button class="btn btn-primary px-3 mr-2">
+              <button class="btn btn-primary px-3 mr-2" @click="addToCart">
                 <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
               </button>
               <button class="btn btn-primary px-3">
@@ -250,22 +250,26 @@ export default {
       if (this.count > 1) this.count--;
     },
     async addToCart() {
-      alert(this.product.productName + ' is Added to cart!!');
       const product = {
-        id: this.product.id,
-        productName: this.product.productName,
-        price: this.product.price,
-        img: require('@/assets/products/' +
-          this.product.productImageList[0].imageName),
+        id: this.productId,
+        productName: this.productName,
+        price: this.price,
+        img: require('@/assets/products/' + this.img),
       };
       const payload = {
-        productId: this.product.id,
-        count: 1,
+        productId: this.productId,
+        count: this.count,
       };
       try {
         this.$store.commit('carts/SET_ITEM', product);
-        await this.$store.dispatch('carts/addCartAction', payload);
+        const { data } = await this.$store.dispatch(
+          'carts/addCartAction',
+          payload,
+        );
+
+        alert(this.productName + ' is Added to cart!');
       } catch (e) {
+        alert('Login is required.');
         await this.$router.push('/accounts/login');
       }
     },
