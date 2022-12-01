@@ -1,6 +1,7 @@
 <template>
-  <div class="contents">
-    <div class="form-wrapper form-wrapper-sm">
+  <div class="contents card">
+    <div class="card-header">상품 등록</div>
+    <div class="form-wrapper form-wrapper-sm my-5">
       <form @submit.prevent="submit" class="form">
         <div>
           <label for="productName">CATEGORY</label>
@@ -41,14 +42,15 @@
         <button
           @click="submit()"
           type="button"
-          class="btn btn-primary"
+          class="btn btn-primary mt-4"
           style="float: right"
         >
           상품등록하기
         </button>
       </form>
       <input
-        class="input"
+        id="file"
+        class="input mt-4"
         type="file"
         counter
         show-size
@@ -57,7 +59,7 @@
         dense
         multiple
         prepend-icon="mdi-camera"
-        style="width: 500px"
+        style="width: auto"
         @change="onImageChange($event)"
       />
       <!--      <v-img v-for="(item, i) in fileList" :key="i" :src="item.url" />-->
@@ -184,6 +186,11 @@ export default {
 </script>
 
 <style scoped>
+.card-header {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
 .card {
   margin: auto;
   max-width: 500px;
@@ -215,5 +222,12 @@ input {
 }
 .card:hover {
   transform: translate(0, 0);
+}
+
+input[type='file']::file-selector-button {
+  height: 30px;
+  background-color: #ffd333;
+  border: 1px solid #ffd333;
+  cursor: pointer;
 }
 </style>
