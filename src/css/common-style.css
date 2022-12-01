@@ -152,6 +152,7 @@
   }
   
   a {
+    cursor: pointer;
     color: #FFD333;
     text-decoration: none;
     background-color: transparent;
