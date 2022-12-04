@@ -13,15 +13,20 @@ const productEndPoint = '/api/products';
 const instance = createInstance();
 
 function readAllProduct(page, size, categoryId) {
-  return instance.get(
-    productEndPoint +
+  let apiEndPoint = productEndPoint + '?page=' + page + '&size=' + size;
+
+  if (categoryId > 0) {
+    apiEndPoint =
+      productEndPoint +
       '?categoryId=' +
       categoryId +
       '&page=' +
       page +
       '&size=' +
-      size,
-  );
+      size;
+  }
+
+  return instance.get(apiEndPoint);
 }
 
 function allCountCall() {
