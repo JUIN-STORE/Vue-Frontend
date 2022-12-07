@@ -20,12 +20,7 @@
         <tr v-for="product in cartProductList" :key="product.productId">
           <td>{{ product.productId }}</td>
           <td class="d-flex">
-            <img
-              :src="
-                require('@/assets/products/' +
-                  product.productImageList[0].imageName)
-              "
-            />
+            <img :src="require('@/assets/products/' + product.imageName)" />
             <span> {{ product.productName }}</span>
           </td>
           <td>
