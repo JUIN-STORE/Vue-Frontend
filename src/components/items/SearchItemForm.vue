@@ -1,11 +1,22 @@
 <template>
-  <div class="layout">
-    <div class="section2">
+  <div>
+    <div class="container-fluid">
+      <div class="row px-xl-5">
+        <div class="col-12">
+          <nav class="breadcrumb bg-light mb-30">
+            <a class="breadcrumb-item text-dark" href="#">Home</a>
+            <a class="breadcrumb-item text-dark" href="#">Shop</a>
+            <span class="breadcrumb-item active">Shop List</span>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid col-10">
       <div class="item3" v-for="item in itemList" v-bind:key="item.id">
         <search-item-form :item="item"></search-item-form>
       </div>
     </div>
-    <div class="page">
+    <div class="page" style="clear: both">
       <ul
         class="pagination modal2"
         style="justify-content: center; align-items: center"
@@ -55,7 +66,7 @@
 
 <script>
 import { searchCountCall } from '@/api/items';
-import AllItemForm from '@/components/items/ItemCardForm';
+import AllItemForm from '@/components/items/ItemCardForm2';
 
 export default {
   components: {

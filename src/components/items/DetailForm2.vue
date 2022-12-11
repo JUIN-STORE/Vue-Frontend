@@ -88,7 +88,7 @@
               </div>
             </div>
             <div>
-              <button class="btn btn-primary px-3 mr-2" @click="addToCart">
+              <button class="btn btn-dark px-3 mr-2" @click="addToCart">
                 <i class="fa fa-shopping-cart mr-1"></i> Add To Cart
               </button>
               <button class="btn btn-primary px-3">
