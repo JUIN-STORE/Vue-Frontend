@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import accounts from '@/routes/accounts';
 import addresses from '@/routes/addresses';
 import carts from '@/routes/carts';
-import products from '@/routes/products';
+import items from '@/routes/items';
 import orders from '@/routes/orders';
 import common from '@/routes/common';
 import categories from '@/routes/categories';
@@ -18,7 +18,7 @@ const router = new VueRouter({
     ...accounts,
     ...addresses,
     ...carts,
-    ...products,
+    ...items,
     ...orders,
     ...categories,
     ...personal,

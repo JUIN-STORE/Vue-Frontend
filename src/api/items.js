@@ -8,16 +8,16 @@ function createInstance() {
   return setInterceptors(instance);
 }
 
-const productEndPoint = '/api/products';
+const itemEndPoint = '/api/items';
 
 const instance = createInstance();
 
-function readAllProduct(page, size, categoryId) {
-  let apiEndPoint = productEndPoint + '?page=' + page + '&size=' + size;
+function readAllItem(page, size, categoryId) {
+  let apiEndPoint = itemEndPoint + '?page=' + page + '&size=' + size;
 
   if (categoryId > 0) {
     apiEndPoint =
-      productEndPoint +
+      itemEndPoint +
       '?categoryId=' +
       categoryId +
       '&page=' +
@@ -30,13 +30,13 @@ function readAllProduct(page, size, categoryId) {
 }
 
 function allCountCall() {
-  return instance.get(productEndPoint + '/count');
+  return instance.get(itemEndPoint + '/count');
 }
 
 function searchCall(page, size, searchTitle) {
   return instance.get(
-    productEndPoint +
-      '/search?productName=' +
+    itemEndPoint +
+      '/search?itemName=' +
       searchTitle +
       '&page=' +
       page +
@@ -47,20 +47,14 @@ function searchCall(page, size, searchTitle) {
 
 function searchCountCall(searchTitle) {
   return instance.get(
-    productEndPoint + '/search/count' + '?productName=' + searchTitle,
+    itemEndPoint + '/search/count' + '?itemName=' + searchTitle,
   );
 }
 
-function detailCall(productId) {
-  return instance.get(productEndPoint + '/' + productId);
+function detailCall(itemId) {
+  return instance.get(itemEndPoint + '/' + itemId);
 }
 
-export {
-  readAllProduct,
-  allCountCall,
-  searchCall,
-  searchCountCall,
-  detailCall,
-};
+export { readAllItem, allCountCall, searchCall, searchCountCall, detailCall };
 
 // 1번째

@@ -17,8 +17,8 @@ const mutations = {
     state.cart_list = [];
   },
 
-  SET_CART_LIST(sate, catProductList) {
-    state.cart_list = catProductList;
+  SET_CART_LIST(sate, catItemList) {
+    state.cart_list = catItemList;
   },
 
   SET_ITEM(state, item) {
@@ -31,7 +31,7 @@ const mutations = {
       ? resObj.count++
       : result.push({
           id: item.id,
-          productName: item.productName,
+          itemName: item.itemName,
           img: item.img,
           price: item.price,
           count: 1,
@@ -41,7 +41,7 @@ const mutations = {
   },
 
   SET_QUANTITY(state, payload) {
-    const id = payload.productId;
+    const id = payload.itemId;
     const count = payload.count;
 
     console.log(state.cart_list);

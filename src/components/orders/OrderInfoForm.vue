@@ -44,7 +44,7 @@
             <thead class="thead-dark">
               <tr>
                 <th>Date</th>
-                <th>Products</th>
+                <th>Items</th>
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Status</th>
@@ -55,11 +55,11 @@
                 <td class="align-middle">{{ order.orderDate }}</td>
                 <td class="align-middle">
                   <img
-                    src="../../assets/products/1_cat.jpg"
+                    src="../../assets/items/1_cat.jpg"
                     alt=""
                     style="width: 50px"
                   />
-                  {{ order.productName }}
+                  {{ order.itemName }}
                 </td>
 
                 <td class="align-middle">{{ order.orderCount }}</td>

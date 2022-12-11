@@ -1,8 +1,8 @@
 <template>
   <div class="layout">
     <div class="section2">
-      <div class="item3" v-for="product in productList" v-bind:key="product.id">
-        <search-product-form :product="product"></search-product-form>
+      <div class="item3" v-for="item in itemList" v-bind:key="item.id">
+        <search-item-form :item="item"></search-item-form>
       </div>
     </div>
     <div class="page">
@@ -54,19 +54,19 @@
 </template>
 
 <script>
-import { searchCountCall } from '@/api/products';
-import AllProductForm from '@/components/products/ProductCardForm';
+import { searchCountCall } from '@/api/items';
+import AllItemForm from '@/components/items/ItemCardForm';
 
 export default {
   components: {
     // eslint-disable-next-line vue/no-unused-components
-    SearchProductForm: AllProductForm,
+    SearchItemForm: AllItemForm,
   },
   data() {
     return {
       // 데이터
       totalData: '',
-      productList: [],
+      itemList: [],
       //페이지네이션
       size: 10,
       selectedPage: 1,
@@ -85,7 +85,7 @@ export default {
     },
 
     searchConditions() {
-      const searchTitle = this.$store.getters['products/getSearchTitle'];
+      const searchTitle = this.$store.getters['items/getSearchTitle'];
       return { searchTitle };
     },
   },
@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     async searchCount() {
-      let searchTitle = this.$store.getters['products/getSearchTitle'];
+      let searchTitle = this.$store.getters['items/getSearchTitle'];
       const { data } = await searchCountCall(searchTitle);
       this.totalData = data;
     },
@@ -121,15 +121,12 @@ export default {
       const payload = {
         p: page,
         s: this.size,
-        st: this.$store.getters['products/getSearchTitle'],
+        st: this.$store.getters['items/getSearchTitle'],
       };
 
-      this.productList = await this.$store.dispatch(
-        'products/searchAction',
-        payload,
-      );
+      this.itemList = await this.$store.dispatch('items/searchAction', payload);
 
-      console.log('productList = ' + this.productList.length);
+      console.log('itemList = ' + this.itemList.length);
     },
   },
 };

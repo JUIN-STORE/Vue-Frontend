@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ByCategoryForm from '@/components/products/ByCategoryForm.vue';
+import ByCategoryForm from '@/components/items/ByCategoryForm.vue';
 
 export default {
   components: {

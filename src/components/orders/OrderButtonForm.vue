@@ -14,7 +14,7 @@ export default {
         count: this.$store.getters['orders/getCount'],
         grandTotal: this.$store.getters['orders/getGrandTotal'],
         orderStatus: 'READY',
-        productIdList: this.$store.getters['orders/getProductIdList'],
+        itemIdList: this.$store.getters['orders/getItemIdList'],
         deliveryReceiver: this.$store.getters['orders/getDeliveryReceiver'],
         deliveryAddress: this.$store.getters['orders/getDeliveryAddress'],
       };

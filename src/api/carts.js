@@ -33,7 +33,7 @@ function clearCartCall(payload) {
 }
 
 export function readBuyInfoCartCall(param) {
-  return instance.get(cartEndPoint + '/buy' + '?productList=' + param);
+  return instance.get(cartEndPoint + '/buy' + '?itemList=' + param);
 }
 
 export { readCall, readCount, addCountCall, updateQuantityCall, clearCartCall };

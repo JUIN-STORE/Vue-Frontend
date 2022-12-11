@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import accounts from './modules/accounts';
 import carts from './modules/carts';
 import orders from './modules/orders';
-import products from './modules/products';
+import items from './modules/items';
 
 import createPersistedState from 'vuex-persistedstate';
 
@@ -19,7 +19,7 @@ const store = new Vuex.Store({
     accounts,
     carts,
     orders,
-    products,
+    items,
   },
 });
 

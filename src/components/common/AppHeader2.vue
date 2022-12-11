@@ -86,7 +86,7 @@
               v-on:keyup.enter="searchForm"
               type="text"
               class="form-control"
-              placeholder="Search for products"
+              placeholder="Search for items"
             />
             <div class="input-group-append" @click="searchForm">
               <span class="input-group-text bg-transparent text-primary">
@@ -126,7 +126,7 @@
                 <a
                   class="nav-link"
                   data-bs-toggle="dropdown"
-                  @click="searchProductByCategoryId(category.id)"
+                  @click="searchItemByCategoryId(category.id)"
                   style="cursor: pointer"
                   >{{ category.categoryName }}
                   <i class="fa fa-angle-right float-right mt-1"></i
@@ -140,7 +140,7 @@
                   >
                     <a
                       class="dropdown-item"
-                      @click="searchProductByCategoryId(first_child.id)"
+                      @click="searchItemByCategoryId(first_child.id)"
                       style="cursor: pointer"
                       >{{ first_child.categoryName }}</a
                     >
@@ -151,7 +151,7 @@
                     >
                       <a
                         class="dropdown-item"
-                        @click="searchProductByCategoryId(second_child.id)"
+                        @click="searchItemByCategoryId(second_child.id)"
                         style="cursor: pointer"
                         >{{ second_child.categoryName }}</a
                       >
@@ -231,7 +231,7 @@
 <script>
 import { deleteCookie } from '@/utils/cookies';
 import { categoriesCall } from '@/api/categories';
-import { readAllProduct } from '@/api/products';
+import { readAllItem } from '@/api/items';
 import $ from 'jquery';
 
 export default {
@@ -262,10 +262,10 @@ export default {
           if (Object.keys(searchConditions).length) {
             // 만약 검색조건이 하나라도 존재한다면 해당 값이 현재 검색어와 일치하는지 확인합니다
             if (
-              document.getElementById('searchTitle').value !== query.productName
+              document.getElementById('searchTitle').value !== query.itemName
             ) {
               // 만약 다르다면 업데이트 합니다
-              document.getElementById('searchTitle').value = query.productName;
+              document.getElementById('searchTitle').value = query.itemName;
               // 검색도 합니다
               this.searchForm();
             }
@@ -310,14 +310,14 @@ export default {
       deleteCookie('jwt');
       this.login();
     },
-    async searchProductByCategoryId(ci) {
-      this.$store.commit('products/SET_CATEGORY_ID', ci);
+    async searchItemByCategoryId(ci) {
+      this.$store.commit('items/SET_CATEGORY_ID', ci);
 
       const byCategoryConditions = { categoryId: ci };
 
-      if (!this.$route.path.startsWith('/products?')) {
+      if (!this.$route.path.startsWith('/items?')) {
         await this.$router.push({
-          path: '/products',
+          path: '/items',
           query: byCategoryConditions,
         });
       } else {
@@ -332,16 +332,16 @@ export default {
     async searchForm() {
       let searchTitle = document.getElementById('searchTitle').value;
       console.log('searchForm = ', searchTitle);
-      this.$store.commit('products/SET_SEARCH_TITLE', searchTitle);
+      this.$store.commit('items/SET_SEARCH_TITLE', searchTitle);
 
       // 검색조건은 프로덕트 이름만 사용됩니다
-      const searchConditions = { productName: searchTitle };
+      const searchConditions = { itemName: searchTitle };
 
       // 검색페이지가 아닐때만 이동함
-      if (!this.$route.path.startsWith('/products/search')) {
+      if (!this.$route.path.startsWith('/items/search')) {
         // 검색 페이지에 있는 않은 경우 - 페이지 이동
         await this.$router.push({
-          path: '/products/search',
+          path: '/items/search',
           query: searchConditions,
         });
       } else {

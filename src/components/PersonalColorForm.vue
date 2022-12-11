@@ -21,7 +21,7 @@
         </button>
 
         <div v-if="fileName !== ''">
-          <img :src="require('@/assets/face/' + 'face_' + this.fileName)" />
+          <!-- <img :src="require('@/assets/face/' + 'face_' + this.fileName)" /> -->
           {{ season }}
         </div>
       </form>
