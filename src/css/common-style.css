@@ -9676,7 +9676,7 @@
     transition: .5s;
   }
   
-  .item-item:hover .item-img img {
+  .item-item .item-img:hover img {
     transform: scale(1.2);
   }
   
