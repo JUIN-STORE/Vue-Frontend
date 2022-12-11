@@ -14,11 +14,9 @@
         />
       </div>
       <div class="text-center py-4">
-        <a
-          class="h6 text-decoration-none text-truncate"
-          @click="itemDetail"
-          >{{ item.itemName }}</a
-        >
+        <a class="h6 text-decoration-none text-truncate" @click="itemDetail">{{
+          item.name
+        }}</a>
         <div class="d-flex align-items-center justify-content-center mt-2">
           <h5>{{ item.price }}</h5>
         </div>
@@ -65,9 +63,8 @@ export default {
           .imageName,
       );
 
-      return this.item.itemImageList.filter(
-        img => img.thumbnail == true,
-      )[0].imageName;
+      return this.item.itemImageList.filter(img => img.thumbnail == true)[0]
+        .imageName;
       // 프로젝트 외 이미지를 가져올 때 활성화
       // return require(process.env.VUE_APP_TEST + name);
     },
@@ -88,8 +85,7 @@ export default {
         id: this.item.id,
         itemName: this.item.itemName,
         price: this.item.price,
-        img: require('@/assets/items/' +
-          this.item.itemImageList[0].imageName),
+        img: require('@/assets/items/' + this.item.itemImageList[0].imageName),
       };
       const payload = {
         itemId: this.item.id,
@@ -98,7 +94,7 @@ export default {
       try {
         this.$store.commit('carts/SET_ITEM', item);
         await this.$store.dispatch('carts/addCartAction', payload);
-        alert(this.item.itemName + ' is Added to cart!!');
+        alert(this.item.name + ' is Added to cart!!');
       } catch (e) {
         await this.$router.push('/accounts/login');
       }

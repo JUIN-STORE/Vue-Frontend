@@ -135,10 +135,7 @@ export default {
         st: this.$store.getters['items/getSearchTitle'],
       };
 
-      this.itemList = await this.$store.dispatch(
-        'items/searchAction',
-        payload,
-      );
+      this.itemList = await this.$store.dispatch('items/searchAction', payload);
 
       console.log('itemList = ' + this.itemList.length);
     },
