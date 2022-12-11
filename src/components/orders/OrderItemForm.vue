@@ -7,37 +7,36 @@
     <table class="table cart">
       <thead>
         <tr>
-          <th scope="col" class="w-10">Product ID</th>
-          <th scope="col" class="w-50">Product</th>
+          <th scope="col" class="w-10">Item ID</th>
+          <th scope="col" class="w-50">Item</th>
           <th scope="col" class="w-10">Quantity</th>
           <th scope="col" class="w-10">Price</th>
           <th scope="col" class="w-20"></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="product in cartProductList" :key="product.productId">
-          <td>{{ product.productId }}</td>
+        <tr v-for="item in cartItemList" :key="item.itemId">
+          <td>{{ item.itemId }}</td>
           <td class="d-flex">
             <img
               :src="
-                require('@/assets/products/' +
-                  product.productImageList[0].imageName)
+                require('@/assets/items/' + item.itemImageList[0].imageName)
               "
             />
-            <span> {{ product.productName }}</span>
+            <span> {{ item.name }}</span>
           </td>
           <td>
             <input
-              v-model="product.count"
+              v-model="item.count"
               type="number"
-              @change="onChange(product.productId, $event)"
+              @change="onChange(item.itemId, $event)"
               size="4"
               min="1"
               max="100"
             />
           </td>
           <td>
-            <span>\ {{ product.price }}</span>
+            <span>\ {{ item.price }}</span>
           </td>
         </tr>
 
@@ -59,7 +58,7 @@ import { readCall } from '@/api/carts';
 export default {
   data() {
     return {
-      cartProductList: [],
+      cartItemList: [],
     };
   },
   created() {
@@ -89,11 +88,11 @@ export default {
     ...mapMutations('carts', ['SET_QUANTITY']),
     ...mapMutations('carts', ['DEL_ITEM']),
 
-    async onChange(productId, e) {
+    async onChange(itemId, e) {
       const value = e.target.value;
 
       const payload = {
-        productId: productId,
+        itemId: itemId,
         count: value,
       };
 
@@ -104,14 +103,14 @@ export default {
       }
     },
 
-    async deleteItem(productId) {
+    async deleteItem(itemId) {
       const payload = {
-        productId: productId,
+        itemId: itemId,
       };
 
       try {
-        this.DEL_ITEM(productId);
-        this.cartProductList = this.cart_list;
+        this.DEL_ITEM(itemId);
+        this.cartItemList = this.cart_list;
         this.$store.commit('carts/DEL_ITEM');
         await this.$store.dispatch('carts/clearCartAction', payload);
       } catch (e) {
@@ -120,22 +119,22 @@ export default {
     },
 
     async buy() {
-      let productList = '';
-      this.cartProductList.forEach(each => {
-        productList += each.productId + ',';
+      let itemList = '';
+      this.cartItemList.forEach(each => {
+        itemList += each.itemId + ',';
       });
 
-      await this.$store.dispatch('carts/readBuyInfoCartAction', productList);
+      await this.$store.dispatch('carts/readBuyInfoCartAction', itemList);
     },
 
     async loadCart() {
       const { data } = await readCall();
       for (let i = 0; i < data.data.length; i++) {
-        this.cartProductList.push(data.data[i]);
+        this.cartItemList.push(data.data[i]);
       }
       let result = data.data;
 
-      this.cartProductList = result;
+      this.cartItemList = result;
       return result;
     },
   },

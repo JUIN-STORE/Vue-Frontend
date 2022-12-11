@@ -1,8 +1,8 @@
 <template>
   <div class="layout">
     <div class="section2">
-      <div class="item3" v-for="product in productList" v-bind:key="product.id">
-        <product-card-form :product="product"></product-card-form>
+      <div class="item3" v-for="item in itemList" v-bind:key="item.id">
+        <item-card-form :item="item"></item-card-form>
       </div>
     </div>
     <div class="page">
@@ -52,19 +52,19 @@
 </template>
 
 <script>
-import { readAllProduct, allCountCall } from '@/api/products';
-import ProductCardForm from '@/components/products/ProductCardForm';
+import { readAllItem, allCountCall } from '@/api/items';
+import ItemCardForm from '@/components/items/ItemCardForm';
 
 export default {
   components: {
     // eslint-disable-next-line vue/no-unused-components
-    ProductCardForm: ProductCardForm,
+    ItemCardForm: ItemCardForm,
   },
   data() {
     return {
       // 데이터
       totalData: '',
-      productList: [],
+      itemList: [],
       //페이지네이션
       size: 10,
       selectedPage: 1,
@@ -97,8 +97,8 @@ export default {
     async loadPage(page) {
       if (0 > page || this.pages.length - 1 < page) return;
       this.selectedPage = page;
-      const { data } = await readAllProduct(page, this.size);
-      this.productList = data.data;
+      const { data } = await readAllItem(page, this.size);
+      this.itemList = data.data;
     },
   },
   created() {

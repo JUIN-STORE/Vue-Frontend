@@ -1,15 +1,15 @@
 <template>
   <div>
-    <DetailForm2 />
+    <SearchItemForm />
   </div>
 </template>
 
 <script>
-import DetailForm2 from '@/components/products/DetailForm2.vue';
+import SearchItemForm from '@/components/items/SearchItemForm.vue';
 
 export default {
   components: {
-    DetailForm2,
+    SearchItemForm,
   },
 };
 </script>

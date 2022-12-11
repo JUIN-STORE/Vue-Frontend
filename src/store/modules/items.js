@@ -1,8 +1,8 @@
-import { detailCall, searchCall, readAllProduct } from '@/api/products';
+import { detailCall, searchCall, readAllItem } from '@/api/items';
 
 // state: 소문자 스네이크
 const state = {
-  product: {},
+  item: {},
   searchTitle: '',
   categoryId: null,
 };
@@ -15,8 +15,8 @@ const mutations = {
   SET_SEARCH_TITLE(state, searchTitle) {
     state.searchTitle = searchTitle;
   },
-  SET_PRODUCT(state, product) {
-    state.product = product;
+  SET_ITEM(state, item) {
+    state.item = item;
   },
 };
 
@@ -28,8 +28,8 @@ const getters = {
   getSearchTitle(state) {
     return state.searchTitle;
   },
-  getProduct(state) {
-    return state.product;
+  getItem(state) {
+    return state.item;
   },
 };
 
@@ -40,7 +40,7 @@ const actions = {
     let size = payload.s;
     let categoryId = payload.ci;
 
-    const { data } = await readAllProduct(page, size, categoryId);
+    const { data } = await readAllItem(page, size, categoryId);
     return data.data;
   },
   async searchAction({ commit }, payload) {
@@ -52,10 +52,10 @@ const actions = {
     return data.data;
   },
 
-  async detailAction({ commit }, productId) {
-    const { data } = await detailCall(productId);
+  async detailAction({ commit }, itemId) {
+    const { data } = await detailCall(itemId);
     let p = data.data;
-    commit('SET_PRODUCT', p);
+    commit('SET_ITEM', p);
     return p;
   },
 };

@@ -8,7 +8,7 @@ function createInstance() {
   return setInterceptors(instance);
 }
 
-const productEndPoint = '/api/personal-color';
+const itemEndPoint = '/api/personal-color';
 
 const instance = createInstance();
 

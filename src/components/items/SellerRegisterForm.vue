@@ -4,7 +4,7 @@
     <div class="form-wrapper form-wrapper-sm my-5">
       <form @submit.prevent="submit" class="form">
         <div>
-          <label for="productName">CATEGORY</label>
+          <label for="name">CATEGORY</label>
           <select
             class="form-select"
             @change="selectCategory($event)"
@@ -24,8 +24,8 @@
         <br />
 
         <div>
-          <label for="productName">PRODUCT NAME</label>
-          <input id="productName" type="text" v-model="productName" required />
+          <label for="name">ITEM NAME</label>
+          <input id="name" type="text" v-model="name" required />
         </div>
         <div>
           <label for="price">PRICE</label>
@@ -124,7 +124,7 @@ export default {
 
       // 아래부터는 리퀘스트
       categoryId: 0,
-      productName: '',
+      name: '',
       price: '',
       quantity: '',
       description: '',
@@ -212,7 +212,7 @@ export default {
       const payload = {
         categoryId: this.categoryId,
         categoryList: this.categoryList,
-        productName: this.productName,
+        name: this.name,
         price: this.price,
         quantity: this.quantity,
         description: this.description,
@@ -229,7 +229,7 @@ export default {
       formData.append('request', res);
 
       await axios({
-        url: 'http://localhost:12345/api/products/seller/register', // 이미지 저장을 위해 back서버와 통신
+        url: 'http://localhost:12345/api/items/seller/register', // 이미지 저장을 위해 back서버와 통신
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data;',
@@ -249,7 +249,7 @@ export default {
     },
     initRequest() {
       this.file = '';
-      this.productName = '';
+      this.name = '';
       this.price = '';
       this.quantity = '';
       this.description = '';

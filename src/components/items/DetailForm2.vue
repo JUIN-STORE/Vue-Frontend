@@ -7,7 +7,7 @@
             <router-link to="/" class="breadcrumb-item text-dark"
               >Home</router-link
             >
-            <router-link to="/products" class="breadcrumb-item text-dark"
+            <router-link to="/items" class="breadcrumb-item text-dark"
               >Shop</router-link
             >
             <span class="breadcrumb-item active">Shop Detail</span>
@@ -18,30 +18,26 @@
     <div class="container-fluid pb-5">
       <div class="row px-xl-5">
         <div class="col-lg-5 mb-30">
-          <div
-            id="product-carousel"
-            class="carousel slide"
-            data-ride="carousel"
-          >
+          <div id="item-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner bg-light">
               <div class="carousel-item active">
                 <img
                   class="w-100 h-100"
-                  :src="require('@/assets/products/' + img)"
+                  :src="require('@/assets/items/' + img)"
                   alt="Image"
                 />
               </div>
             </div>
             <a
               class="carousel-control-prev"
-              href="#product-carousel"
+              href="#item-carousel"
               data-slide="prev"
             >
               <i class="fa fa-2x fa-angle-left text-dark"></i>
             </a>
             <a
               class="carousel-control-next"
-              href="#product-carousel"
+              href="#item-carousel"
               data-slide="next"
             >
               <i class="fa fa-2x fa-angle-right text-dark"></i>
@@ -51,7 +47,7 @@
 
         <div class="col-lg-7 h-auto mb-30">
           <div class="h-100 bg-light p-30">
-            <h3>{{ productName }}</h3>
+            <h3>{{ name }}</h3>
             <div class="d-flex mb-3">
               <div class="text-primary mr-2">
                 <small class="fas fa-star"></small>
@@ -127,7 +123,7 @@
             </div>
             <div class="tab-content">
               <div class="tab-pane fade show active" id="tab-pane-1">
-                <h4 class="mb-3">Product Description</h4>
+                <h4 class="mb-3">Item Description</h4>
                 <p></p>
                 <p></p>
               </div>
@@ -150,10 +146,10 @@
               <div class="tab-pane fade" id="tab-pane-3">
                 <div class="row">
                   <div class="col-md-6">
-                    <h4 class="mb-4">1 review for "Product Name"</h4>
+                    <h4 class="mb-4">1 review for "Item Name"</h4>
                     <div class="media mb-4">
                       <img
-                        :src="require('@/assets/products/1_cat.jpg')"
+                        :src="require('@/assets/items/1_cat.jpg')"
                         alt="Image"
                         class="img-fluid mr-3 mt-1"
                         style="width: 45px"
@@ -231,13 +227,12 @@
 export default {
   data() {
     return {
-      productId: this.$store.getters['products/getProduct'].id,
-      productName: this.$store.getters['products/getProduct'].productName,
-      quantity: this.$store.getters['products/getProduct'].quantity,
-      price: this.$store.getters['products/getProduct'].price,
-      description: this.$store.getters['products/getProduct'].description,
-      img: this.$store.getters['products/getProduct'].productImageList[0]
-        .imageName,
+      itemId: this.$store.getters['items/getItem'].id,
+      name: this.$store.getters['items/getItem'].name,
+      quantity: this.$store.getters['items/getItem'].quantity,
+      price: this.$store.getters['items/getItem'].price,
+      description: this.$store.getters['items/getItem'].description,
+      img: this.$store.getters['items/getItem'].itemImageList[0].imageName,
       count: 1,
     };
   },
@@ -254,24 +249,24 @@ export default {
       if (this.count > 1) this.count--;
     },
     async addToCart() {
-      const product = {
-        id: this.productId,
-        productName: this.productName,
+      const item = {
+        id: this.itemId,
+        name: this.name,
         price: this.price,
-        img: require('@/assets/products/' + this.img),
+        img: require('@/assets/items/' + this.img),
       };
       const payload = {
-        productId: this.productId,
+        itemId: this.itemId,
         count: this.count,
       };
       try {
-        this.$store.commit('carts/SET_ITEM', product);
+        this.$store.commit('carts/SET_ITEM', item);
         const { data } = await this.$store.dispatch(
           'carts/addCartAction',
           payload,
         );
 
-        alert(this.productName + ' is Added to cart!');
+        alert(this.name + ' is Added to cart!');
       } catch (e) {
         alert('Login is required.');
         await this.$router.push('/accounts/login');

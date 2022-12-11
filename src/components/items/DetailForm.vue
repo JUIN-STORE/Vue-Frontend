@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="card shadow">
-      <img :src="require('@/assets/products/' + img)" alt="Card image cap" />
-      <h5 class="card-title">{{ productName }}</h5>
+      <img :src="require('@/assets/items/' + img)" alt="Card image cap" />
+      <h5 class="card-title">{{ name }}</h5>
       <div class="card-body">
         <h5 class="card-title">\ {{ price }}</h5>
         <p class="card-text desc">{{ description }}</p>
@@ -34,31 +34,29 @@
 export default {
   data() {
     return {
-      productId: this.$store.getters['products/getProduct'].id,
-      productName: this.$store.getters['products/getProduct'].productName,
-      quantity: this.$store.getters['products/getProduct'].quantity,
-      price: this.$store.getters['products/getProduct'].price,
-      description: this.$store.getters['products/getProduct'].description,
-      img: this.$store.getters['products/getProduct'].productImageList[0]
-        .imageName,
+      itemId: this.$store.getters['items/getItem'].id,
+      name: this.$store.getters['items/getItem'].name,
+      quantity: this.$store.getters['items/getItem'].quantity,
+      price: this.$store.getters['items/getItem'].price,
+      description: this.$store.getters['items/getItem'].description,
+      img: this.$store.getters['items/getItem'].itemImageList[0].imageName,
     };
   },
   methods: {
     async addToCart() {
-      alert(this.product.productName + ' is Added to cart!!');
-      const product = {
-        id: this.product.id,
-        productName: this.product.productName,
-        price: this.product.price,
-        img: require('@/assets/products/' +
-          this.product.productImageList[0].imageName),
+      alert(this.item.name + ' is Added to cart!!');
+      const item = {
+        id: this.item.id,
+        name: this.item.name,
+        price: this.item.price,
+        img: require('@/assets/items/' + this.item.itemImageList[0].imageName),
       };
       const payload = {
-        productId: this.product.id,
+        itemId: this.item.id,
         count: 1,
       };
       try {
-        this.$store.commit('carts/SET_ITEM', product);
+        this.$store.commit('carts/SET_ITEM', item);
         await this.$store.dispatch('carts/addCartAction', payload);
       } catch (e) {
         await this.$router.push('/accounts/login');

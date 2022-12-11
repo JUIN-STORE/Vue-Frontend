@@ -2,17 +2,15 @@
   <div class="card shadow-sm">
     <img
       class="card-img-top card-image"
-      v-if="product.productImageList.length > 0"
-      :src="
-        require('@/assets/products/' + product.productImageList[0].imageName)
-      "
+      v-if="item.itemImageList.length > 0"
+      :src="require('@/assets/items/' + item.itemImageList[0].imageName)"
       alt="Card image cap"
     />
     <div class="card-body">
-      <h4 class="card-title2" @click="productDetail(product.id)">
-        {{ product.productName }}
+      <h4 class="card-title2" @click="itemDetail(item.id)">
+        {{ item.name }}
       </h4>
-      <h5>\ {{ product.price }}</h5>
+      <h5>\ {{ item.price }}</h5>
       <div class="d-flex" style="justify-content: space-around">
         <button
           class="btn btn-warning btn-text"
@@ -34,22 +32,22 @@
 import { getAuthFromCookie, getEmailFromCookie } from '@/utils/cookies';
 
 export default {
-  props: ['product'],
+  props: ['item'],
   data() {
     return {
       id: 0,
-      productName: '',
+      name: '',
       price: 0,
       img: '',
     };
   },
   methods: {
-    async productDetail() {
-      let productId = this.$props.product.id;
-      console.log('product.id = ' + productId);
+    async itemDetail() {
+      let itemId = this.$props.item.id;
+      console.log('item.id = ' + itemId);
 
-      await this.$store.dispatch('products/detailAction', productId);
-      await this.$router.push('/products/' + productId);
+      await this.$store.dispatch('items/detailAction', itemId);
+      await this.$router.push('/items/' + itemId);
     },
     async addToCart() {
       if (getAuthFromCookie() === '') {
@@ -57,20 +55,19 @@ export default {
         await this.$router.push('/accounts/login');
         return;
       }
-      alert(this.product.productName + ' is Added to cart!!');
-      const product = {
-        id: this.product.id,
-        productName: this.product.productName,
-        price: this.product.price,
-        img: require('@/assets/products/' +
-          this.product.productImageList[0].imageName),
+      alert(this.item.name + ' is Added to cart!!');
+      const item = {
+        id: this.item.id,
+        name: this.item.name,
+        price: this.item.price,
+        img: require('@/assets/items/' + this.item.itemImageList[0].imageName),
       };
       const payload = {
-        productId: this.product.id,
+        itemId: this.item.id,
         count: 1,
       };
       try {
-        this.$store.commit('carts/SET_ITEM', product);
+        this.$store.commit('carts/SET_ITEM', item);
         await this.$store.dispatch('carts/addCartAction', payload);
       } catch (e) {
         await this.$router.push('/accounts/login');

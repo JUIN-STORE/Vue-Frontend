@@ -72,10 +72,10 @@ export default {
           if (Object.keys(searchConditions).length) {
             // 만약 검색조건이 하나라도 존재한다면 해당 값이 현재 검색어와 일치하는지 확인합니다
             if (
-              document.getElementById('searchTitle').value !== query.productName
+              document.getElementById('searchTitle').value !== query.name
             ) {
               // 만약 다르다면 업데이트 합니다
-              document.getElementById('searchTitle').value = query.productName;
+              document.getElementById('searchTitle').value = query.name;
               // 검색도 합니다
               this.searchForm();
             }
@@ -97,16 +97,16 @@ export default {
     async searchForm() {
       let searchTitle = document.getElementById('searchTitle').value;
       console.log('searchForm = ', searchTitle);
-      this.$store.commit('products/SET_SEARCH_TITLE', searchTitle);
+      this.$store.commit('items/SET_SEARCH_TITLE', searchTitle);
 
       // 검색조건은 프로덕트 이름만 사용됩니다
-      const searchConditions = { productName: searchTitle };
+      const searchConditions = { name: searchTitle };
 
       // 검색페이지가 아닐때만 이동함
-      if (!this.$route.path.startsWith('/products/search')) {
+      if (!this.$route.path.startsWith('/items/search')) {
         // 검색 페이지에 있는 않은 경우 - 페이지 이동
         await this.$router.push({
-          path: '/products/search',
+          path: '/items/search',
           query: searchConditions,
         });
       } else {
