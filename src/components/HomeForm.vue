@@ -1,23 +1,36 @@
 <template>
-  <div class="layout">
-    <div class="section2">
+  <div>
+    <div class="container-fluid">
+      <div class="row px-xl-5">
+        <div class="col-12">
+          <nav class="breadcrumb bg-light mb-30">
+            <a class="breadcrumb-item text-dark" href="#">Home</a>
+            <a class="breadcrumb-item text-dark" href="#">Shop</a>
+            <span class="breadcrumb-item active">Shop List</span>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid col-10">
       <div class="item3" v-for="item in itemList" v-bind:key="item.id">
         <item-card-form :item="item"></item-card-form>
       </div>
     </div>
-    <div class="page">
+    <div class="page" style="clear: both">
       <ul
         class="pagination modal2"
         style="justify-content: center; align-items: center"
       >
         <li>
-          <a href="#" class="first" @click.prevent="loadPage(0)">처음 페이지</a>
+          <a href="#" class="first" @click.prevent="searchPage(0)"
+            >처음 페이지</a
+          >
         </li>
         <li>
           <a
             href="#"
             class="arrow left"
-            @click.prevent="loadPage(selectedPage - 1)"
+            @click.prevent="searchPage(selectedPage - 1)"
             >이전</a
           >
         </li>
@@ -28,7 +41,7 @@
             href="#"
             class="num"
             :class="{ active: page - 1 === selectedPage }"
-            @click.prevent="loadPage(page - 1)"
+            @click.prevent="searchPage(page - 1)"
           >
             {{ page }}
           </a>
@@ -37,12 +50,12 @@
           <a
             href="#"
             class="arrow right"
-            @click.prevent="loadPage(selectedPage + 1)"
+            @click.prevent="searchPage(selectedPage + 1)"
             >다음</a
           >
         </li>
         <li>
-          <a href="#" class="last" @click.prevent="loadPage(pages.length - 1)"
+          <a href="#" class="last" @click.prevent="searchPage(pages.length - 1)"
             >마지막 페이지</a
           >
         </li>
@@ -53,7 +66,7 @@
 
 <script>
 import { readAllItem, allCountCall } from '@/api/items';
-import ItemCardForm from '@/components/items/ItemCardForm';
+import ItemCardForm from '@/components/items/ItemCardForm2';
 
 export default {
   components: {
