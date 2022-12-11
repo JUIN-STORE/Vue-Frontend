@@ -59,7 +59,7 @@
                     alt=""
                     style="width: 50px"
                   />
-                  {{ order.itemName }}
+                  {{ order.name }}
                 </td>
 
                 <td class="align-middle">{{ order.orderCount }}</td>

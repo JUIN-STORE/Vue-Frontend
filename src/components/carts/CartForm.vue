@@ -21,7 +21,7 @@
           <td>{{ item.itemId }}</td>
           <td class="d-flex">
             <img :src="require('@/assets/items/' + item.imageName)" />
-            <span> {{ item.itemName }}</span>
+            <span> {{ item.name }}</span>
           </td>
           <td>
             <input

@@ -4,7 +4,7 @@
     <div class="form-wrapper form-wrapper-sm my-5">
       <form @submit.prevent="submit" class="form">
         <div>
-          <label for="itemName">CATEGORY</label>
+          <label for="name">CATEGORY</label>
           <select
             class="form-select"
             @change="selectCategory($event)"
@@ -24,8 +24,8 @@
         <br />
 
         <div>
-          <label for="itemName">ITEM NAME</label>
-          <input id="itemName" type="text" v-model="itemName" required />
+          <label for="name">ITEM NAME</label>
+          <input id="name" type="text" v-model="name" required />
         </div>
         <div>
           <label for="price">PRICE</label>
@@ -124,7 +124,7 @@ export default {
 
       // 아래부터는 리퀘스트
       categoryId: 0,
-      itemName: '',
+      name: '',
       price: '',
       quantity: '',
       description: '',
@@ -212,7 +212,7 @@ export default {
       const payload = {
         categoryId: this.categoryId,
         categoryList: this.categoryList,
-        itemName: this.itemName,
+        name: this.name,
         price: this.price,
         quantity: this.quantity,
         description: this.description,
@@ -249,7 +249,7 @@ export default {
     },
     initRequest() {
       this.file = '';
-      this.itemName = '';
+      this.name = '';
       this.price = '';
       this.quantity = '';
       this.description = '';

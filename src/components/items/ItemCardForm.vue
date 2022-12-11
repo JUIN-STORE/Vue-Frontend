@@ -8,7 +8,7 @@
     />
     <div class="card-body">
       <h4 class="card-title2" @click="itemDetail(item.id)">
-        {{ item.itemName }}
+        {{ item.name }}
       </h4>
       <h5>\ {{ item.price }}</h5>
       <div class="d-flex" style="justify-content: space-around">
@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       id: 0,
-      itemName: '',
+      name: '',
       price: 0,
       img: '',
     };
@@ -55,10 +55,10 @@ export default {
         await this.$router.push('/accounts/login');
         return;
       }
-      alert(this.item.itemName + ' is Added to cart!!');
+      alert(this.item.name + ' is Added to cart!!');
       const item = {
         id: this.item.id,
-        itemName: this.item.itemName,
+        name: this.item.name,
         price: this.item.price,
         img: require('@/assets/items/' + this.item.itemImageList[0].imageName),
       };

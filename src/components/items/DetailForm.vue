@@ -2,7 +2,7 @@
   <div class="container">
     <div class="card shadow">
       <img :src="require('@/assets/items/' + img)" alt="Card image cap" />
-      <h5 class="card-title">{{ itemName }}</h5>
+      <h5 class="card-title">{{ name }}</h5>
       <div class="card-body">
         <h5 class="card-title">\ {{ price }}</h5>
         <p class="card-text desc">{{ description }}</p>
@@ -35,23 +35,21 @@ export default {
   data() {
     return {
       itemId: this.$store.getters['items/getItem'].id,
-      itemName: this.$store.getters['items/getItem'].itemName,
+      name: this.$store.getters['items/getItem'].name,
       quantity: this.$store.getters['items/getItem'].quantity,
       price: this.$store.getters['items/getItem'].price,
       description: this.$store.getters['items/getItem'].description,
-      img: this.$store.getters['items/getItem'].itemImageList[0]
-        .imageName,
+      img: this.$store.getters['items/getItem'].itemImageList[0].imageName,
     };
   },
   methods: {
     async addToCart() {
-      alert(this.item.itemName + ' is Added to cart!!');
+      alert(this.item.name + ' is Added to cart!!');
       const item = {
         id: this.item.id,
-        itemName: this.item.itemName,
+        name: this.item.name,
         price: this.item.price,
-        img: require('@/assets/items/' +
-          this.item.itemImageList[0].imageName),
+        img: require('@/assets/items/' + this.item.itemImageList[0].imageName),
       };
       const payload = {
         itemId: this.item.id,

@@ -36,7 +36,7 @@ function allCountCall() {
 function searchCall(page, size, searchTitle) {
   return instance.get(
     itemEndPoint +
-      '/search?itemName=' +
+      '/search?name=' +
       searchTitle +
       '&page=' +
       page +
@@ -46,9 +46,7 @@ function searchCall(page, size, searchTitle) {
 }
 
 function searchCountCall(searchTitle) {
-  return instance.get(
-    itemEndPoint + '/search/count' + '?itemName=' + searchTitle,
-  );
+  return instance.get(itemEndPoint + '/search/count' + '?name=' + searchTitle);
 }
 
 function detailCall(itemId) {

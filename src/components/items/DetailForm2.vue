@@ -47,7 +47,7 @@
 
         <div class="col-lg-7 h-auto mb-30">
           <div class="h-100 bg-light p-30">
-            <h3>{{ itemName }}</h3>
+            <h3>{{ name }}</h3>
             <div class="d-flex mb-3">
               <div class="text-primary mr-2">
                 <small class="fas fa-star"></small>
@@ -228,7 +228,7 @@ export default {
   data() {
     return {
       itemId: this.$store.getters['items/getItem'].id,
-      itemName: this.$store.getters['items/getItem'].itemName,
+      name: this.$store.getters['items/getItem'].name,
       quantity: this.$store.getters['items/getItem'].quantity,
       price: this.$store.getters['items/getItem'].price,
       description: this.$store.getters['items/getItem'].description,
@@ -251,7 +251,7 @@ export default {
     async addToCart() {
       const item = {
         id: this.itemId,
-        itemName: this.itemName,
+        name: this.name,
         price: this.price,
         img: require('@/assets/items/' + this.img),
       };
@@ -266,7 +266,7 @@ export default {
           payload,
         );
 
-        alert(this.itemName + ' is Added to cart!');
+        alert(this.name + ' is Added to cart!');
       } catch (e) {
         alert('Login is required.');
         await this.$router.push('/accounts/login');

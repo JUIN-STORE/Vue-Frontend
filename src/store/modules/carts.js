@@ -31,7 +31,7 @@ const mutations = {
       ? resObj.count++
       : result.push({
           id: item.id,
-          itemName: item.itemName,
+          name: item.name,
           img: item.img,
           price: item.price,
           count: 1,

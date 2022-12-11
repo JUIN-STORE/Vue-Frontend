@@ -23,7 +23,7 @@
                 require('@/assets/items/' + item.itemImageList[0].imageName)
               "
             />
-            <span> {{ item.itemName }}</span>
+            <span> {{ item.name }}</span>
           </td>
           <td>
             <input
