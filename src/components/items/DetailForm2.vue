@@ -266,7 +266,14 @@ export default {
           payload,
         );
 
-        alert(this.name + ' is Added to cart!');
+        if (
+          confirm(
+            this.name +
+              ' (이)가 장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?',
+          )
+        ) {
+          this.$router.push('/carts');
+        }
       } catch (e) {
         alert('Login is required.');
         await this.$router.push('/accounts/login');
