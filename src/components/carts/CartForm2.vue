@@ -2,7 +2,7 @@
   <div class="row px-xl-5">
     <div class="col-lg-8 table-responsive mb-5">
       <h5 class="section-title position-relative text-uppercase mb-3">
-        <span class="bg-secondary pr-3">Cart</span>
+        <span class="bg-secondary pr-3">Cart </span>
       </h5>
       <table
         class="table table-light table-borderless table-hover text-center mb-0"
@@ -73,6 +73,17 @@
       </table>
     </div>
     <div class="col-lg-4">
+      <form class="mb-30">
+        <div class="mb-30" style="float: right">
+          <h5>
+            <span class="d-flex mb-3 mt-2">
+              <router-link to="/"
+                ><i class="fas fa-arrow-left"></i> Back To Shopping
+              </router-link>
+            </span>
+          </h5>
+        </div>
+      </form>
       <h5 class="section-title position-relative text-uppercase mb-3">
         <span class="bg-secondary pr-3">Cart Summary</span>
       </h5>
