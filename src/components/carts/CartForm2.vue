@@ -19,46 +19,54 @@
         <tbody class="align-middle">
           <tr v-for="(item, idx) in this.cart_list" :key="item.itemId">
             <td class="align-middle">
-              <img
-                :src="require('@/assets/items/' + item.itemImageName)"
-                style="width: 15%"
-              />
-              {{ item.itemName }}
+              <router-link :to="`/items/${item.itemId}`" class="text-dark">
+                <img
+                  :src="require('@/assets/items/' + item.itemImageName)"
+                  style="width: 15%"
+                />
+                {{ item.itemName }}
+              </router-link>
             </td>
 
             <td class="align-middle">
               <div class="input-group quantity mx-auto" style="width: 100px">
                 <div class="input-group-btn">
                   <button
-                    class="btn btn-sm btn-primary btn-minus"
+                    class="btn btn-primary btn-minus"
                     @click="minusCount(item.itemId, idx)"
+                    style="width: 30px"
                   >
                     <i class="fa fa-minus"></i>
                   </button>
                 </div>
                 <input
                   type="text"
+                  readonly
                   class="form-control form-control-sm bg-secondary border-0 text-center"
                   v-model="cartItemList[idx].count"
                 />
                 <div class="input-group-btn">
                   <button
-                    class="btn btn-sm btn-primary btn-plus"
+                    class="btn btn-primary btn-plus"
                     @click="plusCount(item.itemId, idx)"
+                    style="width: 30px"
                   >
                     <i class="fa fa-plus"></i>
                   </button>
                 </div>
               </div>
             </td>
-            <td class="align-middle">{{ item.price }}</td>
+            <td class="align-middle">{{ item.price.toLocaleString() }}</td>
             <td class="align-middle">
-              {{ item.count * item.price }}
+              {{ (item.count * item.price).toLocaleString() }}
             </td>
-            <td class="align-middle">
-              <button class="btn btn-danger" @click="deleteItem(item.itemId)">
-                <span class="material-symbols-outlined"> DELETE </span>
+            <td class="align-middle" align="center">
+              <button class="btn btn-sm btn-danger">
+                <i class="fa fa-times"></i>
               </button>
+              <!-- <button class="btn btn-danger" @click="deleteItem(item.itemId)">
+                <span class="material-symbols-outlined"> DELETE </span>
+              </button> -->
             </td>
           </tr>
         </tbody>
@@ -72,15 +80,20 @@
         <div class="pt-2">
           <div class="d-flex justify-content-between mt-2">
             <h5>Total Quantity</h5>
-            <h5>{{ totalQuantity }}</h5>
+            <h5>{{ totalQuantity.toLocaleString() }}</h5>
           </div>
           <div class="d-flex justify-content-between mt-2">
             <h5>Total Price</h5>
-            <h5>{{ totalPrice }}</h5>
+            <h5>{{ totalPrice.toLocaleString() }}</h5>
           </div>
-          <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">
-            Buy Now
-          </button>
+          <router-link to="/carts/buy">
+            <button
+              class="btn btn-block btn-primary font-weight-bold my-3 py-3"
+              @click="buy"
+            >
+              Buy Now
+            </button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -133,43 +146,50 @@ export default {
     ...mapMutations('orders', ['SET_ITEM_ID_LIST']),
 
     async minusCount(itemId, idx) {
-      this.cartItemList[idx].count--;
-      await this.updateCount(itemId, this.cartItemList[idx].count);
+      await this.updateCount(itemId, idx, -1);
     },
 
     async plusCount(itemId, idx) {
-      this.cartItemList[idx].count++;
-      await this.updateCount(itemId, this.cartItemList[idx].count);
+      await this.updateCount(itemId, idx, 1);
     },
 
-    async updateCount(itemId, count) {
+    async updateCount(itemId, idx, plusValue) {
+      let count = this.cartItemList[idx].count + Number(plusValue);
+
+      if (count <= 0 || 100 < count) {
+        alert('invalid input');
+        return;
+      }
+
+      this.cartItemList[idx].count = count;
+
       const payload = {
         itemId: itemId,
         count: count,
       };
-      if (count > 0 && count <= 100) {
-        await this.$store.dispatch('carts/updateQuantityAction', payload);
-      } else {
-        alert('invalid input');
-      }
+
+      await this.$store.dispatch('carts/updateQuantityAction', payload);
     },
 
     async deleteItem(itemId) {
-      const payload = {
-        itemId: itemId,
-      };
+      if (confirm('해당 상품을 삭제하시겠습니까?')) {
+        const payload = {
+          itemId: itemId,
+        };
 
-      try {
-        this.DEL_ITEM(itemId);
-        this.cartItemList = this.cart_list;
-        this.$store.commit('carts/DEL_ITEM');
-        await this.$store.dispatch('carts/clearCartAction', payload);
-      } catch (e) {
-        console.log(e);
+        try {
+          this.DEL_ITEM(itemId);
+          this.cartItemList = this.cart_list;
+          this.$store.commit('carts/DEL_ITEM');
+          await this.$store.dispatch('carts/clearCartAction', payload);
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
 
     async buy() {
+      console.log('test');
       let itemList = '';
       this.cartItemList.forEach(each => {
         itemList += each.itemId + ',';
