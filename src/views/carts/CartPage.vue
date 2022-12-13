@@ -1,12 +1,11 @@
 <template>
-  <div>
-    <h1 class="page-header">카트 페이지</h1>
+  <div class="container-fluid">
     <CartForm />
   </div>
 </template>
 
 <script>
-import CartForm from '@/components/carts/CartForm';
+import CartForm from '@/components/carts/CartForm2.vue';
 
 export default {
   components: {

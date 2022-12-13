@@ -17,7 +17,7 @@ const mutations = {
     state.cart_list = [];
   },
 
-  SET_CART_LIST(sate, catItemList) {
+  SET_CART_LIST(state, catItemList) {
     state.cart_list = catItemList;
   },
 
