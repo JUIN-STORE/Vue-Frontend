@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <div class="container-fluid">
       <h5>주문 상품 확인</h5>
       <div class="row">

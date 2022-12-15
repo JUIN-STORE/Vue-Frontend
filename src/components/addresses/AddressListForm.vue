@@ -1,8 +1,42 @@
 <template>
-  <div>
+  <div class="container">
     <div v-for="address in addressList" v-bind:key="address">
       <div v-if="address[0]">{{ address[1] }} ===> 기본 배송지</div>
       <div v-else>{{ address[1] }}</div>
+    </div>
+
+    <div class="row">
+      <div class="table-responsive mb-5">
+        <table
+          class="table table-light table-borderless table-hover text-center mb-0"
+        >
+          <thead class="thead-dark">
+            <tr>
+              <th>City</th>
+              <th>Street</th>
+              <th>Zip Code</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody class="align-middle">
+            <tr>
+              <td>{{ defaultAddress.city }}</td>
+              <td>{{ defaultAddress.street }}</td>
+              <td>{{ defaultAddress.zipCode }}</td>
+              <td>기본 배송지</td>
+            </tr>
+            <tr v-for="item in addressList" v-bind:key="item">
+              <td class="align-middle">
+                {{ item.city }}
+              </td>
+
+              <td class="align-middle">{{ item.street }}</td>
+              <td class="align-middle">{{ item.zipCode }}</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -17,6 +51,7 @@ export default {
 
   data() {
     return {
+      defaultAddress: null,
       addressList: [],
       addressMap: new Map(),
     };
@@ -25,51 +60,20 @@ export default {
   methods: {
     async getAddressList() {
       const { data } = await allCall();
-      let length = data.data.length;
-      let address;
+      const result = data.data;
 
-      for (let i = 0; i < length; i++) {
-        address = data.data[i].city + ' ' + data.data[i].street;
-        this.addressMap.set(address, data.data[i].defaultAddress);
-        this.addressList.push([data.data[i].defaultAddress, address]);
-        console.log(this.addressMap);
-      }
+      result.forEach(address => {
+        if (address.defaultAddress) {
+          this.defaultAddress = address;
+        } else {
+          this.addressList.push(address);
+        }
+      });
+
+      console.log(this.defaultAddress);
     },
   },
 };
 </script>
 
-<style scoped>
-.card {
-  margin: auto;
-  max-width: 500px;
-  padding: 10px;
-}
-input {
-  width: 100%;
-  padding: 8px;
-}
-.card-title {
-  margin: 8px;
-}
-.btn {
-  margin-top: 10px;
-}
-.card-header {
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-}
-.layout-login {
-  margin: auto;
-  margin-top: 125px;
-}
-.link a,
-.link {
-  text-align: center;
-  text-decoration: none;
-}
-.card:hover {
-  transform: translate(0, 0);
-}
-</style>
+<style scoped></style>

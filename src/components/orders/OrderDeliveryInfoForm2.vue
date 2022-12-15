@@ -1,120 +1,123 @@
 <template>
   <div>
-    <div class="container">
-      <div class="container-fluid">
-        <div class="layout-login">
-          <table class="table">
-            <h5>구매자 정보</h5>
-            <tbody>
-              <tr>
-                <th>이름</th>
-                <td>
-                  <input type="text" v-model="deliveryReceiver.receiverName" />
-                </td>
-              </tr>
+    <div class="container-fluid">
+      <div class="layout-login">
+        <table class="table">
+          <h5>구매자 정보</h5>
+          <tbody>
+            <tr>
+              <th>이름</th>
+              <td>
+                <input type="text" v-model="deliveryReceiver.receiverName" />
+              </td>
+            </tr>
 
-              <tr>
-                <th>연락처</th>
-                <td>
-                  <input
-                    type="text"
-                    v-model="deliveryReceiver.receiverPhoneNumber"
-                  />
-                </td>
-              </tr>
+            <tr>
+              <th>연락처</th>
+              <td>
+                <input
+                  type="text"
+                  v-model="deliveryReceiver.receiverPhoneNumber"
+                />
+              </td>
+            </tr>
 
-              <tr>
-                <th>EMAIL</th>
-                <td>
-                  <input type="text" v-model="deliveryReceiver.receiverEmail" />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            <tr>
+              <th>EMAIL</th>
+              <td>
+                <input type="text" v-model="deliveryReceiver.receiverEmail" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-        <div class="layout-login">
-          <div class="tab-content" id="pills-tabContent">
-            <div
-              class="tab-pane fade show active"
-              id="pills-home"
-              role="tabpanel"
-              aria-labelledby="pills-home-tab"
-            >
-              <ul class="nav nav-pills">
-                <li class="nav-item">
-                  <a
-                    class="nav-link active"
-                    aria-current="page"
-                    data-bs-toggle="pill"
-                    @click="setDeliveryAddressToDefault"
-                    >기본 배송지</a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    aria-current="page"
-                    data-bs-toggle="pill"
-                    @click="showApi"
-                    >신규 배송지</a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" data-bs-toggle="pill"
-                    >배송지 목록 보기</a
-                  >
-                </li>
-              </ul>
-              <div>
-                <table class="table">
-                  <tbody>
-                    <tr>
-                      <th>우편번호</th>
-                      <td>
-                        <input
-                          type="text"
-                          id="zipCode"
-                          v-model="deliveryAddress.zipCode"
-                          placeholder="우편번호"
-                          required
-                          disabled
-                        />
-                      </td>
-                    </tr>
+      <div class="layout-login">
+        <div class="tab-content" id="pills-tabContent">
+          <div
+            class="tab-pane fade show active"
+            id="pills-home"
+            role="tabpanel"
+            aria-labelledby="pills-home-tab"
+          >
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a
+                  class="nav-link active text-dark"
+                  aria-current="page"
+                  data-bs-toggle="pill"
+                  @click="setDeliveryAddressToDefault"
+                  >기본 배송지</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link text-dark"
+                  aria-current="page"
+                  data-bs-toggle="pill"
+                  @click="showApi"
+                  >신규 배송지</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link text-dark"
+                  aria-current="page"
+                  data-bs-toggle="pill"
+                  onclick="window.open('/addresses/all', 'window_name', 'width=700, height=700, top=300, left=15iot00, status=no, scrollbars=yes');"
+                  >배송지 목록 보기</a
+                >
+              </li>
+            </ul>
+            <div>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th>우편번호</th>
+                    <td>
+                      <input
+                        type="text"
+                        id="zipCode"
+                        v-model="deliveryAddress.zipCode"
+                        placeholder="우편번호"
+                        required
+                        disabled
+                      />
+                    </td>
+                  </tr>
 
-                    <tr>
-                      <th>도시</th>
-                      <td>
-                        <input
-                          type="text"
-                          id="city"
-                          v-model="deliveryAddress.city"
-                          placeholder="도로명 주소"
-                          required
-                          disabled
-                        />
-                      </td>
-                    </tr>
+                  <tr>
+                    <th>도시</th>
+                    <td>
+                      <input
+                        type="text"
+                        id="city"
+                        v-model="deliveryAddress.city"
+                        placeholder="도로명 주소"
+                        required
+                        disabled
+                      />
+                    </td>
+                  </tr>
 
-                    <tr>
-                      <th>상세 주소</th>
-                      <td>
-                        <input
-                          id="address.street"
-                          type="text"
-                          v-model="deliveryAddress.street"
-                          placeholder="상세 주소"
-                          required
-                        />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                  <tr>
+                    <th>상세 주소</th>
+                    <td>
+                      <input
+                        id="address.street"
+                        type="text"
+                        v-model="deliveryAddress.street"
+                        placeholder="상세 주소"
+                        required
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-          <!-- <h5>주문 상품 확인</h5>
+        </div>
+        <!-- <h5>주문 상품 확인</h5>
           <button class="btn btn-outline-dark">기본 배송지</button>
           <button class="btn btn-outline-dark" @click="showApi()">
             신규 배송지
@@ -126,7 +129,6 @@
           >
             배송지 목록 보기
           </button> -->
-        </div>
       </div>
     </div>
   </div>
@@ -204,6 +206,10 @@ export default {
       this.deliveryAddress.zipCode = this.defaultAddressInfo.zipCode;
 
       this.$store.commit('orders/SET_DELIVERY_ADDRESS', this.deliveryAddress);
+    },
+    openPop() {
+      alert('hi');
+      window.open('/address/all', '_blank');
     },
   },
   created() {
