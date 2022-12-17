@@ -33,7 +33,9 @@
               v-if="checkLogin"
               style="cursor: pointer"
             >
-              <i class="fas fa-user"> My Page</i>
+              <router-link to="/accounts/profile">
+                <i class="fas fa-user text-dark"> My Page</i>
+              </router-link>
             </a>
             <a
               class="px-1 ml-2 text-dark"
@@ -73,7 +75,7 @@
             class="text-decoration-none"
             style="cursor: pointer"
           >
-            <span class="h1 text-uppercase text-primary bg-dark px-2">JS</span>
+            <span class="h1 text-uppercase text-primary bg-dark px-2">JZ</span>
             <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1"
               >Shop</span
             >
@@ -167,7 +169,7 @@
             class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0"
           >
             <a href="" class="text-decoration-none d-block d-lg-none">
-              <span class="h1 text-uppercase text-dark bg-light px-2">JS</span>
+              <span class="h1 text-uppercase text-dark bg-light px-2">JZ</span>
               <span class="h1 text-uppercase text-light bg-primary px-2 ml-n1"
                 >Shop</span
               >
