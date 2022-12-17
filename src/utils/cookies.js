@@ -1,16 +1,13 @@
-function saveAuthToCookie(value) {
-  document.cookie = `jwt=${value}`;
-}
-
 function saveEmailToCookie(value) {
   document.cookie = `email=${value}`;
 }
 
-function getAuthFromCookie() {
-  return document.cookie.replace(
-    /(?:(?:^|.*;\s*)jwt\s*=\s*([^;]*).*$)|^.*$/,
-    '$1',
-  );
+function saveAccessTokenAtCookie(value) {
+  document.cookie = `Access-Token=${value}`;
+}
+
+function saveRefreshTokenAtCookie(value) {
+  document.cookie = `Refresh-Token=${value}`;
 }
 
 function getEmailFromCookie() {
@@ -20,14 +17,30 @@ function getEmailFromCookie() {
   );
 }
 
+function getAuthFromCookie() {
+  return document.cookie.replace(
+    /(?:(?:^|.*;\s*)Access-Token\s*=\s*([^;]*).*$)|^.*$/,
+    '$2',
+  );
+}
+
+function getRefreshTokenFromCookie() {
+  return document.cookie.replace(
+    /(?:(?:^|.*;\s*)Refresh-Token\s*=\s*([^;]*).*$)|^.*$/,
+    '$3',
+  );
+}
+
 function deleteCookie(value) {
   document.cookie = `${value}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 }
 
 export {
-  saveAuthToCookie,
+  saveRefreshTokenAtCookie,
+  saveAccessTokenAtCookie,
   saveEmailToCookie,
-  getAuthFromCookie,
   getEmailFromCookie,
+  getAuthFromCookie,
+  getRefreshTokenFromCookie,
   deleteCookie,
 };

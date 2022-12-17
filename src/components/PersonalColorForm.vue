@@ -56,7 +56,7 @@ export default {
         .post('http://localhost:12345/api/personal-color', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: getAuthFromCookie(),
+            'Access-Token': getAuthFromCookie(),
           },
         })
         .then(response => {
