@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <OrderItemForm />
     <OrderDeliveryInfoForm />
     <OrderButtonForm />
@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import OrderItemForm from '@/components/orders/OrderItemForm';
-import OrderDeliveryInfoForm from '@/components/orders/OrderDeliveryInfoForm';
+import OrderItemForm from '@/components/orders/OrderItemForm2';
+import OrderDeliveryInfoForm from '@/components/orders/OrderDeliveryInfoForm2';
 import OrderButtonForm from '@/components/orders/OrderButtonForm';
 
 export default {

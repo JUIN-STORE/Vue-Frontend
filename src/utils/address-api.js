@@ -33,6 +33,7 @@ function getAddress(address) {
         // 세팅
         address.city = roadAddr;
         address.zipCode = data.zonecode;
+        address.street = '';
       },
     }).open();
   }

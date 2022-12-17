@@ -1,15 +1,23 @@
 <template>
-  <form @submit.prevent="createOrder" class="form">
-    <button type="submit" class="btn btn-outline-danger" style="float: right">
-      주문하기
-    </button>
-  </form>
+  <div>
+    <form @submit.prevent="createOrder" class="form">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        style="float: right; width: 10%; margin-bottom: 20%"
+      >
+        주문하기
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
 export default {
   methods: {
     async createOrder() {
+      if (!confirm('주문하시겠습니까?')) return;
+
       const payload = {
         count: this.$store.getters['orders/getCount'],
         grandTotal: this.$store.getters['orders/getGrandTotal'],
