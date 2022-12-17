@@ -1,6 +1,14 @@
 <template>
   <div>
-    <h1 class="page-header">회원 수정 페이지</h1>
+    <div class="container-fluid">
+      <div class="row px-xl-5">
+        <div class="col-12">
+          <nav class="breadcrumb bg-light mb-30">
+            <span class="breadcrumb-item active">회원 정보 수정</span>
+          </nav>
+        </div>
+      </div>
+    </div>
     <UpdateForm></UpdateForm>
   </div>
 </template>

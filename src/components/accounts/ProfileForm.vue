@@ -6,8 +6,9 @@
         <p></p>
 
         <form @submit.prevent="getProfile" class="form">
-          <label for="email">ROLE</label>
           <div class="card-text">
+            <div>INFO</div>
+            <label for="email">ROLE</label>
             <input
               type="accountRole"
               id="accountRole"
@@ -15,10 +16,8 @@
               class="form-control"
               disabled
             />
-          </div>
 
-          <label for="email">EMAIL</label>
-          <div class="card-text">
+            <label for="email">EMAIL</label>
             <input
               type="email"
               id="email"
@@ -26,10 +25,8 @@
               class="form-control"
               disabled
             />
-          </div>
 
-          <label for="name">NAME</label>
-          <div class="card-text">
+            <label for="name">NAME</label>
             <input
               id="name"
               type="text"
@@ -37,10 +34,8 @@
               class="form-control"
               disabled
             />
-          </div>
 
-          <label for="name">PHONE NUMBER</label>
-          <div class="card-text">
+            <label for="name">PHONE NUMBER</label>
             <input
               id="phoneNumber"
               type="text"
@@ -51,9 +46,7 @@
           </div>
 
           <div class="card-text">
-            <br />ADDRESS
-            <p></p>
-
+            <div>ADDRESS</div>
             <label for="address.city">CITY</label>
             <input
               id="address.city"
@@ -170,7 +163,7 @@ input {
 }
 .layout-login {
   margin: auto;
-  margin-top: 125px;
+  margin: 5em 0 5em 0;
 }
 .link a,
 .link {
@@ -179,5 +172,17 @@ input {
 }
 .card:hover {
   transform: translate(0, 0);
+}
+
+.card-text {
+  margin-bottom: 3em;
+}
+
+.card-text > div {
+  font-weight: bold;
+}
+
+.card-text > label {
+  margin-top: 0.5em;
 }
 </style>

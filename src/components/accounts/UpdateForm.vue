@@ -1,74 +1,75 @@
 <template>
-  <div class="container">
-    <div class="layout-login">
-      <div class="card">
-        <div class="card-header">ACCOUNT MODIFY</div>
-        <p></p>
-        <form @submit.prevent="modifyForm" class="form">
-          <div>
-            <label>ROLE</label>
-            <select class="form-select" id="accountRole" v-model="accountRole">
-              <option value="USER" selected>USER</option>
-              <option value="SELLER">SELLER</option>
-              <option value="ADMIN">ADMIN</option>
-            </select>
-          </div>
-          <br />
-
-          <label for="email">EMAIL</label>
-          <div class="card-text">
-            <input
-              id="email"
-              type="email"
-              v-model="email"
-              class="form-control"
-              disabled
-            />
-          </div>
-
-          <label for="password">PASSWORD</label>
-          <div class="card-text">
-            <input id="password" type="password" v-model="password" />
-          </div>
-
-          <label for="name">NAME</label>
-          <div class="card-text">
-            <input id="name" type="text" v-model="name" />
-          </div>
-
-          <label for="name">* PHONE NUMBER</label>
-          <div class="card-text">
-            <input
-              id="phoneNumber"
-              type="text"
-              v-model="phoneNumber"
-              class="form-control"
-            />
-          </div>
-
-          <router-link
-            to="/"
-            type="submit"
-            class="btn btn-primary"
-            style="float: right"
-          >
-            취소
-          </router-link>
-          <button type="submit" class="btn btn-primary" style="float: right">
-            PROFILE 수정 완료
-          </button>
-        </form>
-
-        <form @submit.prevent="deleteForm" class="form">
+  <div>
+    <div class="container">
+      <div class="layout-login">
+        <div class="card">
+          <div class="card-header">ACCOUNT MODIFY</div>
           <p></p>
-          <button
-            type="submit"
-            class="btn btn-outline-danger"
-            style="float: right"
-          >
-            회원 탈퇴하기
-          </button>
-        </form>
+          <form @submit.prevent="modifyForm" class="form">
+            <div>
+              <label>ROLE</label>
+              <select
+                class="form-select"
+                id="accountRole"
+                v-model="accountRole"
+              >
+                <option value="USER" selected>USER</option>
+                <option value="SELLER">SELLER</option>
+                <option value="ADMIN">ADMIN</option>
+              </select>
+            </div>
+            <br />
+
+            <label for="email">EMAIL</label>
+            <div class="card-text">
+              <input
+                id="email"
+                type="email"
+                v-model="email"
+                class="form-control"
+                disabled
+              />
+
+              <label for="password">PASSWORD</label>
+              <input id="password" type="password" v-model="password" />
+
+              <label for="name">NAME</label>
+              <input id="name" type="text" v-model="name" />
+
+              <label for="name">* PHONE NUMBER</label>
+              <input
+                id="phoneNumber"
+                type="text"
+                v-model="phoneNumber"
+                class="form-control"
+              />
+            </div>
+
+            <div>
+              <router-link
+                to="/"
+                type="submit"
+                class="btn btn-dark"
+                style="float: right"
+              >
+                취소
+              </router-link>
+              <button
+                type="submit"
+                class="btn btn-primary mr-1"
+                style="float: right"
+              >
+                PROFILE 수정 완료
+              </button>
+            </div>
+          </form>
+
+          <form @submit.prevent="deleteForm" class="form mt-4">
+            <button type="submit" class="btn btn-danger" style="float: right">
+              회원 탈퇴하기
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -96,12 +97,24 @@ export default {
         phoneNumber: this.phoneNumber,
         passwordHash: this.password,
       };
+
+      const hasEmptyValue = Object.values(payload).some(
+        p => p == null || p === '',
+      );
+
+      if (hasEmptyValue) {
+        alert('입력하지 않은 항목이 있습니다.');
+        return;
+      }
+
       await modifyCall(payload);
       alert('수정되었습니다.');
       await this.$router.push('/accounts/profile');
     },
 
     async deleteForm() {
+      if (!confirm('모든 정보가 삭제됩니다. 정말 탈퇴하시겠습니까?')) return;
+
       let accountId = this.$store.getters['accounts/readId'];
       await removeCall(accountId);
       alert(this.email + '님, 탈퇴되었습니다.');
@@ -135,7 +148,7 @@ input {
 }
 .layout-login {
   margin: auto;
-  margin-top: 125px;
+  margin: 5em 0 5em 0;
 }
 .link a,
 .link {
@@ -144,5 +157,9 @@ input {
 }
 .card:hover {
   transform: translate(0, 0);
+}
+
+.card-text > label {
+  margin-top: 0.5em;
 }
 </style>

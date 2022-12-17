@@ -1,6 +1,14 @@
 <template>
   <div>
-    <h1 class="page-header">내 정보</h1>
+    <div class="container-fluid">
+      <div class="row px-xl-5">
+        <div class="col-12">
+          <nav class="breadcrumb bg-light mb-30">
+            <span class="breadcrumb-item active">내 정보</span>
+          </nav>
+        </div>
+      </div>
+    </div>
     <ProfileForm></ProfileForm>
   </div>
 </template>
