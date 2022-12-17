@@ -233,7 +233,7 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data;',
-          Authorization: getAuthFromCookie(),
+          'Access-Token': getAuthFromCookie(),
         }, // 이걸 써줘야 formdata 형식 전송가능
         data: formData,
       })

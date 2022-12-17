@@ -1,8 +1,10 @@
 import {
   getAuthFromCookie,
   getEmailFromCookie,
-  saveAuthToCookie,
   saveEmailToCookie,
+  saveAccessTokenAtCookie,
+  saveRefreshTokenAtCookie,
+  getRefreshTokenFromCookie,
 } from '@/utils/cookies';
 import { loginCall } from '@/api/accounts';
 
@@ -16,7 +18,8 @@ const state = {
   city: '',
   street: '',
   zipCode: '',
-  token: getAuthFromCookie() || '',
+  accessToken: getAuthFromCookie() || '',
+  refreshToken: getRefreshTokenFromCookie() || '',
 };
 
 // mutations: 대문자 스네이크
@@ -46,20 +49,25 @@ const mutations = {
     state.zipCode = zipCode;
   },
 
-  SET_TOKEN(state, token) {
-    state.token = token;
+  SET_ACCESS_TOKEN(state, accessToken) {
+    state.accessToken = accessToken;
+  },
+
+  SET_REFRESH_TOKEN(state, refreshToken) {
+    state.refreshToken = refreshToken;
   },
 
   CLEAR_COOKIE(state) {
     state.email = '';
-    state.token = '';
+    state.accessToken = '';
+    state.refreshToken = '';
   },
 };
 
 // getters: 카멜 케이스
 const getters = {
   isLogin(state) {
-    return state.email !== '' && state.token !== '';
+    return state.email !== '' && state.accessToken !== '';
   },
   readId(state) {
     return state.id;
@@ -92,9 +100,11 @@ const actions = {
   async loginSetting({ commit }, payload) {
     const { data } = await loginCall(payload);
     commit('SET_EMAIL', data.data.email);
-    commit('SET_TOKEN', data.data.token);
-    saveAuthToCookie(data.data.token);
+    commit('SET_ACCESS_TOKEN', data.data.token.accessToken);
+    commit('SET_REFRESH_TOKEN', data.data.token.refreshToken);
     saveEmailToCookie(data.data.email);
+    saveAccessTokenAtCookie(data.data.token.accessToken);
+    saveRefreshTokenAtCookie(data.data.token.refreshToken);
     return data;
   },
 };
