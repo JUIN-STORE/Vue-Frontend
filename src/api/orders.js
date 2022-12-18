@@ -7,6 +7,7 @@ import { getAuthFromCookie } from '@/utils/cookies';
 function createInstance() {
   const instance = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
+    withCredentials: true,
   });
   return setInterceptors(instance);
 }
