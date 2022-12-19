@@ -9,18 +9,10 @@ function createInstance() {
   return setInterceptors(instance);
 }
 
-const categoryEndPoint = '/api/categories';
-
 const instance = createInstance();
 
-function categoriesCall() {
-  return instance.get(categoryEndPoint);
+function reIssueToken() {
+  return instance.post('/api/tokens/re-issue');
 }
 
-function createCategoryCall(createRequest) {
-  return instance.post(categoryEndPoint + '/admin/new', createRequest);
-}
-
-export { categoriesCall, createCategoryCall };
-
-// 1번째
+export { reIssueToken };
