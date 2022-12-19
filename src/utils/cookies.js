@@ -17,13 +17,6 @@ function getEmailFromCookie() {
   );
 }
 
-function getAuthFromCookie() {
-  return document.cookie.replace(
-    /(?:(?:^|.*;\s*)Access-Token\s*=\s*([^;]*).*$)|^.*$/,
-    '$2',
-  );
-}
-
 function getRefreshTokenFromCookie() {
   return document.cookie.replace(
     /(?:(?:^|.*;\s*)Refresh-Token\s*=\s*([^;]*).*$)|^.*$/,
@@ -40,7 +33,6 @@ export {
   saveAccessTokenAtCookie,
   saveEmailToCookie,
   getEmailFromCookie,
-  getAuthFromCookie,
   getRefreshTokenFromCookie,
   deleteCookie,
 };

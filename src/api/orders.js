@@ -2,7 +2,6 @@
 
 import axios from 'axios';
 import { setInterceptors } from './common/interceptors';
-import { getAuthFromCookie } from '@/utils/cookies';
 
 function createInstance() {
   const instance = axios.create({

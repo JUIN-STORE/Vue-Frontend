@@ -1,8 +1,6 @@
 import {
-  getAuthFromCookie,
   getEmailFromCookie,
   saveEmailToCookie,
-  saveAccessTokenAtCookie,
   saveRefreshTokenAtCookie,
   getRefreshTokenFromCookie,
 } from '@/utils/cookies';
@@ -18,7 +16,7 @@ const state = {
   city: '',
   street: '',
   zipCode: '',
-  accessToken: getAuthFromCookie() || '',
+  accessToken: '',
   refreshToken: getRefreshTokenFromCookie() || '',
 };
 
@@ -101,9 +99,7 @@ const actions = {
     const { data } = await loginCall(payload);
     commit('SET_EMAIL', data.data.email);
     commit('SET_ACCESS_TOKEN', data.data.token.accessToken);
-    commit('SET_REFRESH_TOKEN', data.data.token.refreshToken);
     saveEmailToCookie(data.data.email);
-    saveAccessTokenAtCookie(data.data.token.accessToken);
     saveRefreshTokenAtCookie(data.data.token.refreshToken);
     return data;
   },
