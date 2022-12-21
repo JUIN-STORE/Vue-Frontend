@@ -80,7 +80,7 @@
 
         <div>
           <button
-            @click="submit()"
+            @click="submit"
             type="button"
             class="btn btn-primary mt-4"
             style="float: right"
@@ -211,7 +211,6 @@ export default {
     async submit() {
       const payload = {
         categoryId: this.categoryId,
-        categoryList: this.categoryList,
         name: this.name,
         price: this.price,
         quantity: this.quantity,
@@ -233,8 +232,9 @@ export default {
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data;',
-          'Access-Token': getAuthFromCookie(),
+          Authorization: this.$store.getters['accounts/getAccessToken'],
         }, // 이걸 써줘야 formdata 형식 전송가능
+        withCredentials: true,
         data: formData,
       })
         .then(res => {
