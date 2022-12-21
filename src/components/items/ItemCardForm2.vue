@@ -29,7 +29,7 @@
           <small>(0)</small>
         </div>
         <div class="btn-group">
-          <button class="btn btn-dark mx-1" type="button" @click="addToCart()">
+          <button class="btn btn-dark mx-1" type="button" @click="addToCart">
             Add to Cart
             <i class="fa fa-shopping-cart mr-1"></i>
           </button>
@@ -76,17 +76,13 @@ export default {
       await this.$router.push('/items/' + itemId);
     },
     async addToCart() {
-      if (getAuthFromCookie() === '') {
-        alert('로그인을 해야 추가할 수 있습니다. 로그인 페이지로 이동합니다.');
-        await this.$router.push('/accounts/login');
-        return;
-      }
       const item = {
         id: this.item.id,
-        itemName: this.item.itemName,
+        name: this.item.name,
         price: this.item.price,
         img: require('@/assets/items/' + this.item.itemImageList[0].imageName),
       };
+
       const payload = {
         itemId: this.item.id,
         count: 1,
@@ -96,14 +92,14 @@ export default {
         await this.$store.dispatch('carts/addCartAction', payload);
         if (
           confirm(
-            this.name +
+            item.name +
               ' (이)가 장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?',
           )
         ) {
           this.$router.push('/carts');
         }
       } catch (e) {
-        await this.$router.push('/accounts/login');
+        alert('장바구니 등록에 실패했습니다.');
       }
     },
   },

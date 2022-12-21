@@ -1,3 +1,4 @@
+import router from '@/routes';
 import store from '@/store/index';
 import { reIssueToken } from '../tokens';
 
@@ -36,7 +37,8 @@ export function setInterceptors(instance) {
             data.data.accessToken,
           );
         } else {
-          window.location.href = '/accounts/login';
+          alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+          router.push('/accounts/login');
         }
       }
 

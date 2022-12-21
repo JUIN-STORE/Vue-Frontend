@@ -67,6 +67,9 @@ const getters = {
   isLogin(state) {
     return state.email !== '' && state.accessToken !== '';
   },
+  getAccessToken(state) {
+    return state.accessToken;
+  },
   readId(state) {
     return state.id;
   },
