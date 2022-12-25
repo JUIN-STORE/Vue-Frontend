@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { readAllItem, allCountCall } from '@/api/items';
+import { readAllItem } from '@/api/items';
 import ItemCardForm from '@/components/items/ItemCardForm2';
 
 export default {
@@ -99,10 +99,6 @@ export default {
     await this.loadPage(this.selectedPage - 1);
   },
   methods: {
-    async count() {
-      const { data } = await allCountCall();
-      this.totalData = data;
-    },
     /**
      * 페이지 클릭시 호출
      * @param {Number} page [1,2,3...]
@@ -111,12 +107,9 @@ export default {
       if (0 > page || this.pages.length - 1 < page) return;
       this.selectedPage = page;
       const { data } = await readAllItem(page, this.size);
-      this.itemList = data.data;
+      this.itemList = data.data.content;
+      this.totalData = data.data.totalElements;
     },
-  },
-  created() {
-    this.count();
-    // this.loadPage(this.selectedPage - 1);
   },
 };
 </script>

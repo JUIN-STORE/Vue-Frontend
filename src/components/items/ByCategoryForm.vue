@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import { searchCountCall } from '@/api/items';
 import AllItemForm from '@/components/items/ItemCardForm2';
 
 export default {
@@ -103,7 +102,6 @@ export default {
     },
   },
   async mounted() {
-    await this.searchCount();
     await this.searchPage(this.selectedPage - 1);
   },
   watch: {
@@ -111,17 +109,11 @@ export default {
       immediate: false, // 처음 설정됐을 때부터 추적하는 옵션이지만, mounted 에서 첫 검색이 시작되므로 false
       deep: true, // searchConditions 는 객체이므로
       async handler() {
-        await this.searchCount();
         await this.searchPage(this.selectedPage);
       },
     },
   },
   methods: {
-    async searchCount() {
-      let searchTitle = this.$store.getters['items/getSearchTitle'];
-      const { data } = await searchCountCall(searchTitle);
-      this.totalData = data;
-    },
     /**
      * 페이지 클릭시 호출
      * @param {Number} page [1,2,3...]
@@ -136,12 +128,13 @@ export default {
         ci: this.$store.getters['items/getCategoryId'],
       };
 
-      this.itemList = await this.$store.dispatch(
+      const data = await this.$store.dispatch(
         'items/byCategoryAction',
         payload,
       );
 
-      console.log(this.itemList);
+      this.itemList = data.content;
+      this.totalData = data.totalElements;
     },
   },
 };

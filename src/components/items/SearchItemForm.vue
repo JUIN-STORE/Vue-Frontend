@@ -22,7 +22,7 @@
         style="justify-content: center; align-items: center"
       >
         <li>
-          <a href="#" class="first" @click.prevent="searchPage(0)"
+          <a href="#" class="first" @click.prevent="searchPage(1)"
             >처음 페이지</a
           >
         </li>
@@ -40,8 +40,8 @@
             :key="idx"
             href="#"
             class="num"
-            :class="{ active: page - 1 === selectedPage }"
-            @click.prevent="searchPage(page - 1)"
+            :class="{ active: page == selectedPage }"
+            @click.prevent="searchPage(page)"
           >
             {{ page }}
           </a>
@@ -55,7 +55,7 @@
           >
         </li>
         <li>
-          <a href="#" class="last" @click.prevent="searchPage(pages.length - 1)"
+          <a href="#" class="last" @click.prevent="searchPage(totalPages)"
             >마지막 페이지</a
           >
         </li>
@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import { searchCountCall } from '@/api/items';
 import AllItemForm from '@/components/items/ItemCardForm2';
 
 export default {
@@ -75,11 +74,14 @@ export default {
   },
   data() {
     return {
-      // 데이터
-      totalData: '',
+      // 전체 페이지 개수
+      totalPages: 0,
+      // 하단에 보여질 페이지 최대 개수
+      pageSet: 10,
       itemList: [],
-      //페이지네이션
+      // 아이템 개수
       size: 10,
+      // 프론트 화면 상 페이지 숫자
       selectedPage: 1,
     };
   },
@@ -89,55 +91,72 @@ export default {
      */
     pages() {
       // 페이지 계산
-      const pages = Math.ceil(this.totalData / this.size);
+      // 시작 페이지
+      const start =
+        this.selectedPage - ((this.selectedPage - 1) % this.pageSet);
+      const length =
+        start + this.pageSet <= this.totalPages
+          ? this.pageSet
+          : this.totalPages - start + 1;
+
+      const pages = [...Array(length).keys()].map(key => key + start);
 
       // 페이지가 1보다 크면 [1,,,pages] 배열을, 작으면 [1] 반환
-      return pages > 0 ? Array.from({ length: pages }, (_, i) => i + 1) : [1];
+      return pages.length > 0 ? pages : [1];
     },
-
-    searchConditions() {
-      const searchTitle = this.$store.getters['items/getSearchTitle'];
-      return { searchTitle };
-    },
-  },
-  async mounted() {
-    await this.searchCount();
-    await this.searchPage(this.selectedPage - 1);
-    console.log(this.totalData);
   },
   watch: {
-    searchConditions: {
-      immediate: false, // 처음 설정됐을 때부터 추적하는 옵션이지만, mounted 에서 첫 검색이 시작되므로 false
-      deep: true, // searchConditions 는 객체이므로
-      async handler() {
-        await this.searchCount();
-        await this.searchPage(this.selectedPage);
+    // 현재 페이지 추적
+    '$route.path': {
+      immediate: true,
+      handler(path) {
+        // 현재 쿼리를 추출합니다.
+        const query = this.$route.query;
+
+        // 현재 페이지를 검사합니다.
+        if (path.includes('/items/search')) {
+          // 현재 페이지가 검색 페이지라면 쿼리 파라미터는 검색 조건입니다
+          if (query.page > 0) {
+            this.searchPage(query.page);
+          }
+        }
       },
     },
   },
   methods: {
-    async searchCount() {
-      let searchTitle = this.$store.getters['items/getSearchTitle'];
-      const { data } = await searchCountCall(searchTitle);
-      this.totalData = data;
-    },
     /**
      * 페이지 클릭시 호출
      * @param {Number} page [1,2,3...]
      */
     async searchPage(page) {
-      if (0 > page || this.pages.length - 1 < page) return;
+      if (1 > page) return;
       this.selectedPage = page;
+      const searchTitle = this.$store.getters['items/getSearchTitle'];
 
       const payload = {
-        p: page,
+        p: this.selectedPage - 1,
         s: this.size,
-        st: this.$store.getters['items/getSearchTitle'],
+        st: searchTitle,
       };
 
-      this.itemList = await this.$store.dispatch('items/searchAction', payload);
+      const data = await this.$store.dispatch('items/searchAction', payload);
+      this.itemList = data.content;
+      this.totalPages = data.totalPages;
 
-      console.log('itemList = ' + this.itemList.length);
+      const searchConditions = {
+        name: searchTitle,
+        page: this.selectedPage,
+      };
+
+      if (!this.$route.path.startsWith('/items/search')) {
+        await this.$router.push({
+          path: '/items/search',
+          query: searchConditions,
+        });
+      } else {
+        const query = new URLSearchParams(searchConditions).toString();
+        history.pushState({}, null, `${this.$route.path}?${query}`);
+      }
     },
   },
 };
