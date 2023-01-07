@@ -17,11 +17,7 @@
             <tbody class="align-middle">
               <tr v-for="item in cartItemList" v-bind:key="item">
                 <td class="align-middle">
-                  <img
-                    src="../../assets/items/1_cat.jpg"
-                    alt=""
-                    style="width: 50px"
-                  />
+                  <img :src="item.imageUrl" alt="" style="width: 50px" />
                   {{ item.itemName }}
                 </td>
 
@@ -115,7 +111,6 @@ export default {
     async loadCart() {
       const { data } = await readCall();
       this.cartItemList = data.data;
-      console.log(this.cartItemList);
 
       return this.cartItemList;
     },

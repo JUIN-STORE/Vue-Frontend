@@ -20,10 +20,7 @@
           <tr v-for="(item, idx) in this.cart_list" :key="item.itemId">
             <td class="align-middle">
               <router-link :to="`/items/${item.itemId}`" class="text-dark">
-                <img
-                  :src="require('@/assets/items/' + item.itemImageName)"
-                  style="width: 15%"
-                />
+                <img :src="item.imageUrl" style="width: 15%" />
                 {{ item.itemName }}
               </router-link>
             </td>
@@ -168,7 +165,7 @@ export default {
       let count = this.cartItemList[idx].count + Number(plusValue);
 
       if (count <= 0 || 100 < count) {
-        alert('invalid input');
+        alert('수량은 1개 ');
         return;
       }
 
@@ -200,7 +197,6 @@ export default {
     },
 
     async buy() {
-      console.log('test');
       let itemList = '';
       this.cartItemList.forEach(each => {
         itemList += each.itemId + ',';
