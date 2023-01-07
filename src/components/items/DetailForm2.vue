@@ -21,11 +21,7 @@
           <div id="item-carousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner bg-light">
               <div class="carousel-item active">
-                <img
-                  class="w-100 h-100"
-                  :src="require('@/assets/items/' + img)"
-                  alt="Image"
-                />
+                <img class="w-100 h-100" :src="findThumbnail()" alt="Image" />
               </div>
             </div>
             <a
@@ -149,7 +145,6 @@
                     <h4 class="mb-4">1 review for "Item Name"</h4>
                     <div class="media mb-4">
                       <img
-                        :src="require('@/assets/items/1_cat.jpg')"
                         alt="Image"
                         class="img-fluid mr-3 mt-1"
                         style="width: 45px"
@@ -232,7 +227,7 @@ export default {
       quantity: this.$store.getters['items/getItem'].quantity,
       price: this.$store.getters['items/getItem'].price,
       description: this.$store.getters['items/getItem'].description,
-      img: this.$store.getters['items/getItem'].itemImageList[0].imageName,
+      imageList: this.$store.getters['items/getItem'].itemImageList,
       count: 1,
     };
   },
@@ -242,6 +237,9 @@ export default {
     },
   },
   methods: {
+    findThumbnail() {
+      return this.imageList.filter(img => img.thumbnail == true)[0].imageUrl;
+    },
     plusCount() {
       this.count++;
     },
@@ -253,7 +251,7 @@ export default {
         id: this.itemId,
         name: this.name,
         price: this.price,
-        img: require('@/assets/items/' + this.img),
+        img: this.findThumbnail(),
       };
       const payload = {
         itemId: this.itemId,

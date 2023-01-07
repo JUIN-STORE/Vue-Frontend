@@ -4,7 +4,7 @@
       <button
         type="submit"
         class="btn btn-primary"
-        style="float: right; width: 10%; margin-bottom: 20%"
+        style="float: right; width: 8em; margin-bottom: 20%"
       >
         주문하기
       </button>

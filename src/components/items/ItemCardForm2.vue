@@ -8,7 +8,7 @@
       >
         <img
           class="img-fluid w-100"
-          :src="require('@/assets/items/' + findThumbnail())"
+          :src="findThumbnail()"
           style="width: 500px"
           alt=""
         />
@@ -44,8 +44,6 @@
 </template>
 
 <script>
-import { getAuthFromCookie, getEmailFromCookie } from '@/utils/cookies';
-
 export default {
   props: ['item'],
   data() {
@@ -58,19 +56,11 @@ export default {
   },
   methods: {
     findThumbnail() {
-      console.log(
-        this.item.itemImageList.filter(img => img.thumbnail == true)[0]
-          .imageName,
-      );
-
       return this.item.itemImageList.filter(img => img.thumbnail == true)[0]
-        .imageName;
-      // 프로젝트 외 이미지를 가져올 때 활성화
-      // return require(process.env.VUE_APP_TEST + name);
+        .imageUrl;
     },
     async itemDetail() {
       let itemId = this.$props.item.id;
-      console.log('item.id = ' + itemId);
 
       await this.$store.dispatch('items/detailAction', itemId);
       await this.$router.push('/items/' + itemId);
