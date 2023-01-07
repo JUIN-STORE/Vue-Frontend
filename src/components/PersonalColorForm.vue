@@ -53,12 +53,16 @@ export default {
 
     async submit() {
       axios
-        .post('http://localhost:12345/api/personal-color', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Access-Token': getAuthFromCookie(),
+        .post(
+          'http://ec2-13-124-86-246.ap-northeast-2.compute.amazonaws.com:13579/api/personal-color',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Access-Token': getAuthFromCookie(),
+            },
           },
-        })
+        )
         .then(response => {
           // 응답 처리
           this.season = response.data.data.season;
