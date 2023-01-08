@@ -56,8 +56,18 @@ export default {
   },
   methods: {
     findThumbnail() {
-      return this.item.itemImageList.filter(img => img.thumbnail == true)[0]
-        .imageUrl;
+      const thumbnail = this.item.itemImageList.filter(
+        img => img.thumbnail == true,
+      )[0];
+
+      switch (process.env.NODE_ENV) {
+        case 'local':
+          return require(`../../assets/items/${thumbnail.imageName}`);
+        case 'production':
+          return thumbnail.imageUrl;
+        default:
+          return thumbnail.imageUrl;
+      }
     },
     async itemDetail() {
       let itemId = this.$props.item.id;

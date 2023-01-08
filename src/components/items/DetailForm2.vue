@@ -238,7 +238,16 @@ export default {
   },
   methods: {
     findThumbnail() {
-      return this.imageList.filter(img => img.thumbnail == true)[0].imageUrl;
+      const thumbnail = this.imageList.filter(img => img.thumbnail == true)[0];
+
+      switch (process.env.NODE_ENV) {
+        case 'local':
+          return require(`../../assets/items/${thumbnail.imageName}`);
+        case 'production':
+          return thumbnail.imageUrl;
+        default:
+          return thumbnail.imageUrl;
+      }
     },
     plusCount() {
       this.count++;

@@ -17,7 +17,7 @@
             <tbody class="align-middle">
               <tr v-for="item in cartItemList" v-bind:key="item">
                 <td class="align-middle">
-                  <img :src="item.imageUrl" alt="" style="width: 50px" />
+                  <img :src="makeThumbnail(item)" alt="" style="width: 50px" />
                   {{ item.itemName }}
                 </td>
 
@@ -69,6 +69,16 @@ export default {
     ...mapMutations('carts', ['SET_QUANTITY']),
     ...mapMutations('carts', ['DEL_ITEM']),
 
+    makeThumbnail(item) {
+      switch (process.env.NODE_ENV) {
+        case 'local':
+          return require(`../../assets/items/${item.itemImageName}`);
+        case 'production':
+          return item.imageUrl;
+        default:
+          return item.imageUrl;
+      }
+    },
     async onChange(itemId, e) {
       const value = e.target.value;
 
