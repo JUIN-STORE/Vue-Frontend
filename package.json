@@ -6,6 +6,7 @@
     "local": "vue-cli-service serve --mode local --port 24680",
     "production": "vue-cli-service serve --mode production --port 24680",
     "build": "vue-cli-service build",
+    "build:prod": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
