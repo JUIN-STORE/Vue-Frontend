@@ -20,7 +20,7 @@
           <tr v-for="(item, idx) in this.cart_list" :key="item.itemId">
             <td class="align-middle">
               <router-link :to="`/items/${item.itemId}`" class="text-dark">
-                <img :src="item.imageUrl" style="width: 15%" />
+                <img :src="makeThumbnail(item)" style="width: 15%" />
                 {{ item.itemName }}
               </router-link>
             </td>
@@ -58,12 +58,12 @@
               {{ (item.count * item.price).toLocaleString() }}
             </td>
             <td class="align-middle" align="center">
-              <button class="btn btn-sm btn-danger">
+              <button
+                class="btn btn-sm btn-danger"
+                @click="deleteItem(item.itemId)"
+              >
                 <i class="fa fa-times"></i>
               </button>
-              <!-- <button class="btn btn-danger" @click="deleteItem(item.itemId)">
-                <span class="material-symbols-outlined"> DELETE </span>
-              </button> -->
             </td>
           </tr>
         </tbody>
@@ -152,6 +152,17 @@ export default {
     ...mapMutations('orders', ['SET_COUNT']),
     ...mapMutations('orders', ['SET_GRAND_TOTAL']),
     ...mapMutations('orders', ['SET_ITEM_ID_LIST']),
+
+    makeThumbnail(item) {
+      switch (process.env.NODE_ENV) {
+        case 'local':
+          return require(`../../assets/items/${item.itemImageName}`);
+        case 'production':
+          return item.imageUrl;
+        default:
+          return item.imageUrl;
+      }
+    },
 
     async minusCount(itemId, idx) {
       await this.updateCount(itemId, idx, -1);

@@ -228,7 +228,7 @@ export default {
       formData.append('request', res);
 
       await axios({
-        url: 'http://localhost:12345/api/items/seller/register', // 이미지 저장을 위해 back서버와 통신
+        url: process.env.VUE_APP_API_URL + '/api/items/seller/register', // 이미지 저장을 위해 back서버와 통신
         method: 'POST',
         headers: {
           'Content-Type': 'multipart/form-data;',

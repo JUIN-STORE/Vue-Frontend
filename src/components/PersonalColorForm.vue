@@ -53,7 +53,7 @@ export default {
 
     async submit() {
       axios
-        .post('http://localhost:12345/api/personal-color', formData, {
+        .post(process.env.VUE_APP_API_URL + '/api/personal-color', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             'Access-Token': getAuthFromCookie(),
