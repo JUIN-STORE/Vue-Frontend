@@ -331,6 +331,7 @@ export default {
     },
     async searchForm() {
       let searchTitle = document.getElementById('searchTitle').value;
+      console.log('테스트입니댜');
       console.log('searchForm = ', searchTitle);
       this.$store.commit('items/SET_SEARCH_TITLE', searchTitle);
 
