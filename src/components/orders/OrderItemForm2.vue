@@ -18,11 +18,11 @@
               <tr v-for="item in cartItemList" v-bind:key="item">
                 <td class="align-middle">
                   <img :src="makeThumbnail(item)" alt="" style="width: 50px" />
-                  {{ item.itemName }}
+                  {{ item.name }}
                 </td>
 
                 <td class="align-middle">{{ item.count }}</td>
-                <td class="align-middle">{{ item.price }}</td>
+                <td class="align-middle">{{ item.price.toLocaleString() }}</td>
               </tr>
             </tbody>
           </table>
@@ -72,7 +72,7 @@ export default {
     makeThumbnail(item) {
       switch (process.env.NODE_ENV) {
         case 'local':
-          return require(`../../assets/items/${item.itemImageName}`);
+          return require(`../../assets/items/${item.imageName}`);
         case 'production':
           return item.imageUrl;
         default:
@@ -120,8 +120,7 @@ export default {
 
     async loadCart() {
       const { data } = await readCall();
-      this.cartItemList = data.data;
-
+      this.cartItemList = this.$store.getters['orders/getItemList'];
       return this.cartItemList;
     },
   },

@@ -62,7 +62,7 @@
             <div class="d-flex mb-3"></div>
             <div class="d-flex mb-4">
               <strong class="text-dark mr-3">잔여 수량 :</strong>
-              {{ quantity }}
+              {{ this.formatQuantity }}
             </div>
             <div class="d-flex align-items-center mb-4 pt-2">
               <div class="input-group quantity mr-3" style="width: 130px">
@@ -234,6 +234,9 @@ export default {
   computed: {
     formatPrice() {
       return this.price.toLocaleString();
+    },
+    formatQuantity() {
+      return this.quantity.toLocaleString();
     },
   },
   methods: {

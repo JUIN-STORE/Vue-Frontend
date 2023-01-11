@@ -20,12 +20,14 @@ export default {
 
       const payload = {
         count: this.$store.getters['orders/getCount'],
-        grandTotal: this.$store.getters['orders/getGrandTotal'],
         orderStatus: 'READY',
-        itemIdList: this.$store.getters['orders/getItemIdList'],
+        itemIdList: this.$store.getters['orders/getItemList'].map(
+          item => item.id,
+        ),
         deliveryReceiver: this.$store.getters['orders/getDeliveryReceiver'],
         deliveryAddress: this.$store.getters['orders/getDeliveryAddress'],
       };
+
       try {
         await this.$store.dispatch('orders/createOrderAction', payload);
         alert('주문이 완료되었습니다.');

@@ -54,7 +54,7 @@ const mutations = {
 
   DEL_ITEM(state, id) {
     state.cart_list.forEach((each, index) => {
-      if (each.id === id) {
+      if (each.itemId === id) {
         state.cart_list.splice(index, 1);
       }
     });
