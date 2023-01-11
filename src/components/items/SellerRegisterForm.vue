@@ -108,7 +108,6 @@ export default {
   created() {
     let accountRole = this.$store.getters['accounts/readAccountRole'];
 
-    console.log(accountRole);
     if (accountRole === 'USER') {
       alert('일반 유저는 접근할 수 없습니다. 판매자만 접근 가능합니다.');
       this.$router.push('/');
@@ -166,7 +165,6 @@ export default {
       if (!files) {
         return;
       }
-      console.log('files', files);
 
       if (formData == undefined)
         formData = new FormData(); // 파일을 전송할때는 FormData 형식으로 전송
@@ -205,10 +203,14 @@ export default {
 
     async selectCategory(e) {
       this.category = Number(e.target.value);
-      console.log('categoryId=' + this.category);
     },
 
     async submit() {
+      if (this.categoryId == 0) {
+        alert('카테고리 선택은 필수입니다.');
+        return;
+      }
+
       const payload = {
         categoryId: this.categoryId,
         name: this.name,
@@ -239,8 +241,8 @@ export default {
       })
         .then(res => {
           alert('상품 등록에 완료하였습니다.');
-          console.log(res.data.message);
           this.imagecnt = files.length; // 이미지 개수 저장
+          this.initRequest();
         })
         .catch(err => {
           alert('상품 등록에 실패하였습니다.');
@@ -248,11 +250,15 @@ export default {
         });
     },
     initRequest() {
+      this.categoryId = 0;
       this.file = '';
       this.name = '';
       this.price = '';
       this.quantity = '';
       this.description = '';
+      formData = undefined;
+      document.querySelector('div.thumb-box').replaceChildren();
+      document.querySelector('div.img-box').replaceChildren();
     },
   },
 };

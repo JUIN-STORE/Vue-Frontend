@@ -18,7 +18,7 @@
           item.name
         }}</a>
         <div class="d-flex align-items-center justify-content-center mt-2">
-          <h5>{{ item.price }}</h5>
+          <h5>{{ item.price.toLocaleString() }}</h5>
         </div>
         <div class="d-flex align-items-center justify-content-center mb-3">
           <small class="fa fa-star text-primary mr-1"></small>
@@ -33,7 +33,7 @@
             Add to Cart
             <i class="fa fa-shopping-cart mr-1"></i>
           </button>
-          <button class="btn btn-primary mx-1" type="button">
+          <button class="btn btn-primary mx-1" type="button" @click="buy">
             Buy Now
             <i class="fa fa-dollar-sign mr-1"></i>
           </button>
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
+
 export default {
   props: ['item'],
   data() {
@@ -55,6 +57,10 @@ export default {
     };
   },
   methods: {
+    ...mapMutations('orders', ['SET_COUNT']),
+    ...mapMutations('orders', ['SET_GRAND_TOTAL']),
+    ...mapMutations('orders', ['SET_ITEM_LIST']),
+
     findThumbnail() {
       const thumbnail = this.item.itemImageList.filter(
         img => img.thumbnail == true,
@@ -80,7 +86,6 @@ export default {
         id: this.item.id,
         name: this.item.name,
         price: this.item.price,
-        img: require('@/assets/items/' + this.item.itemImageList[0].imageName),
       };
 
       const payload = {
@@ -101,6 +106,31 @@ export default {
       } catch (e) {
         alert('장바구니 등록에 실패했습니다.');
       }
+    },
+    async buy() {
+      if (confirm('상품 ' + this.item.name + '을 구매하시겠습니까?')) {
+        this.makeBuyInfo();
+        this.$router.push('/carts/buy');
+      }
+    },
+    makeBuyInfo() {
+      this.SET_COUNT(1);
+      this.SET_GRAND_TOTAL(this.item.price);
+
+      const thumbnail = this.item.itemImageList.filter(
+        image => image.thumbnail == true,
+      )[0];
+
+      const item = {
+        id: this.item.id,
+        name: this.item.name,
+        price: this.item.price,
+        count: 1,
+        imageName: thumbnail.imageName,
+        imageUrl: thumbnail.imageUrl,
+      };
+      let itemList = [item];
+      this.SET_ITEM_LIST(itemList);
     },
   },
 };

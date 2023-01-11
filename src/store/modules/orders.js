@@ -16,7 +16,7 @@ const state = {
     street: '',
     defaultAddress: true,
   },
-  itemIdList: [],
+  itemList: [],
 };
 
 // mutations: 대문자 스네이크
@@ -29,8 +29,8 @@ const mutations = {
     state.grandTotal = grandTotal;
   },
 
-  SET_ITEM_ID_LIST(state, itemIdList) {
-    state.itemIdList = itemIdList;
+  SET_ITEM_LIST(state, itemList) {
+    state.itemList = itemList;
   },
 
   SET_DELIVERY_RECEIVER(state, deliveryReceiver) {
@@ -56,8 +56,8 @@ const getters = {
     return state.orderStatus;
   },
 
-  getItemIdList(state) {
-    return state.itemIdList;
+  getItemList(state) {
+    return state.itemList;
   },
 
   getDeliveryReceiver(state) {

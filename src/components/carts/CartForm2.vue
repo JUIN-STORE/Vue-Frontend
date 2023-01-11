@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody class="align-middle">
-          <tr v-for="(item, idx) in this.cart_list" :key="item.itemId">
+          <tr v-for="(item, idx) in this.cartItemList" :key="item.itemId">
             <td class="align-middle">
               <router-link :to="`/items/${item.itemId}`" class="text-dark">
                 <img :src="makeThumbnail(item)" style="width: 15%" />
@@ -131,7 +131,7 @@ export default {
 
     totalQuantity() {
       let sum = 0;
-      this.cart_list.forEach(each => {
+      this.cartItemList.forEach(each => {
         sum = sum + Number(each.count);
       });
 
@@ -151,7 +151,7 @@ export default {
     ...mapMutations('carts', ['DEL_ITEM']),
     ...mapMutations('orders', ['SET_COUNT']),
     ...mapMutations('orders', ['SET_GRAND_TOTAL']),
-    ...mapMutations('orders', ['SET_ITEM_ID_LIST']),
+    ...mapMutations('orders', ['SET_ITEM_LIST']),
 
     makeThumbnail(item) {
       switch (process.env.NODE_ENV) {
@@ -176,7 +176,7 @@ export default {
       let count = this.cartItemList[idx].count + Number(plusValue);
 
       if (count <= 0 || 100 < count) {
-        alert('수량은 1개 ');
+        alert('허용되지 않는 범위입니다.');
         return;
       }
 
@@ -198,8 +198,6 @@ export default {
 
         try {
           this.DEL_ITEM(itemId);
-          this.cartItemList = this.cart_list;
-          this.$store.commit('carts/DEL_ITEM');
           await this.$store.dispatch('carts/clearCartAction', payload);
         } catch (e) {
           console.log(e);
@@ -213,9 +211,30 @@ export default {
         itemList += each.itemId + ',';
       });
 
-      await this.$store.dispatch('carts/readBuyInfoCartAction', itemList);
+      const result = await this.$store.dispatch(
+        'carts/readBuyInfoCartAction',
+        itemList,
+      );
 
-      this.setCreateOrderState();
+      this.SET_COUNT(this.totalQuantity);
+      this.SET_GRAND_TOTAL(this.totalPrice);
+
+      const data = result.data;
+      const itemListToBuy = [];
+
+      data.forEach(d => {
+        const itemToBuy = {
+          id: d.item.itemId,
+          name: d.item.itemName,
+          price: d.item.price * d.count,
+          count: d.count,
+          imageName: d.itemImage.originName,
+          imageUrl: d.itemImage.imageUrl,
+        };
+        itemListToBuy.push(itemToBuy);
+      });
+
+      this.SET_ITEM_LIST(itemListToBuy);
     },
 
     async loadCart() {
@@ -223,17 +242,6 @@ export default {
       this.cartItemList = data.data;
 
       this.$store.commit('carts/SET_CART_LIST', this.cartItemList);
-    },
-
-    setCreateOrderState() {
-      this.SET_COUNT(this.totalQuantity);
-      this.SET_GRAND_TOTAL(this.totalPrice);
-
-      let itemIdList = [];
-      this.cartItemList.forEach(each => {
-        itemIdList.push(each.itemId);
-      });
-      this.SET_ITEM_ID_LIST(itemIdList);
     },
   },
 };
