@@ -27,11 +27,11 @@ export function setInterceptors(instance) {
       // Any status codes that falls outside the range of 2xx cause this function to trigger
       // Do something with response error
 
-      if (error.response.status == 401) {
+      if (error.response.status === 401) {
         await store.commit('accounts/SET_ACCESS_TOKEN', '');
         const { data } = await reIssueToken();
 
-        if (data.result == 200) {
+        if (data.apiStatus === 200) {
           await store.commit(
             'accounts/SET_ACCESS_TOKEN',
             data.data.accessToken,

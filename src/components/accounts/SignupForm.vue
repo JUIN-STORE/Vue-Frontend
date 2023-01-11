@@ -142,9 +142,14 @@ export default {
           },
         };
 
-        await signUpCall(payload);
-        alert(this.email + '님 가입되었습니다. 로그인 페이지로 이동합니다.');
-        await this.$router.push('/accounts/login');
+        let data = await signUpCall(payload);
+
+        if (data.data.apiStatus !== 200) {
+          alert(data.data.message);
+        } else {
+          alert(this.email + '님 가입되었습니다. 로그인 페이지로 이동합니다.');
+          await this.$router.push('/accounts/login');
+        }
       } catch (error) {
         alert(error.response.data.message);
         this.initForm();

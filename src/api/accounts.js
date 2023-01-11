@@ -24,7 +24,7 @@ function profileCall() {
 }
 
 function modifyCall(updateRequest) {
-  return instance.patch('/api/accounts/update', updateRequest);
+  return instance.patch('/api/accounts', updateRequest);
 }
 
 function removeCall(accountId) {
