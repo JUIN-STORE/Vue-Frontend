@@ -81,7 +81,7 @@
             <span class="h1 text-uppercase text-primary bg-dark px-2"
               >JUIN</span
             >
-            <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1"
+            <span class="h1 text-uppercase text-dark bg-primary px-2"
               >STORE</span
             >
           </a>
@@ -184,8 +184,8 @@
             <button
               type="button"
               class="navbar-toggler"
-              data-toggle="collapse"
-              data-target="#navbarCollapse"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse"
             >
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -201,7 +201,7 @@
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
               </div>
               <div
-                class="navbar-nav ml-auto py-0 d-lg-block"
+                class="navbar-nav ml-auto py-0 d-lg-block d-none"
                 style="margin-top: 12px"
               >
                 <router-link to="/carts" class="pl-2">

@@ -9502,6 +9502,10 @@
     justify-content: center;
 }
 
+.navbar-nav > a {
+  margin-top: 12px;
+}
+
 .navbar-dark .navbar-nav .nav-link {
     margin-top: 12px;
     padding: 10px;
