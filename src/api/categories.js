@@ -18,7 +18,7 @@ function categoriesCall() {
 }
 
 function createCategoryCall(createRequest) {
-  return instance.post(categoryEndPoint + '/admin/new', createRequest);
+  return instance.post('/api/admin/categories', createRequest);
 }
 
 export { categoriesCall, createCategoryCall };
