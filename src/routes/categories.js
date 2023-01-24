@@ -1,6 +1,6 @@
 export default [
   {
-    path: '/categories/admin/new',
+    path: '/admin/categories/new',
     component: () => import('@/views/categories/CreatePage.vue'),
   },
 ];
