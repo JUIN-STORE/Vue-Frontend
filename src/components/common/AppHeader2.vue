@@ -46,23 +46,26 @@
               <i class="fas fa-sign-out-alt"> Log Out</i>
             </a>
           </div>
-          <div class="d-inline-flex align-items-center d-block d-lg-none">
-            <a href="" class="btn px-0 ml-2">
-              <i class="fas fa-heart text-dark"></i>
+          <div
+            class="d-inline-flex align-items-center d-block d-lg-none"
+            style="float: right"
+          >
+            <router-link to="/carts" class="pl-2">
+              <i class="fas fa-solid fa-shopping-cart text-dark px-1"></i>
               <span
                 class="badge text-dark border border-dark rounded-circle"
                 style="padding-bottom: 2px"
                 >0</span
               >
-            </a>
-            <a href="" class="btn px-0 ml-2">
-              <i class="fas fa-shopping-cart text-dark"></i>
+            </router-link>
+            <router-link to="/orders/info" class="pl-2">
+              <i class="fas fa-solid fa-file-invoice-dollar text-dark px-1"></i>
               <span
                 class="badge text-dark border border-dark rounded-circle"
                 style="padding-bottom: 2px"
                 >0</span
               >
-            </a>
+            </router-link>
           </div>
         </div>
       </div>
@@ -75,9 +78,11 @@
             class="text-decoration-none"
             style="cursor: pointer"
           >
-            <span class="h1 text-uppercase text-primary bg-dark px-2">JZ</span>
-            <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1"
-              >Shop</span
+            <span class="h1 text-uppercase text-primary bg-dark px-2"
+              >JUIN</span
+            >
+            <span class="h1 text-uppercase text-dark bg-primary px-2"
+              >STORE</span
             >
           </a>
         </div>
@@ -169,16 +174,18 @@
             class="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0"
           >
             <a href="" class="text-decoration-none d-block d-lg-none">
-              <span class="h1 text-uppercase text-dark bg-light px-2">JZ</span>
+              <span class="h1 text-uppercase text-dark bg-light px-2"
+                >JUIN</span
+              >
               <span class="h1 text-uppercase text-light bg-primary px-2 ml-n1"
-                >Shop</span
+                >STORE</span
               >
             </a>
             <button
               type="button"
               class="navbar-toggler"
-              data-toggle="collapse"
-              data-target="#navbarCollapse"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse"
             >
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -190,34 +197,28 @@
                 <a href="index.html" class="nav-item nav-link active">Home</a>
                 <a href="shop.html" class="nav-item nav-link">Shop</a>
                 <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
-                <div class="nav-item dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    >Pages <i class="fa fa-angle-down mt-1"></i
-                  ></a>
-                  <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                    <a href="cart.html" class="dropdown-item">Shopping Cart</a>
-                    <a href="checkout.html" class="dropdown-item">Checkout</a>
-                  </div>
-                </div>
+
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
               </div>
-              <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                <a href="" class="btn px-0">
-                  <i class="fas fa-heart text-primary"></i>
+              <div
+                class="navbar-nav ml-auto py-0 d-lg-block d-none"
+                style="margin-top: 12px"
+              >
+                <router-link to="/carts" class="pl-2">
+                  <i
+                    class="fas fa-solid fa-shopping-cart text-primary px-1"
+                  ></i>
                   <span
                     class="badge text-secondary border border-secondary rounded-circle"
-                    style="padding-bottom: 2px"
                     >0</span
                   >
-                </a>
-                <router-link to="/carts" class="btn px-0 ml-3">
-                  <i class="fas fa-shopping-cart text-primary"></i>
+                </router-link>
+                <router-link to="/orders/info" class="pl-2">
+                  <i
+                    class="fas fa-solid fa-file-invoice-dollar text-primary px-1"
+                  ></i>
                   <span
                     class="badge text-secondary border border-secondary rounded-circle"
-                    style="padding-bottom: 2px"
                     >0</span
                   >
                 </router-link>
