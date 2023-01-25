@@ -58,8 +58,17 @@ export default {
   },
 
   created() {
+    let accountRole = this.$store.getters['accounts/readAccountRole'];
+
+    if (accountRole !== 'ADMIN') {
+      alert('관리자만 접근 가능합니다.');
+      this.$router.push('/');
+    } else {
+      this.readCategoryList();
+    }
     this.readCategoryList();
   },
+
   methods: {
     async readCategoryList() {
       const { data } = await categoriesCall();
