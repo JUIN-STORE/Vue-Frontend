@@ -8,6 +8,7 @@ import orders from '@/routes/orders';
 import common from '@/routes/common';
 import categories from '@/routes/categories';
 import personal from '@/routes/personal-color';
+import store from '@/store/index.js';
 
 Vue.use(VueRouter);
 
@@ -24,4 +25,17 @@ const router = new VueRouter({
     ...personal,
   ],
 });
+
+router.beforeEach(function (to, from, next) {
+  const requireAuth = to.meta.requireAuth;
+  const accessToken = store.getters['accounts/getAccessToken'];
+
+  if (requireAuth && !accessToken) {
+    alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+    next('/accounts/login');
+  } else {
+    next();
+  }
+});
+
 export default router;
