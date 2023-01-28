@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { setInterceptors } from './common/interceptors';
+import routes from '@/routes';
 
 function createInstance() {
   const instance = axios.create({

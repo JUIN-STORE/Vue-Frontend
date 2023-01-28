@@ -1,6 +1,34 @@
 <template>
-  <div>
-    <div class="container-fluid" v-if="this.isLoaded">
+  <div v-if="this.isCartLoaded && this.isProfileLoaded">
+    <div class="container-fluid">
+      <h5>주문 상품 확인</h5>
+      <div class="row">
+        <div class="table-responsive mb-5">
+          <table
+            class="table table-light table-borderless table-hover text-center mb-0"
+          >
+            <thead class="thead-dark">
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody class="align-middle">
+              <tr v-for="item in cartItemList" v-bind:key="item">
+                <td class="align-middle">
+                  <img :src="makeThumbnail(item)" alt="" style="width: 50px" />
+                  {{ item.name }}
+                </td>
+
+                <td class="align-middle">{{ item.count }}</td>
+                <td class="align-middle">{{ item.price.toLocaleString() }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="layout-login">
         <table class="table">
           <h5>구매자 정보</h5>
@@ -117,31 +145,38 @@
             </div>
           </div>
         </div>
-        <!-- <h5>주문 상품 확인</h5>
-          <button class="btn btn-outline-dark">기본 배송지</button>
-          <button class="btn btn-outline-dark" @click="showApi()">
-            신규 배송지
-          </button>
-          <button
-            onclick="window.open('/addresses/all', 'window_name', 'width=700, height=700, top=300, left=15iot00, status=no, scrollbars=yes');"
-            type="submit"
-            class="btn btn-outline-dark"
-          >
-            배송지 목록 보기
-          </button> -->
       </div>
+    </div>
+
+    <div>
+      <form @submit.prevent="createOrder" class="form">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          style="float: right; width: 8em; margin-bottom: 20%"
+        >
+          주문하기
+        </button>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
+import { readCall } from '@/api/carts';
 import { profileCall } from '@/api/accounts';
 import { getAddress } from '@/utils/address-api';
-import { mapMutations } from 'vuex';
 
 export default {
   data() {
     return {
+      // 카트 정보
+      isCartLoaded: false,
+      cartItemList: [],
+
+      // 배송지 정보
+      isProfileLoaded: false,
       id: 0,
       accountRole: 'USER',
       deliveryReceiver: {
@@ -160,15 +195,39 @@ export default {
         street: null,
         zipCode: null,
       },
-      isLoaded: false,
     };
   },
+  created() {
+    this.loadCart();
+    this.getProfile();
+  },
+
+  computed: {
+    ...mapState('carts', ['cart_list']),
+
+    totalQuantity() {
+      let sum = 0;
+      this.cart_list.forEach(each => {
+        sum = sum + Number(each.count);
+      });
+      return sum;
+    },
+
+    totalPrice() {
+      let sum = 0;
+      this.cart_list.forEach(each => {
+        sum = sum + each.price * each.count;
+      });
+      return sum;
+    },
+  },
   methods: {
-    // return
+    ...mapMutations('carts', ['SET_QUANTITY']),
+    ...mapMutations('carts', ['DEL_ITEM']),
+
     async getProfile() {
       try {
         const { data } = await profileCall();
-        console.log(data);
         this.id = data.data.id;
         this.deliveryReceiver.receiverName = data.data.name;
         this.deliveryReceiver.receiverPhoneNumber = data.data.phoneNumber;
@@ -189,9 +248,30 @@ export default {
           this.deliveryReceiver,
         );
         this.$store.commit('orders/SET_DELIVERY_ADDRESS', this.deliveryAddress);
-        this.isLoaded = true;
+        this.isProfileLoaded = true;
       } catch (error) {
         console.log(error);
+      }
+    },
+    async createOrder() {
+      if (!confirm('주문하시겠습니까?')) return;
+
+      const payload = {
+        count: this.$store.getters['orders/getCount'],
+        orderStatus: 'READY',
+        itemIdList: this.$store.getters['orders/getItemList'].map(
+          item => item.id,
+        ),
+        deliveryReceiver: this.$store.getters['orders/getDeliveryReceiver'],
+        deliveryAddress: this.$store.getters['orders/getDeliveryAddress'],
+      };
+
+      try {
+        await this.$store.dispatch('orders/createOrderAction', payload);
+        alert('주문이 완료되었습니다.');
+        await this.$router.push('/');
+      } catch (e) {
+        alert('주문에 실패하였습니다.');
       }
     },
     showApi() {
@@ -209,29 +289,145 @@ export default {
       this.$store.commit('orders/SET_DELIVERY_ADDRESS', this.deliveryAddress);
     },
     openPop() {
-      alert('hi');
       window.open('/address/all', '_blank');
     },
-  },
-  created() {
-    this.getProfile();
+    makeThumbnail(item) {
+      switch (process.env.NODE_ENV) {
+        case 'local':
+          return require(`../../assets/items/${item.imageName}`);
+        case 'production':
+          return item.imageUrl;
+        default:
+          return item.imageUrl;
+      }
+    },
+    async onChange(itemId, e) {
+      const value = e.target.value;
+
+      const payload = {
+        itemId: itemId,
+        count: value,
+      };
+
+      if (value > 0 && value <= 100) {
+        await this.$store.dispatch('carts/updateQuantityAction', payload);
+      } else {
+        alert('invalid input');
+      }
+    },
+
+    async deleteItem(itemId) {
+      const payload = {
+        itemId: itemId,
+      };
+
+      try {
+        this.DEL_ITEM(itemId);
+        this.cartItemList = this.cart_list;
+        this.$store.commit('carts/DEL_ITEM');
+        await this.$store.dispatch('carts/clearCartAction', payload);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
+    async buy() {
+      let itemList = '';
+      this.cartItemList.forEach(each => {
+        itemList += each.itemId + ',';
+      });
+
+      await this.$store.dispatch('carts/readBuyInfoCartAction', itemList);
+    },
+
+    async loadCart() {
+      this.cartItemList = this.$store.getters['orders/getItemList'];
+      this.isCartLoaded = true;
+    },
   },
 };
 </script>
 
 <style scoped>
+table {
+  text-align: center;
+}
 .card {
+  border: none;
   margin: auto;
   max-width: 500px;
   padding: 10px;
 }
-input {
-  width: 100%;
-  padding: 8px;
+.cart img {
+  width: 70px;
+  height: 70px;
+}
+
+.card-image {
+  max-height: 200px;
+  padding: 25px;
+}
+.card-text {
+  font-size: 13px;
 }
 .card-title {
+  font-size: 18px;
+  font-weight: 600;
+  max-block-size: 20px;
   margin: 8px;
+  overflow: hidden;
 }
+.card-title:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+button {
+  display: flex !important;
+  justify-content: center;
+}
+.card:hover {
+  transform: translate(0, -1px);
+}
+.card-body {
+  margin-top: 0px;
+}
+.desc {
+  max-block-size: 40px;
+  overflow: hidden;
+}
+
+input {
+  border: 1px solid grey;
+  background-color: rgb(255, 255, 255);
+  border-radius: 4px;
+  padding: 4px;
+  width: 100%;
+}
+
+tr {
+  vertical-align: middle;
+}
+.no-item {
+  margin: auto;
+  font-size: 45px;
+  text-decoration: none;
+}
+
+.hc {
+  width: 200px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+} /* 가로 중앙 정렬 */
+.vc {
+  height: 40px;
+  top: 0;
+  bottom: 0;
+  margin-top: auto;
+  margin-bottom: auto;
+} /* 세로 중앙 정렬 */
+
 .btn {
   margin-top: 10px;
 }

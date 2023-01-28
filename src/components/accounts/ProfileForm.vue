@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="layout-login">
+    <div class="layout-login" v-if="this.isLoaded">
       <div class="card">
         <div class="card-header">PROFILE</div>
         <p></p>
@@ -105,10 +105,10 @@ export default {
         street: '',
         zipCode: '',
       },
+      isLoaded: false,
     };
   },
   methods: {
-    // return
     async getProfile() {
       try {
         const { data } = await profileCall();
@@ -129,6 +129,8 @@ export default {
         this.$store.commit('accounts/SET_CITY', this.address.city);
         this.$store.commit('accounts/SET_STREET', this.address.street);
         this.$store.commit('accounts/SET_ZIP_CODE', this.address.zipCode);
+
+        this.isLoaded = true;
       } catch (error) {
         console.log(error);
       }
