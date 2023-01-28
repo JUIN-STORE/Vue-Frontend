@@ -197,8 +197,8 @@ export default {
         };
 
         try {
-          this.DEL_ITEM(itemId);
           await this.$store.dispatch('carts/clearCartAction', payload);
+          this.DEL_ITEM(itemId);
         } catch (e) {
           console.log(e);
         }
