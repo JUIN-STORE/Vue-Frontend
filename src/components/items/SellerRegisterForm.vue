@@ -89,8 +89,6 @@
           </button>
         </div>
       </form>
-
-      <!--      <v-img v-for="(item, i) in fileList" :key="i" :src="item.url" />-->
     </div>
   </div>
 </template>
@@ -98,8 +96,8 @@
 <script>
 import { validateEmail } from '@/utils/validation';
 import axios from 'axios';
-import { getAuthFromCookie } from '@/utils/cookies';
 import { categoriesCall } from '@/api/categories';
+import { createItem } from '@/api/seller-item';
 
 let formData;
 let files;
@@ -229,36 +227,14 @@ export default {
       const res = new Blob([json], { type: 'application/json' });
       formData.append('request', res);
 
-      await axios({
-        url: process.env.VUE_APP_API_URL + '/api/seller/items/register', // 이미지 저장을 위해 back서버와 통신
-        method: 'POST',
-        headers: {
-          'Content-Type': 'multipart/form-data;',
-          Authorization: this.$store.getters['accounts/getAccessToken'],
-        }, // 이걸 써줘야 formdata 형식 전송가능
-        withCredentials: true,
-        data: formData,
-      })
-        .then(res => {
-          alert('상품 등록에 완료하였습니다.');
-          this.imagecnt = files.length; // 이미지 개수 저장
-          this.initRequest();
-        })
-        .catch(err => {
-          alert('상품 등록에 실패하였습니다.');
-          console.log(err);
-        });
-    },
-    initRequest() {
-      this.categoryId = 0;
-      this.file = '';
-      this.name = '';
-      this.price = '';
-      this.quantity = '';
-      this.description = '';
-      formData = undefined;
-      document.querySelector('div.thumb-box').replaceChildren();
-      document.querySelector('div.img-box').replaceChildren();
+      try {
+        const response = await createItem(formData);
+        alert('상품 등록이 완료되었습니다.');
+        this.initRequest();
+      } catch (e) {
+        alert('상품 등록에 실패하였습니다.');
+        console.log(e);
+      }
     },
   },
 };
