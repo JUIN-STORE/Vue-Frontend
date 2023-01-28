@@ -9,28 +9,41 @@ function createInstance() {
   return setInterceptors(instance);
 }
 
+const accountEndPoint = '/api/accounts';
+
 const instance = createInstance();
 
 function signUpCall(signupRequest) {
-  return instance.post('/api/accounts/sign-up', signupRequest);
+  return instance.post(accountEndPoint + '/sign-up', signupRequest);
 }
 
 function loginCall(loginRequest) {
-  return instance.post('/api/accounts/login', loginRequest);
+  return instance.post(accountEndPoint + '/login', loginRequest);
+}
+
+function logoutCall() {
+  return instance.get(accountEndPoint + '/logout');
 }
 
 function profileCall() {
-  return instance.get('/api/accounts/profile');
+  return instance.get(accountEndPoint + '/profile');
 }
 
 function modifyCall(updateRequest) {
-  return instance.patch('/api/accounts', updateRequest);
+  return instance.patch(accountEndPoint, updateRequest);
 }
 
 function removeCall(accountId) {
-  return instance.delete('/api/accounts/' + accountId);
+  return instance.delete(accountEndPoint + '/' + accountId);
 }
 
-export { signUpCall, loginCall, profileCall, modifyCall, removeCall };
+export {
+  signUpCall,
+  loginCall,
+  logoutCall,
+  profileCall,
+  modifyCall,
+  removeCall,
+};
 
 // 1번째

@@ -236,6 +236,7 @@ import { deleteCookie } from '@/utils/cookies';
 import { categoriesCall } from '@/api/categories';
 import { readAllItem } from '@/api/items';
 import $ from 'jquery';
+import { logoutCall } from '@/api/accounts';
 
 export default {
   data() {
@@ -305,10 +306,10 @@ export default {
     signUp() {
       this.$router.push('/accounts/sign-up');
     },
-    logout() {
+    async logout() {
+      await logoutCall();
       this.$store.commit('accounts/CLEAR_COOKIE');
-      deleteCookie('email');
-      deleteCookie('jwt');
+      alert('로그아웃되었습니다');
       this.login();
     },
     async searchItemByCategoryId(ci) {
