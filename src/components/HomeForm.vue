@@ -65,14 +65,16 @@ export default {
   },
   data() {
     return {
+      // 데이터
       itemList: [],
 
+      // 페이지네이션
       isFirst: true,
       isLast: true,
       size: 1, // 한 번에 가져올 아이템 개수,
       selectedPage: 1, // 현재 선택된 페이지
       totalPages: 0, // 아이템 전체 페이지 수
-      pageListSize: 10,
+      pageListSize: 10, // 아래 표시할 페이지 수
     };
   },
   watch: {
@@ -131,7 +133,6 @@ export default {
         .map((n, idx) => n + idx);
     },
   },
-  mounted() {},
   methods: {
     /**
      * 페이지 클릭시 호출
