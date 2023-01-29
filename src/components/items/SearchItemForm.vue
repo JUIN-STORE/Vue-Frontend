@@ -36,7 +36,7 @@
               <a
                 class="page-link text-primary2"
                 @click.prevent="updateSelectedPage(n)"
-                style="cursor: pointer"
+                style="cursor: pointer; width: 3em"
                 >{{ n }}</a
               >
             </li>
@@ -95,8 +95,16 @@ export default {
       let pageListSize;
 
       if (this.selectedPage - sizeForCalculate / 2 <= 0) {
+        // 첫 부분에 가까울 때
         startPage = 1;
+      } else if (
+        // 끝쪽일 때
+        this.totalPages - this.selectedPage <
+        sizeForCalculate / 2
+      ) {
+        startPage = this.totalPages - this.pageListSize + 1;
       } else {
+        // 중간일 때
         startPage = this.selectedPage - sizeForCalculate / 2 + 1;
       }
 
@@ -123,7 +131,17 @@ export default {
       immediate: true,
       deep: true, // searchConditions 는 객체이므로
       async handler() {
-        await this.searchPage(this.selectedPage - 1);
+        const query = this.$route.query;
+
+        if (
+          query.page !== undefined &&
+          query.page > 0 &&
+          this.selectedPage !== Number(query.page)
+        ) {
+          this.selectedPage = Number(query.page);
+          this.searchConditions.page = this.selectedPage;
+        }
+        this.searchPage(this.selectedPage - 1);
       },
     },
   },

@@ -36,7 +36,7 @@
               <a
                 class="page-link text-primary2"
                 @click.prevent="updateSelectedPage(n)"
-                style="cursor: pointer"
+                style="cursor: pointer; width: 3em"
                 >{{ n }}</a
               >
             </li>
@@ -90,8 +90,13 @@ export default {
 
         // query에 표시되는 페이지는 1부터 시작
         // searchPage에서 사용하는 페이지는 0부터 시작
+
         if (query.page > 0) {
-          this.searchPage(query.page - 1);
+          if (this.selectedPage !== Number(query.page)) {
+            this.selectedPage = Number(query.page);
+          }
+
+          this.searchPage(this.selectedPage - 1);
         }
       },
     },
@@ -116,8 +121,16 @@ export default {
       let pageListSize;
 
       if (this.selectedPage - sizeForCalculate / 2 <= 0) {
+        // 첫 부분에 가까울 때
         startPage = 1;
+      } else if (
+        // 끝쪽일 때
+        this.totalPages - this.selectedPage <
+        sizeForCalculate / 2
+      ) {
+        startPage = this.totalPages - this.pageListSize + 1;
       } else {
+        // 중간일 때
         startPage = this.selectedPage - sizeForCalculate / 2 + 1;
       }
 
@@ -155,7 +168,6 @@ export default {
     async searchPage(inputPage) {
       // 여기서 inputPage는 인덱스 기반 (0부터 시작)
 
-      // if (0 > inputPage || this.pages.length - 1 < inputPage) return;
       const payload = {
         p: inputPage,
         s: this.size,
