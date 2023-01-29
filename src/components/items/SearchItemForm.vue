@@ -120,7 +120,7 @@ export default {
   },
   watch: {
     searchConditions: {
-      immediate: true, // 처음 설정됐을 때부터 추적하는 옵션이지만, mounted 에서 첫 검색이 시작되므로 false
+      immediate: true,
       deep: true, // searchConditions 는 객체이므로
       async handler() {
         await this.searchPage(this.selectedPage - 1);
@@ -136,7 +136,13 @@ export default {
       this.selectedPage = inputPage;
 
       if (inputPage > 0) {
-        this.searchConditions.page = this.selectedPage;
+        const page = this.selectedPage;
+        const name = this.searchConditions.name;
+
+        this.searchConditions = {
+          page: page,
+          name: name,
+        };
 
         await this.$router.push({
           query: this.searchConditions,
