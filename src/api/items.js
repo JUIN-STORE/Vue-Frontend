@@ -30,10 +30,6 @@ function readAllItem(page, size, categoryId) {
   return instance.get(apiEndPoint);
 }
 
-function allCountCall() {
-  return instance.get(itemEndPoint + '/count');
-}
-
 function searchCall(page, size, searchTitle) {
   return instance.get(
     itemEndPoint +
@@ -46,14 +42,10 @@ function searchCall(page, size, searchTitle) {
   );
 }
 
-function searchCountCall(searchTitle) {
-  return instance.get(itemEndPoint + '/search/count' + '?name=' + searchTitle);
-}
-
 function detailCall(itemId) {
   return instance.get(itemEndPoint + '/' + itemId);
 }
 
-export { readAllItem, allCountCall, searchCall, searchCountCall, detailCall };
+export { readAllItem, searchCall, detailCall };
 
 // 1번째

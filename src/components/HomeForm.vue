@@ -17,49 +17,39 @@
       </div>
     </div>
     <div class="page" style="clear: both">
-      <ul
-        class="pagination modal2"
-        style="justify-content: center; align-items: center"
-      >
-        <li>
-          <a href="#" class="first" @click.prevent="searchPage(0)"
-            >처음 페이지</a
-          >
-        </li>
-        <li>
-          <a
-            href="#"
-            class="arrow left"
-            @click.prevent="searchPage(selectedPage - 1)"
-            >이전</a
-          >
-        </li>
-        <li>
-          <a
-            v-for="(page, idx) in pages"
-            :key="idx"
-            href="#"
-            class="num"
-            :class="{ active: page - 1 === selectedPage }"
-            @click.prevent="searchPage(page - 1)"
-          >
-            {{ page }}
-          </a>
-        </li>
-        <li>
-          <a
-            href="#"
-            class="arrow right"
-            @click.prevent="searchPage(selectedPage + 1)"
-            >다음</a
-          >
-        </li>
-        <li>
-          <a href="#" class="last" @click.prevent="searchPage(pages.length - 1)"
-            >마지막 페이지</a
-          >
-        </li>
-      </ul>
+      <div class="col-12">
+        <nav>
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: isFirst }">
+              <a
+                class="page-link text-primary2"
+                @click="updateSelectedPage(selectedPage - 1)"
+                >Previous</a
+              >
+            </li>
+            <li
+              class="page-item"
+              v-for="n in this.pageList"
+              v-bind:key="n"
+              :class="{ active: n === selectedPage }"
+            >
+              <a
+                class="page-link text-primary2"
+                @click.prevent="updateSelectedPage(n)"
+                style="cursor: pointer"
+                >{{ n }}</a
+              >
+            </li>
+            <li class="page-item" :class="{ disabled: isLast }">
+              <a
+                class="page-link text-primary2"
+                @click.prevent="updateSelectedPage(selectedPage + 1)"
+                >Next</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
 </template>
@@ -75,48 +65,112 @@ export default {
   },
   data() {
     return {
-      // 데이터
-      totalData: '',
       itemList: [],
-      //페이지네이션
-      size: 10,
-      selectedPage: 1,
+
+      isFirst: true,
+      isLast: true,
+      size: 1, // 한 번에 가져올 아이템 개수,
+      selectedPage: 1, // 현재 선택된 페이지
+      totalPages: 0, // 아이템 전체 페이지 수
+      pageListSize: 10,
     };
+  },
+  watch: {
+    '$route.query': {
+      immediate: true,
+      handler() {
+        const query = this.$route.query;
+
+        if (query.page === undefined) {
+          this.searchPage(0);
+          return;
+        }
+
+        // query에 표시되는 페이지는 1부터 시작
+        // searchPage에서 사용하는 페이지는 0부터 시작
+        if (query.page > 0) {
+          this.searchPage(query.page - 1);
+        }
+      },
+    },
   },
   computed: {
     /**
      * [1,2,3...pages] 배열을 생성하는 메서드
      */
-    pages() {
-      // 페이지 계산
-      const pages = Math.ceil(this.totalData / this.size);
+    pageList() {
+      // 전체 페이지 수가 정해진 페이지 사이즈보다 작거나 같은 경우
+      if (this.totalPages <= this.pageListSize) {
+        return Array(this.totalPages)
+          .fill(1)
+          .map((n, idx) => n + idx);
+      }
 
-      // 페이지가 1보다 크면 [1,,,pages] 배열을, 작으면 [1] 반환
-      return pages > 1 ? Array.from({ length: pages }, (_, i) => i + 1) : [1];
+      // 전체 페이지 수가 정해진 페이지 사이즈보다 큰 경우
+      const sizeForCalculate =
+        this.pageListSize % 2 == 0 ? this.pageListSize : this.pageListSize + 1;
+
+      let startPage;
+      let pageListSize;
+
+      if (this.selectedPage - sizeForCalculate / 2 <= 0) {
+        startPage = 1;
+      } else {
+        startPage = this.selectedPage - sizeForCalculate / 2 + 1;
+      }
+
+      // 끝 페이지로 갈수록 페이지 수가 줄어들도록 하기
+      if (startPage + this.pageListSize > this.totalPages) {
+        pageListSize = this.totalPages - startPage + 1;
+      } else {
+        pageListSize = this.pageListSize;
+      }
+
+      return Array(pageListSize)
+        .fill(startPage)
+        .map((n, idx) => n + idx);
     },
   },
-  async mounted() {
-    await this.loadPage(this.selectedPage - 1);
-  },
+  mounted() {},
   methods: {
-    async count() {
-      const { data } = await allCountCall();
-      this.totalData = data;
-    },
     /**
      * 페이지 클릭시 호출
-     * @param {Number} page [1,2,3...]
+     * @param {Number} inputPage [1,2,3...]
      */
-    async loadPage(page) {
-      if (0 > page || this.pages.length - 1 < page) return;
-      this.selectedPage = page;
-      const { data } = await readAllItem(page, this.size);
-      this.itemList = data.data;
+    async updateSelectedPage(inputPage) {
+      this.selectedPage = inputPage;
+
+      const searchConditions = {
+        page: this.selectedPage,
+      };
+
+      if (inputPage > 0) {
+        await this.$router.push({
+          query: searchConditions,
+        });
+      }
     },
-  },
-  created() {
-    this.count();
-    // this.loadPage(this.selectedPage - 1);
+
+    async searchPage(inputPage) {
+      // 여기서 inputPage는 인덱스 기반 (0부터 시작)
+
+      // if (0 > inputPage || this.pages.length - 1 < inputPage) return;
+      const payload = {
+        p: inputPage,
+        s: this.size,
+      };
+
+      const data = await this.$store.dispatch(
+        'items/byCategoryAction',
+        payload,
+      );
+
+      this.itemList = data.content;
+      this.isFirst = data.first;
+      this.isLast = data.last;
+      this.size = data.size;
+      this.totalPages = data.totalPages;
+    },
   },
 };
 </script>
