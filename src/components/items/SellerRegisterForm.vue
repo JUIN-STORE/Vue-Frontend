@@ -104,7 +104,7 @@ let files;
 
 export default {
   created() {
-    let accountRole = this.$store.getters['accounts/readAccountRole'];
+    let accountRole = this.$store.getters['accounts/getAccountRole'];
 
     if (accountRole === 'USER') {
       alert('일반 유저는 접근할 수 없습니다. 판매자만 접근 가능합니다.');

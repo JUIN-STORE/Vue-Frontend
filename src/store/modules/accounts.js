@@ -70,28 +70,28 @@ const getters = {
   getAccessToken(state) {
     return state.accessToken;
   },
-  readId(state) {
+  getId(state) {
     return state.id;
   },
-  readAccountRole(state) {
+  getAccountRole(state) {
     return state.accountRole;
   },
-  readEmail(state) {
+  getEmail(state) {
     return state.email;
   },
-  readName(state) {
+  getName(state) {
     return state.name;
   },
-  readPhoneNumber(state) {
+  getPhoneNumber(state) {
     return state.phoneNumber;
   },
-  readCity(state) {
+  getCity(state) {
     return state.city;
   },
-  readStreet(state) {
+  getStreet(state) {
     return state.street;
   },
-  readZipCode(state) {
+  getZipCode(state) {
     return state.zipCode;
   },
 };

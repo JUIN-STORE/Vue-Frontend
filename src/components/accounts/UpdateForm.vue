@@ -83,9 +83,9 @@ export default {
   data() {
     return {
       accountRole: 'USER',
-      email: this.$store.getters['accounts/readEmail'],
-      name: this.$store.getters['accounts/readName'],
-      phoneNumber: this.$store.getters['accounts/readPhoneNumber'],
+      email: this.$store.getters['accounts/getEmail'],
+      name: this.$store.getters['accounts/getName'],
+      phoneNumber: this.$store.getters['accounts/getPhoneNumber'],
       password: '',
     };
   },
@@ -115,7 +115,7 @@ export default {
     async deleteForm() {
       if (!confirm('모든 정보가 삭제됩니다. 정말 탈퇴하시겠습니까?')) return;
 
-      let accountId = this.$store.getters['accounts/readId'];
+      let accountId = this.$store.getters['accounts/getId'];
       await removeCall(accountId);
       alert(this.email + '님, 탈퇴되었습니다.');
       this.$store.commit('accounts/CLEAR_COOKIE');

@@ -58,7 +58,7 @@ export default {
   },
 
   created() {
-    let accountRole = this.$store.getters['accounts/readAccountRole'];
+    let accountRole = this.$store.getters['accounts/getAccountRole'];
 
     if (accountRole !== 'ADMIN') {
       alert('관리자만 접근 가능합니다.');
