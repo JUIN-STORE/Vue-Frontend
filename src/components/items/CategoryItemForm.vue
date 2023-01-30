@@ -121,16 +121,16 @@ export default {
     },
 
     searchConditions() {
-      const name = this.$store.getters['items/getSearchTitle'];
+      const categoryId = this.$store.getters['items/getCategoryId'];
       const page = this.selectedPage;
-      return { name, page };
+      return { categoryId, page };
     },
   },
   watch: {
     searchConditions: {
       immediate: true,
       deep: true, // searchConditions 는 객체이므로
-      async handler() {
+      handler() {
         const query = this.$route.query;
 
         if (
@@ -148,18 +148,18 @@ export default {
   methods: {
     /**
      * 페이지 클릭시 호출
-     * @param {Number} inputPage [1,2,3...]
+     * @param {Number} page [1,2,3...]
      */
     async updateSelectedPage(inputPage) {
       this.selectedPage = inputPage;
 
       if (inputPage > 0) {
         const page = this.selectedPage;
-        const name = this.searchConditions.name;
+        const categoryId = this.searchConditions.categoryId;
 
         this.searchConditions = {
           page: page,
-          name: name,
+          categoryId: categoryId,
         };
 
         await this.$router.push({
@@ -172,10 +172,15 @@ export default {
       const payload = {
         p: inputPage,
         s: this.size,
-        st: this.$store.getters['items/getSearchTitle'],
+        ci: this.$store.getters['items/getCategoryId'],
       };
 
-      const data = await this.$store.dispatch('items/searchAction', payload);
+      const data = await this.$store.dispatch(
+        'items/byCategoryAction',
+        payload,
+      );
+
+      this.itemList = data.content;
 
       this.itemList = data.content;
       this.isFirst = data.first;
