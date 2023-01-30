@@ -93,14 +93,14 @@ export default {
       id: 0,
       accountRole: 'USER',
       deliveryReceiver: {
-        receiverName: this.$store.getters['accounts/readName'],
-        receiverPhoneNumber: this.$store.getters['accounts/readPhoneNumber'],
-        receiverEmail: this.$store.getters['accounts/readEmail'],
+        receiverName: this.$store.getters['accounts/getName'],
+        receiverPhoneNumber: this.$store.getters['accounts/getPhoneNumber'],
+        receiverEmail: this.$store.getters['accounts/getEmail'],
       },
       deliveryAddress: {
-        city: this.$store.getters['accounts/readCity'],
-        street: this.$store.getters['accounts/readStreet'],
-        zipCode: this.$store.getters['accounts/readZipCode'],
+        city: this.$store.getters['accounts/getCity'],
+        street: this.$store.getters['accounts/getStreet'],
+        zipCode: this.$store.getters['accounts/getZipCode'],
         defaultAddress: true,
       },
     };
