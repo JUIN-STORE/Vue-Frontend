@@ -17,7 +17,7 @@ export default [
   },
   {
     path: '/items',
-    component: () => import('@/views/items/ByCategoryPage.vue'),
+    component: () => import('@/views/items/CategoryItemPage.vue'),
     meta: { requireAuth: false },
   },
 ];
