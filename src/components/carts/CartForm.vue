@@ -1,61 +1,110 @@
 <template>
-  <div class="container">
-    <span class="d-flex mb-3 mt-2">
-      <router-link to="/">
-        <span class="material-symbols-outlined"> arrow_back </span>
-        Back To Shopping
-      </router-link>
-    </span>
-    <table class="table cart">
-      <thead>
-        <tr>
-          <th scope="col" class="w-10">Item ID</th>
-          <th scope="col" class="w-50">Item</th>
-          <th scope="col" class="w-10">Quantity</th>
-          <th scope="col" class="w-10">Price</th>
-          <th scope="col" class="w-20"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in cartItemList" :key="item.itemId">
-          <td>{{ item.itemId }}</td>
-          <td class="d-flex">
-            <img :src="require('@/assets/items/' + item.imageName)" />
-            <span> {{ item.name }}</span>
-          </td>
-          <td>
-            <input
-              v-model="item.count"
-              type="number"
-              @change="onChange(item.itemId, $event)"
-              size="4"
-              min="1"
-              max="100"
-            />
-          </td>
-          <td>
-            <span>\ {{ item.price }}</span>
-          </td>
-          <td>
-            <button class="btn btn-danger" @click="deleteItem(item.itemId)">
-              <span class="material-symbols-outlined"> DELETE </span>
-            </button>
-          </td>
-        </tr>
+  <div class="row px-xl-5">
+    <div class="col-lg-8 table-responsive mb-5">
+      <h5 class="section-title position-relative text-uppercase mb-3">
+        <span class="bg-secondary pr-3">Cart </span>
+      </h5>
+      <table
+        class="table table-light table-borderless table-hover text-center mb-0"
+      >
+        <thead class="thead-dark">
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody class="align-middle">
+          <tr v-for="(item, idx) in this.cartItemList" :key="item.itemId">
+            <td class="align-middle">
+              <router-link :to="`/items/${item.itemId}`" class="text-dark">
+                <img :src="makeThumbnail(item)" style="width: 15%" />
+                {{ item.itemName }}
+              </router-link>
+            </td>
 
-        <tr>
-          <td></td>
-          <td></td>
-          <td>TOTAL Quantity: {{ totalQuantity }}</td>
-          <td>TOTAL PRICE: &#8361;{{ totalPrice }}</td>
-          <td>
-            <router-link to="/carts/buy">
-              <button class="btn btn-success" @click="buy()">Buy Now</button>
-            </router-link>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+            <td class="align-middle">
+              <div class="input-group quantity mx-auto" style="width: 100px">
+                <div class="input-group-btn">
+                  <button
+                    class="btn btn-primary btn-minus"
+                    @click="minusCount(item.itemId, idx)"
+                    style="width: 30px"
+                  >
+                    <i class="fa fa-minus"></i>
+                  </button>
+                </div>
+                <input
+                  type="text"
+                  readonly
+                  class="form-control form-control-sm bg-secondary border-0 text-center"
+                  v-model="cartItemList[idx].count"
+                />
+                <div class="input-group-btn">
+                  <button
+                    class="btn btn-primary btn-plus"
+                    @click="plusCount(item.itemId, idx)"
+                    style="width: 30px"
+                  >
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            </td>
+            <td class="align-middle">{{ item.price.toLocaleString() }}</td>
+            <td class="align-middle">
+              {{ (item.count * item.price).toLocaleString() }}
+            </td>
+            <td class="align-middle" align="center">
+              <button
+                class="btn btn-sm btn-danger"
+                @click="deleteItem(item.itemId)"
+              >
+                <i class="fa fa-times"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-lg-4">
+      <form class="mb-30">
+        <div class="mb-30" style="float: right">
+          <h5>
+            <span class="d-flex mb-3 mt-2">
+              <router-link to="/"
+                ><i class="fas fa-arrow-left"></i> Back To Shopping
+              </router-link>
+            </span>
+          </h5>
+        </div>
+      </form>
+      <h5 class="section-title position-relative text-uppercase mb-3">
+        <span class="bg-secondary pr-3">Cart Summary</span>
+      </h5>
+      <div class="bg-light p-30 mb-5">
+        <div class="pt-2">
+          <div class="d-flex justify-content-between mt-2">
+            <h5>Total Quantity</h5>
+            <h5>{{ totalQuantity.toLocaleString() }}</h5>
+          </div>
+          <div class="d-flex justify-content-between mt-2">
+            <h5>Total Price</h5>
+            <h5>{{ totalPrice.toLocaleString() }}</h5>
+          </div>
+          <router-link to="/carts/buy">
+            <button
+              class="btn btn-block btn-primary font-weight-bold my-3 py-3"
+              @click="buy"
+            >
+              Buy Now
+            </button>
+          </router-link>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -71,17 +120,21 @@ export default {
   },
   created() {
     this.loadCart();
-    console.log('아니 왜', this.cart_list);
   },
 
   computed: {
     ...mapState('carts', ['cart_list']),
 
+    computedPrice(count, price) {
+      return count * price;
+    },
+
     totalQuantity() {
       let sum = 0;
-      this.cart_list.forEach(each => {
+      this.cartItemList.forEach(each => {
         sum = sum + Number(each.count);
       });
+
       return sum;
     },
 
@@ -98,35 +151,57 @@ export default {
     ...mapMutations('carts', ['DEL_ITEM']),
     ...mapMutations('orders', ['SET_COUNT']),
     ...mapMutations('orders', ['SET_GRAND_TOTAL']),
-    ...mapMutations('orders', ['SET_ITEM_ID_LIST']),
+    ...mapMutations('orders', ['SET_ITEM_LIST']),
 
-    async onChange(itemId, e) {
-      const value = e.target.value;
-
-      const payload = {
-        itemId: itemId,
-        count: value,
-      };
-
-      if (value > 0 && value <= 100) {
-        await this.$store.dispatch('carts/updateQuantityAction', payload);
-      } else {
-        alert('invalid input');
+    makeThumbnail(item) {
+      switch (process.env.NODE_ENV) {
+        case 'local':
+          return require(`../../assets/items/${item.itemImageName}`);
+        case 'production':
+          return item.imageUrl;
+        default:
+          return item.imageUrl;
       }
     },
 
-    async deleteItem(itemId) {
+    async minusCount(itemId, idx) {
+      await this.updateCount(itemId, idx, -1);
+    },
+
+    async plusCount(itemId, idx) {
+      await this.updateCount(itemId, idx, 1);
+    },
+
+    async updateCount(itemId, idx, plusValue) {
+      let count = this.cartItemList[idx].count + Number(plusValue);
+
+      if (count <= 0 || 100 < count) {
+        alert('허용되지 않는 범위입니다.');
+        return;
+      }
+
+      this.cartItemList[idx].count = count;
+
       const payload = {
         itemId: itemId,
+        count: count,
       };
 
-      try {
-        this.DEL_ITEM(itemId);
-        this.cartItemList = this.cart_list;
-        this.$store.commit('carts/DEL_ITEM');
-        await this.$store.dispatch('carts/clearCartAction', payload);
-      } catch (e) {
-        console.log(e);
+      await this.$store.dispatch('carts/updateQuantityAction', payload);
+    },
+
+    async deleteItem(itemId) {
+      if (confirm('해당 상품을 삭제하시겠습니까?')) {
+        const payload = {
+          itemId: itemId,
+        };
+
+        try {
+          await this.$store.dispatch('carts/clearCartAction', payload);
+          this.DEL_ITEM(itemId);
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
 
@@ -136,28 +211,37 @@ export default {
         itemList += each.itemId + ',';
       });
 
-      await this.$store.dispatch('carts/readBuyInfoCartAction', itemList);
+      const result = await this.$store.dispatch(
+        'carts/readBuyInfoCartAction',
+        itemList,
+      );
 
-      this.setCreateOrderState();
+      this.SET_COUNT(this.totalQuantity);
+      this.SET_GRAND_TOTAL(this.totalPrice);
+
+      const data = result.data;
+      const itemListToBuy = [];
+
+      data.forEach(d => {
+        const itemToBuy = {
+          id: d.item.itemId,
+          name: d.item.itemName,
+          price: d.item.price * d.count,
+          count: d.count,
+          imageName: d.itemImage.originName,
+          imageUrl: d.itemImage.imageUrl,
+        };
+        itemListToBuy.push(itemToBuy);
+      });
+
+      this.SET_ITEM_LIST(itemListToBuy);
     },
 
     async loadCart() {
       const { data } = await readCall();
-      for (let i = 0; i < data.data.length; i++) {
-        this.cartItemList.push(data.data[i]);
-      }
+      this.cartItemList = data.data;
+
       this.$store.commit('carts/SET_CART_LIST', this.cartItemList);
-    },
-
-    setCreateOrderState() {
-      this.SET_COUNT(this.totalQuantity);
-      this.SET_GRAND_TOTAL(this.totalPrice);
-
-      let itemIdList = [];
-      this.cartItemList.forEach(each => {
-        itemIdList.push(each.itemId);
-      });
-      this.SET_ITEM_ID_LIST(itemIdList);
     },
   },
 };

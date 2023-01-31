@@ -1,82 +1,122 @@
 <template>
-  <div class="container">
-    <div class="layout-login">
-      <table class="table">
-        <div>구매자 정보</div>
-        <tbody>
-          <tr>
-            <th>이름</th>
-            <td>
-              <input type="text" v-model="deliveryReceiver.receiverName" />
-            </td>
-          </tr>
-
-          <tr>
-            <th>연락처</th>
-            <td>
-              <input
-                type="text"
-                v-model="deliveryReceiver.receiverPhoneNumber"
-              />
-            </td>
-          </tr>
-
-          <tr>
-            <th>EMAIL</th>
-            <td>
-              <input type="text" v-model="deliveryReceiver.receiverEmail" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="container">
+  <div>
+    <div class="container-fluid" v-if="this.isLoaded">
       <div class="layout-login">
-        <button class="btn btn-outline-dark">기본 배송지</button>
-        <button class="btn btn-outline-dark" @click="showApi()">
-          신규 배송지
-        </button>
-        <button
-          onclick="window.open('/addresses/all', 'window_name', 'width=700, height=700, top=300, left=15iot00, status=no, scrollbars=yes');"
-          type="submit"
-          class="btn btn-outline-dark"
-        >
-          배송지 목록 보기
-        </button>
+        <table class="table">
+          <h5>구매자 정보</h5>
+          <tbody>
+            <tr>
+              <th>이름</th>
+              <td>
+                <input type="text" v-model="deliveryReceiver.receiverName" />
+              </td>
+            </tr>
+
+            <tr>
+              <th>연락처</th>
+              <td>
+                <input
+                  type="text"
+                  v-model="deliveryReceiver.receiverPhoneNumber"
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <th>EMAIL</th>
+              <td>
+                <input type="text" v-model="deliveryReceiver.receiverEmail" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="card-text">
-        <br />ADDRESS
-        <p></p>
-        <label>* 우편번호</label>
-        <input
-          type="text"
-          id="zipCode"
-          v-model="deliveryAddress.zipCode"
-          placeholder="우편번호"
-          required
-          disabled
-        />
+      <div class="layout-login">
+        <div class="tab-content" id="pills-tabContent">
+          <div
+            class="tab-pane fade show active"
+            id="pills-home"
+            role="tabpanel"
+            aria-labelledby="pills-home-tab"
+          >
+            <ul class="nav nav-pills">
+              <li class="nav-item">
+                <a
+                  class="nav-link active text-dark"
+                  aria-current="page"
+                  data-bs-toggle="pill"
+                  @click="setDeliveryAddressToDefault"
+                  >기본 배송지</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link text-dark"
+                  aria-current="page"
+                  data-bs-toggle="pill"
+                  @click="showApi"
+                  >신규 배송지</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link text-dark"
+                  aria-current="page"
+                  data-bs-toggle="pill"
+                  onclick="window.open('/addresses/all', 'window_name', 'width=700, height=700, top=300, left=15iot00, status=no, scrollbars=yes');"
+                  >배송지 목록 보기</a
+                >
+              </li>
+            </ul>
+            <div>
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th>우편번호</th>
+                    <td>
+                      <input
+                        type="text"
+                        id="zipCode"
+                        v-model="deliveryAddress.zipCode"
+                        placeholder="우편번호"
+                        required
+                        disabled
+                      />
+                    </td>
+                  </tr>
 
-        <label>* 도시</label>
-        <input
-          type="text"
-          id="city"
-          v-model="deliveryAddress.city"
-          placeholder="도로명 주소"
-          required
-          disabled
-        />
+                  <tr>
+                    <th>도시</th>
+                    <td>
+                      <input
+                        type="text"
+                        id="city"
+                        v-model="deliveryAddress.city"
+                        placeholder="도로명 주소"
+                        required
+                        disabled
+                      />
+                    </td>
+                  </tr>
 
-        <label for="address.street">* 상세 주소</label>
-        <input
-          id="address.street"
-          type="text"
-          v-model="deliveryAddress.street"
-          placeholder="상세 주소"
-          required
-        />
+                  <tr>
+                    <th>상세 주소</th>
+                    <td>
+                      <input
+                        id="address.street"
+                        type="text"
+                        v-model="deliveryAddress.street"
+                        placeholder="상세 주소"
+                        required
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -103,6 +143,12 @@ export default {
         zipCode: this.$store.getters['accounts/getZipCode'],
         defaultAddress: true,
       },
+      defaultAddressInfo: {
+        city: null,
+        street: null,
+        zipCode: null,
+      },
+      isLoaded: false,
     };
   },
   methods: {
@@ -110,6 +156,7 @@ export default {
     async getProfile() {
       try {
         const { data } = await profileCall();
+        console.log(data);
         this.id = data.data.id;
         this.deliveryReceiver.receiverName = data.data.name;
         this.deliveryReceiver.receiverPhoneNumber = data.data.phoneNumber;
@@ -119,20 +166,39 @@ export default {
         this.deliveryAddress.street = data.data.address.street;
         this.deliveryAddress.zipCode = data.data.address.zipCode;
 
+        // 기본 배송지 설정
+        this.defaultAddressInfo.city = this.deliveryAddress.city;
+        this.defaultAddressInfo.street = this.deliveryAddress.street;
+        this.defaultAddressInfo.zipCode = this.deliveryAddress.zipCode;
+
         this.$store.commit('accounts/SET_ID', this.id);
         this.$store.commit(
           'orders/SET_DELIVERY_RECEIVER',
           this.deliveryReceiver,
         );
         this.$store.commit('orders/SET_DELIVERY_ADDRESS', this.deliveryAddress);
+        this.isLoaded = true;
       } catch (error) {
         console.log(error);
       }
     },
     showApi() {
+      // 신규 배송지 클릭하면서 API 호출하고 defaultAddress는 false가 된다.
       this.deliveryAddress.defaultAddress = false;
       getAddress(this.deliveryAddress);
       this.$store.commit('orders/SET_DELIVERY_ADDRESS', this.deliveryAddress);
+    },
+    setDeliveryAddressToDefault() {
+      this.deliveryAddress.defaultAddress = true;
+      this.deliveryAddress.city = this.defaultAddressInfo.city;
+      this.deliveryAddress.street = this.defaultAddressInfo.street;
+      this.deliveryAddress.zipCode = this.defaultAddressInfo.zipCode;
+
+      this.$store.commit('orders/SET_DELIVERY_ADDRESS', this.deliveryAddress);
+    },
+    openPop() {
+      alert('hi');
+      window.open('/address/all', '_blank');
     },
   },
   created() {

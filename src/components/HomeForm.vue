@@ -56,7 +56,7 @@
 
 <script>
 import { readAllItem, allCountCall } from '@/api/items';
-import ItemCardForm from '@/components/items/ItemCardForm2';
+import ItemCardForm from '@/components/items/ItemCardForm';
 
 export default {
   components: {

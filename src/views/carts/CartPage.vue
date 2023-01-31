@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import CartForm from '@/components/carts/CartForm2.vue';
+import CartForm from '@/components/carts/CartForm.vue';
 
 export default {
   components: {

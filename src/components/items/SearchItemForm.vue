@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import AllItemForm from '@/components/items/ItemCardForm2';
+import AllItemForm from '@/components/items/ItemCardForm';
 
 export default {
   components: {
