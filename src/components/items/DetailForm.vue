@@ -25,13 +25,14 @@
         >
           <div class="carousel-inner bg-light">
             <div class="carousel-item active">
-              <img class="w-100 h-100" :src="findThumbnail()" alt="Image" />
+              <img class="w-100 h-100" :src="findThumbnail()" />
             </div>
-            <div class="carousel-item">
-              <img class="w-100 h-100" :src="findThumbnail()" alt="Image" />
-            </div>
-            <div class="carousel-item">
-              <img class="w-100 h-100" :src="findThumbnail()" alt="Image" />
+            <div
+              class="carousel-item"
+              v-for="image in processedImageList"
+              v-bind:key="image.id"
+            >
+              <img class="w-100 h-100" :src="image" alt="Image" />
             </div>
           </div>
           <button
@@ -250,6 +251,27 @@ export default {
     },
     formatQuantity() {
       return this.quantity.toLocaleString();
+    },
+    processedImageList() {
+      let processedImageList = [];
+      switch (process.env.NODE_ENV) {
+        case 'local':
+          processedImageList = this.imageList
+            .filter(img => img.thumbnail == false)
+            .map(img => require(`../../assets/items/${img.imageName}`));
+          break;
+        case 'production':
+          processedImageList = this.imageList
+            .filter(img => img.thumbnail == false)
+            .map(img => img.imageUrl);
+          break;
+        default:
+          processedImageList = this.imageList
+            .filter(img => img.thumbnail == false)
+            .map(img => img.imageUrl);
+      }
+
+      return processedImageList;
     },
   },
   methods: {
