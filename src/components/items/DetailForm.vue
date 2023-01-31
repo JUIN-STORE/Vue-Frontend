@@ -15,30 +15,44 @@
         </div>
       </div>
     </div>
+
     <div class="container-fluid pb-5">
       <div class="row px-xl-5">
-        <div class="col-lg-5 mb-30">
-          <div id="item-carousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner bg-light">
-              <div class="carousel-item active">
-                <img class="w-100 h-100" :src="findThumbnail()" alt="Image" />
-              </div>
+        <div
+          id="carouselExampleControls"
+          class="carousel slide col-lg-5 mb-30"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner bg-light">
+            <div class="carousel-item active">
+              <img class="w-100 h-100" :src="findThumbnail()" />
             </div>
-            <a
-              class="carousel-control-prev"
-              href="#item-carousel"
-              data-slide="prev"
+            <div
+              class="carousel-item"
+              v-for="image in processedImageList"
+              v-bind:key="image.id"
             >
-              <i class="fa fa-2x fa-angle-left text-dark"></i>
-            </a>
-            <a
-              class="carousel-control-next"
-              href="#item-carousel"
-              data-slide="next"
-            >
-              <i class="fa fa-2x fa-angle-right text-dark"></i>
-            </a>
+              <img class="w-100 h-100" :src="image" alt="Image" />
+            </div>
           </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleControls"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
 
         <div class="col-lg-7 h-auto mb-30">
@@ -237,6 +251,27 @@ export default {
     },
     formatQuantity() {
       return this.quantity.toLocaleString();
+    },
+    processedImageList() {
+      let processedImageList = [];
+      switch (process.env.NODE_ENV) {
+        case 'local':
+          processedImageList = this.imageList
+            .filter(img => img.thumbnail == false)
+            .map(img => require(`../../assets/items/${img.imageName}`));
+          break;
+        case 'production':
+          processedImageList = this.imageList
+            .filter(img => img.thumbnail == false)
+            .map(img => img.imageUrl);
+          break;
+        default:
+          processedImageList = this.imageList
+            .filter(img => img.thumbnail == false)
+            .map(img => img.imageUrl);
+      }
+
+      return processedImageList;
     },
   },
   methods: {
