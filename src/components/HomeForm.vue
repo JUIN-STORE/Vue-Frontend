@@ -56,7 +56,7 @@
 
 <script>
 import { readAllItem, allCountCall } from '@/api/items';
-import ItemCardForm from '@/components/items/ItemCardForm2';
+import ItemCardForm from '@/components/items/ItemCardForm';
 
 export default {
   components: {
@@ -71,7 +71,7 @@ export default {
       // 페이지네이션
       isFirst: true,
       isLast: true,
-      size: 1, // 한 번에 가져올 아이템 개수,
+      size: 3, // 한 번에 가져올 아이템 개수,
       selectedPage: 1, // 현재 선택된 페이지
       totalPages: 0, // 아이템 전체 페이지 수
       pageListSize: 10, // 아래 표시할 페이지 수

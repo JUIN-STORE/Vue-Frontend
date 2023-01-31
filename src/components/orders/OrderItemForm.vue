@@ -1,53 +1,34 @@
-<!--주문 상품 확인-->
-
 <template>
-  <div class="container">
-    <span class="d-flex mb-3 mt-2" />
-    <div class="hc vc">주문 상품 확인</div>
-    <table class="table cart">
-      <thead>
-        <tr>
-          <th scope="col" class="w-10">Item ID</th>
-          <th scope="col" class="w-50">Item</th>
-          <th scope="col" class="w-10">Quantity</th>
-          <th scope="col" class="w-10">Price</th>
-          <th scope="col" class="w-20"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in cartItemList" :key="item.itemId">
-          <td>{{ item.itemId }}</td>
-          <td class="d-flex">
-            <img
-              :src="
-                require('@/assets/items/' + item.itemImageList[0].imageName)
-              "
-            />
-            <span> {{ item.name }}</span>
-          </td>
-          <td>
-            <input
-              v-model="item.count"
-              type="number"
-              @change="onChange(item.itemId, $event)"
-              size="4"
-              min="1"
-              max="100"
-            />
-          </td>
-          <td>
-            <span>\ {{ item.price }}</span>
-          </td>
-        </tr>
+  <div>
+    <div class="container-fluid">
+      <h5>주문 상품 확인</h5>
+      <div class="row">
+        <div class="table-responsive mb-5">
+          <table
+            class="table table-light table-borderless table-hover text-center mb-0"
+          >
+            <thead class="thead-dark">
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody class="align-middle">
+              <tr v-for="item in cartItemList" v-bind:key="item">
+                <td class="align-middle">
+                  <img :src="makeThumbnail(item)" alt="" style="width: 50px" />
+                  {{ item.name }}
+                </td>
 
-        <tr>
-          <td></td>
-          <td></td>
-          <td>TOTAL Quantity: {{ totalQuantity }}</td>
-          <td>TOTAL PRICE: &#8361;{{ totalPrice }}</td>
-        </tr>
-      </tbody>
-    </table>
+                <td class="align-middle">{{ item.count }}</td>
+                <td class="align-middle">{{ item.price.toLocaleString() }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -88,6 +69,16 @@ export default {
     ...mapMutations('carts', ['SET_QUANTITY']),
     ...mapMutations('carts', ['DEL_ITEM']),
 
+    makeThumbnail(item) {
+      switch (process.env.NODE_ENV) {
+        case 'local':
+          return require(`../../assets/items/${item.imageName}`);
+        case 'production':
+          return item.imageUrl;
+        default:
+          return item.imageUrl;
+      }
+    },
     async onChange(itemId, e) {
       const value = e.target.value;
 
@@ -129,13 +120,8 @@ export default {
 
     async loadCart() {
       const { data } = await readCall();
-      for (let i = 0; i < data.data.length; i++) {
-        this.cartItemList.push(data.data[i]);
-      }
-      let result = data.data;
-
-      this.cartItemList = result;
-      return result;
+      this.cartItemList = this.$store.getters['orders/getItemList'];
+      return this.cartItemList;
     },
   },
 };

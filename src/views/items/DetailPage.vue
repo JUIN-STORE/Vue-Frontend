@@ -1,15 +1,15 @@
 <template>
   <div>
-    <DetailForm2 />
+    <DetailForm />
   </div>
 </template>
 
 <script>
-import DetailForm2 from '@/components/items/DetailForm2.vue';
+import DetailForm from '@/components/items/DetailForm.vue';
 
 export default {
   components: {
-    DetailForm2,
+    DetailForm,
   },
 };
 </script>
