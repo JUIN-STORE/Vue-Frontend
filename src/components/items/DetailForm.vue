@@ -15,30 +15,43 @@
         </div>
       </div>
     </div>
+
     <div class="container-fluid pb-5">
       <div class="row px-xl-5">
-        <div class="col-lg-5 mb-30">
-          <div id="item-carousel" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner bg-light">
-              <div class="carousel-item active">
-                <img class="w-100 h-100" :src="findThumbnail()" alt="Image" />
-              </div>
+        <div
+          id="carouselExampleControls"
+          class="carousel slide col-lg-5 mb-30"
+          data-bs-ride="carousel"
+        >
+          <div class="carousel-inner bg-light">
+            <div class="carousel-item active">
+              <img class="w-100 h-100" :src="findThumbnail()" alt="Image" />
             </div>
-            <a
-              class="carousel-control-prev"
-              href="#item-carousel"
-              data-slide="prev"
-            >
-              <i class="fa fa-2x fa-angle-left text-dark"></i>
-            </a>
-            <a
-              class="carousel-control-next"
-              href="#item-carousel"
-              data-slide="next"
-            >
-              <i class="fa fa-2x fa-angle-right text-dark"></i>
-            </a>
+            <div class="carousel-item">
+              <img class="w-100 h-100" :src="findThumbnail()" alt="Image" />
+            </div>
+            <div class="carousel-item">
+              <img class="w-100 h-100" :src="findThumbnail()" alt="Image" />
+            </div>
           </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleControls"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleControls"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
 
         <div class="col-lg-7 h-auto mb-30">
