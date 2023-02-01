@@ -4,10 +4,12 @@
       <div class="row bg-secondary2 py-1 px-xl-5">
         <div class="col-lg-6 d-none d-lg-block">
           <div class="d-inline-flex align-items-center h-100">
-            <a class="text-body mr-3" href="">About</a>
-            <a class="text-body mr-3" href="">Contact</a>
-            <a class="text-body mr-3" href="">Help</a>
-            <a class="text-body mr-3" href="">FAQs</a>
+            <a class="text-body mr-3" href="https://github.com/junsu-H"
+              >junsu-H</a
+            >
+            <a class="text-body mr-3" href="https://github.com/jduckling1024"
+              >jduckling1024</a
+            >
           </div>
         </div>
         <div class="col-lg-6 text-lg-right">
@@ -72,7 +74,7 @@
       <div
         class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex"
       >
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <a
             onclick="location.href = '/'"
             class="text-decoration-none"
@@ -86,7 +88,7 @@
             >
           </a>
         </div>
-        <div class="col-lg-4 col-6 text-left">
+        <div class="col-lg-6">
           <div class="input-group">
             <input
               id="searchTitle"
@@ -94,9 +96,10 @@
               type="text"
               class="form-control"
               placeholder="Search for items"
+              style="font-weight: bold"
             />
-            <div class="input-group-append" @click="searchForm">
-              <span class="input-group-text bg-transparent text-primary">
+            <div class="input-group-append bg-primary" @click="searchForm">
+              <span class="input-group-text bg-transparent">
                 <i class="fa fa-search"></i>
               </span>
             </div>
@@ -194,11 +197,14 @@
               id="navbarCollapse"
             >
               <div class="navbar-nav mr-auto py-0">
-                <a href="index.html" class="nav-item nav-link active">Home</a>
-                <a href="shop.html" class="nav-item nav-link">Shop</a>
-                <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
-
-                <a href="contact.html" class="nav-item nav-link">Contact</a>
+                <a href="http://pc.juin.store" class="nav-item nav-link active"
+                  >내 퍼스널 컬러는?</a
+                >
+                <a
+                  href="https://github.com/JUIN-STORE"
+                  class="nav-item nav-link"
+                  >Github Organization</a
+                >
               </div>
               <div
                 class="navbar-nav ml-auto py-0 d-lg-block d-none"
