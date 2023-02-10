@@ -9,6 +9,7 @@ import { loginCall } from '@/api/accounts';
 // state: 소문자 스네이크
 const state = {
   id: 0,
+  identification: '',
   accountRole: '',
   email: getEmailFromCookie() || '',
   name: '',
@@ -24,6 +25,9 @@ const state = {
 const mutations = {
   SET_ID(state, id) {
     state.id = id;
+  },
+  SET_IDENTIFICATION(state, identification) {
+    state.identification = identification;
   },
   SET_ACCOUNT_ROLE(state, accountRole) {
     state.accountRole = accountRole;
@@ -65,7 +69,10 @@ const mutations = {
 // getters: 카멜 케이스
 const getters = {
   isLogin(state) {
-    return state.email !== '' && state.accessToken !== '';
+    return state.identification !== '' && state.accessToken !== '';
+  },
+  getIdentification(state) {
+    return state.identification;
   },
   getAccessToken(state) {
     return state.accessToken;
@@ -100,7 +107,7 @@ const getters = {
 const actions = {
   async loginSetting({ commit }, payload) {
     const { data } = await loginCall(payload);
-    commit('SET_EMAIL', data.data.email);
+    commit('SET_IDENTIFICATION', data.data.identification);
     commit('SET_ACCESS_TOKEN', data.data.token.accessToken);
     saveEmailToCookie(data.data.email);
     saveRefreshTokenAtCookie(data.data.token.refreshToken);

@@ -16,9 +16,14 @@
           </div>
           <br />
 
-          <label for="email">* EMAIL</label>
+          <label for="identification">* ID</label>
           <div class="card-text">
-            <input type="email" id="email" v-model="email" required />
+            <input
+              type="identification"
+              id="identification"
+              v-model="identification"
+              required
+            />
           </div>
 
           <label for="password">* PASSWORD</label>
@@ -29,6 +34,11 @@
           <label for="name">* NAME</label>
           <div class="card-text">
             <input id="name" type="text" v-model="name" required />
+          </div>
+
+          <label for="email">* EMAIL</label>
+          <div class="card-text">
+            <input type="email" id="email" v-model="email" required />
           </div>
 
           <label for="name">* PHONE NUMBER</label>
@@ -109,9 +119,10 @@ export default {
   data() {
     return {
       accountRole: 'USER',
-      email: '',
+      identification: '',
       password: '',
       name: '',
+      email: '',
       phoneNumber: '',
       address: {
         city: '',
@@ -130,9 +141,10 @@ export default {
       try {
         const payload = {
           accountRole: this.accountRole,
-          email: this.email,
+          identification: this.identification,
           passwordHash: this.password,
           name: this.name,
+          email: this.email,
           phoneNumber: this.phoneNumber,
           address: {
             city: this.address.city,
@@ -147,7 +159,10 @@ export default {
         if (data.data.apiStatus !== 200) {
           alert(data.data.message);
         } else {
-          alert(this.email + '님 가입되었습니다. 로그인 페이지로 이동합니다.');
+          alert(
+            this.identification +
+              '님 가입되었습니다. 로그인 페이지로 이동합니다.',
+          );
           await this.$router.push('/accounts/login');
         }
       } catch (e) {

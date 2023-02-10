@@ -5,13 +5,12 @@
         <div class="card-header">Login</div>
 
         <v-form @submit.prevent="loginRequest" class="form">
-          <label for="email">EMAIL</label>
+          <label for="identification">ID</label>
           <div class="card-text">
             <input
-              type="email"
-              id="email"
-              placeholder="ex) js-shop@gmail.com"
-              v-model="email"
+              type="identification"
+              id="identification"
+              v-model="identification"
               required
             />
           </div>
@@ -38,39 +37,32 @@
 </template>
 
 <script>
-import { validateEmail } from '@/utils/validation';
-
 export default {
   data() {
     return {
       // form values
-      email: '',
+      identification: '',
       password: '',
     };
-  },
-  computed: {
-    isEmailValid() {
-      return validateEmail(this.email);
-    },
   },
   methods: {
     async loginRequest() {
       try {
         const payload = {
-          email: this.email,
+          identification: this.identification,
           passwordHash: this.password,
         };
         await this.$store.dispatch('accounts/loginSetting', payload);
         await this.$router.push('/');
       } catch (error) {
-        alert('EMAIL/PASSWORD가 일치하지 않습니다');
+        alert('ID/PASSWORD가 일치하지 않습니다');
         console.log(error.response.data);
       } finally {
         this.initForm();
       }
     },
     initForm() {
-      this.email = '';
+      this.identification = '';
       this.password = '';
     },
   },
