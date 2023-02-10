@@ -20,8 +20,16 @@
             </div>
             <br />
 
-            <label for="email">EMAIL</label>
             <div class="card-text">
+              <label for="identification">ID</label>
+              <input
+                id="email"
+                type="email"
+                v-model="identification"
+                class="form-control"
+                disabled
+              />
+              <label for="email">EMAIL</label>
               <input
                 id="email"
                 type="email"
@@ -83,6 +91,7 @@ export default {
   data() {
     return {
       accountRole: 'USER',
+      identification: this.$store.getters['accounts/getIdentification'],
       email: this.$store.getters['accounts/getEmail'],
       name: this.$store.getters['accounts/getName'],
       phoneNumber: this.$store.getters['accounts/getPhoneNumber'],

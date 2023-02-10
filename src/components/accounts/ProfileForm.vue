@@ -17,6 +17,15 @@
               disabled
             />
 
+            <label for="email">ID</label>
+            <input
+              type="identification"
+              id="identification"
+              v-model="identification"
+              class="form-control"
+              disabled
+            />
+
             <label for="email">EMAIL</label>
             <input
               type="email"
@@ -94,7 +103,7 @@ import { profileCall } from '@/api/accounts';
 export default {
   data() {
     return {
-      id: 0,
+      identification: '',
       accountRole: 'USER',
       email: '',
       name: '',
@@ -112,7 +121,7 @@ export default {
     async getProfile() {
       try {
         const { data } = await profileCall();
-        this.id = data.data.id;
+        this.identification = data.data.identification;
         this.accountRole = data.data.accountRole;
         this.email = data.data.email;
         this.name = data.data.name;
@@ -121,7 +130,7 @@ export default {
         this.address.street = data.data.address.street;
         this.address.zipCode = data.data.address.zipCode;
 
-        this.$store.commit('accounts/SET_ID', this.id);
+        this.$store.commit('accounts/SET_IDENTIFICATION', this.identification);
         this.$store.commit('accounts/SET_ACCOUNT_ROLE', this.accountRole);
         this.$store.commit('accounts/SET_EMAIL', this.email);
         this.$store.commit('accounts/SET_NAME', this.name);
