@@ -156,7 +156,7 @@ export default {
     makeThumbnail(item) {
       switch (process.env.NODE_ENV) {
         case 'local':
-          return require(`../../assets/items/${item.itemImageName}`);
+          return require(`../../assets/items/thumbnail/${item.itemImageName}`);
         case 'production':
           return item.imageUrl;
         default:
@@ -228,7 +228,7 @@ export default {
           name: d.item.itemName,
           price: d.item.price * d.count,
           count: d.count,
-          imageName: d.itemImage.originName,
+          imageName: d.itemImage.imageName,
           imageUrl: d.itemImage.imageUrl,
         };
         itemListToBuy.push(itemToBuy);

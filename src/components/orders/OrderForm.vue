@@ -294,7 +294,7 @@ export default {
     makeThumbnail(item) {
       switch (process.env.NODE_ENV) {
         case 'local':
-          return require(`../../assets/items/${item.imageName}`);
+          return require(`../../assets/items/thumbnail/${item.imageName}`);
         case 'production':
           return item.imageUrl;
         default:
