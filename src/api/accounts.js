@@ -13,37 +13,30 @@ const accountEndPoint = '/api/accounts';
 
 const instance = createInstance();
 
-function signUpCall(signupRequest) {
+export function signUpCall(signupRequest) {
   return instance.post(accountEndPoint + '/sign-up', signupRequest);
 }
 
-function loginCall(loginRequest) {
+export function checkDuplicatedIdentification(identification) {
+  return instance.get(accountEndPoint + '/duplication' + '/' + identification);
+}
+
+export function loginCall(loginRequest) {
   return instance.post(accountEndPoint + '/login', loginRequest);
 }
 
-function logoutCall() {
+export function logoutCall() {
   return instance.get(accountEndPoint + '/logout');
 }
 
-function profileCall() {
+export function profileCall() {
   return instance.get(accountEndPoint + '/profile');
 }
 
-function modifyCall(updateRequest) {
+export function modifyCall(updateRequest) {
   return instance.patch(accountEndPoint, updateRequest);
 }
 
-function removeCall(accountId) {
+export function removeCall(accountId) {
   return instance.delete(accountEndPoint + '/' + accountId);
 }
-
-export {
-  signUpCall,
-  loginCall,
-  logoutCall,
-  profileCall,
-  modifyCall,
-  removeCall,
-};
-
-// 1번째

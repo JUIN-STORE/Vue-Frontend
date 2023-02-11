@@ -16,14 +16,32 @@
           </div>
           <br />
 
-          <label for="identification">* ID</label>
+          <label for="identification"
+            >* ID
+            <div
+              v-if="this.checkedIdentification"
+              style="display: inline-block; color: #ffd333; margin-left: 0.25em"
+            >
+              사용할 수 있는 아이디입니다.
+            </div></label
+          >
           <div class="card-text">
             <input
-              type="identification"
+              type="text"
               id="identification"
               v-model="identification"
               required
+              style="width: 70%"
             />
+            <div style="display: inline-block; width: 30%; text-align: right">
+              <button
+                type="button"
+                class="btn btn-primary"
+                @click="checkDuplicatedIdentification"
+              >
+                아이디 중복 확인
+              </button>
+            </div>
           </div>
 
           <label for="password">* PASSWORD</label>
@@ -54,7 +72,7 @@
           <div class="card-text">
             <br />ADDRESS
 
-            <button type="submit" class="btn btn-primary" @click="showApi()">
+            <button type="button" class="btn btn-primary" @click="showApi()">
               우편번호 찾기</button
             ><br />
 
@@ -88,7 +106,7 @@
 
           <router-link
             to="/"
-            type="submit"
+            type="button"
             class="btn btn-primary"
             style="float: right"
           >
@@ -112,12 +130,13 @@
 </template>
 
 <script>
-import { signUpCall } from '@/api/accounts';
+import { signUpCall, checkDuplicatedIdentification } from '@/api/accounts';
 import { getAddress } from '@/utils/address-api';
 
 export default {
   data() {
     return {
+      checkedIdentification: false,
       accountRole: 'USER',
       identification: '',
       password: '',
@@ -132,12 +151,40 @@ export default {
       },
     };
   },
+  watch: {
+    identification: {
+      async handler() {
+        if (this.checkedIdentification) this.checkedIdentification = false;
+      },
+    },
+  },
   methods: {
     showApi() {
       getAddress(this.address);
     },
+    async checkDuplicatedIdentification() {
+      if (this.identification === '') {
+        alert('아이디를 입력하세요.');
+        return;
+      }
 
+      const response = await checkDuplicatedIdentification(this.identification);
+      const status = response.status;
+
+      if (status === 200) {
+        this.checkedIdentification = true;
+      } else if (status === 400) {
+        alert('이미 존재하는 아이디입니다.');
+      } else {
+        alert('처리 중 오류가 발생했습니다.');
+      }
+    },
     async submitForm() {
+      if (!this.checkedIdentification) {
+        alert('아이디 중복 확인이 필요합니다.');
+        return;
+      }
+
       try {
         const payload = {
           accountRole: this.accountRole,
@@ -157,7 +204,7 @@ export default {
         let data = await signUpCall(payload);
 
         if (data.data.apiStatus !== 200) {
-          alert(data.data.message);
+          alert('회원가입에 실패했습니다.');
         } else {
           alert(
             this.identification +
@@ -166,7 +213,7 @@ export default {
           await this.$router.push('/accounts/login');
         }
       } catch (e) {
-        alert(e.response.data.message);
+        alert('회원가입 중 문제가 발생했습니다.');
         this.initForm();
       }
     },
@@ -191,9 +238,6 @@ input {
 .card-title {
   margin: 8px;
 }
-.btn {
-  margin-top: 10px;
-}
 .card-header {
   text-align: center;
   font-size: 18px;
@@ -210,5 +254,9 @@ input {
 }
 .card:hover {
   transform: translate(0, 0);
+}
+
+input {
+  height: 40px;
 }
 </style>
