@@ -257,8 +257,10 @@ export default {
       switch (process.env.NODE_ENV) {
         case 'local':
           processedImageList = this.imageList
-            .filter(img => img.thumbnail == false)
-            .map(img => require(`../../assets/items/${img.imageName}`));
+            .filter(img => img.thumbnail == true && img.representative == false)
+            .map(img =>
+              require(`../../assets/items/thumbnail/${img.imageName}`),
+            );
           break;
         case 'production':
           processedImageList = this.imageList
@@ -276,11 +278,13 @@ export default {
   },
   methods: {
     findThumbnail() {
-      const thumbnail = this.imageList.filter(img => img.thumbnail == true)[0];
+      const thumbnail = this.imageList.filter(
+        img => img.thumbnail == true && img.representative == true,
+      )[0];
 
       switch (process.env.NODE_ENV) {
         case 'local':
-          return require(`../../assets/items/${thumbnail.imageName}`);
+          return require(`../../assets/items/thumbnail/${thumbnail.imageName}`);
         case 'production':
           return thumbnail.imageUrl;
         default:

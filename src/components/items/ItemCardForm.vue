@@ -63,12 +63,12 @@ export default {
 
     findThumbnail() {
       const thumbnail = this.item.itemImageList.filter(
-        img => img.thumbnail == true,
+        img => img.thumbnail == true && img.representative == true,
       )[0];
 
       switch (process.env.NODE_ENV) {
         case 'local':
-          return require(`../../assets/items/${thumbnail.imageName}`);
+          return require(`../../assets/items/thumbnail/${thumbnail.imageName}`);
         case 'production':
           return thumbnail.imageUrl;
         default:
