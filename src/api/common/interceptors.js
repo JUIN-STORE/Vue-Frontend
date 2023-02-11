@@ -31,7 +31,7 @@ export function setInterceptors(instance) {
         await store.commit('accounts/SET_ACCESS_TOKEN', '');
         const { data } = await reIssueToken();
 
-        if (data.apiStatus === 200) {
+        if (data.apiStatus === 200 || data.apiStatus === 201) {
           await store.commit(
             'accounts/SET_ACCESS_TOKEN',
             data.data.accessToken,

@@ -84,8 +84,8 @@ const actions = {
     return data;
   },
 
-  async clearCartAction({ commit }, payload) {
-    const { data } = await clearCartCall(payload);
+  async clearCartAction({ commit }, param) {
+    const { data } = await clearCartCall(param);
     return data;
   },
 

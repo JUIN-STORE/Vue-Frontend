@@ -191,13 +191,11 @@ export default {
     },
 
     async deleteItem(itemId) {
-      if (confirm('해당 상품을 삭제하시겠습니까?')) {
-        const payload = {
-          itemId: itemId,
-        };
+      let itemIdList = [itemId];
 
+      if (confirm('해당 상품을 삭제하시겠습니까?')) {
         try {
-          await this.$store.dispatch('carts/clearCartAction', payload);
+          await this.$store.dispatch('carts/clearCartAction', itemIdList);
           this.DEL_ITEM(itemId);
         } catch (e) {
           console.log(e);

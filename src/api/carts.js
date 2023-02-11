@@ -14,30 +14,28 @@ const cartEndPoint = '/api/carts';
 
 const instance = createInstance();
 
-function readCall() {
+export function readCall() {
   return instance.get(cartEndPoint);
 }
 
-function readCount() {
+export function readCount() {
   return instance.get(cartEndPoint + '/count');
 }
 
-function addCountCall(payload) {
+export function addCountCall(payload) {
   return instance.post(cartEndPoint + '/add', payload);
 }
 
-function updateQuantityCall(payload) {
+export function updateQuantityCall(payload) {
   return instance.put(cartEndPoint + '/quantity', payload);
 }
 
-function clearCartCall(payload) {
-  return instance.delete(cartEndPoint + '/clear', { data: payload });
-}
-
 export function readBuyInfoCartCall(param) {
-  return instance.get(cartEndPoint + '/buy' + '?itemList=' + param);
+  return instance.get(cartEndPoint + '/buy' + '?itemIdList=' + param);
 }
 
-export { readCall, readCount, addCountCall, updateQuantityCall, clearCartCall };
+export function clearCartCall(param) {
+  return instance.delete(cartEndPoint + '?itemIdList=' + param);
+}
 
 // 1번째
