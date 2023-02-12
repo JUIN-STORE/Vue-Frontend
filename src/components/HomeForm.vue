@@ -173,10 +173,7 @@ export default {
         s: this.size,
       };
 
-      const data = await this.$store.dispatch(
-        'items/byCategoryAction',
-        payload,
-      );
+      const data = await this.$store.dispatch('item/searchAction', payload);
 
       this.itemList = data.content;
       this.isFirst = data.first;
