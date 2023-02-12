@@ -1,7 +1,7 @@
 export default [
   {
     path: '/',
-    component: () => import('@/views/HomePage.vue'),
+    component: () => import('@/views/items/ItemPage.vue'),
     meta: { requireAuth: false },
   },
   {

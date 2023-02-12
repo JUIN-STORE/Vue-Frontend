@@ -264,20 +264,28 @@ export default {
     '$route.path': {
       immediate: true,
       handler(path) {
+        if (path === '/') {
+          this.$store.commit('items/SET_CATEGORY_ID', 0);
+          this.$store.commit('items/SET_SEARCH_TITLE', null);
+          return;
+        }
         // 현재 쿼리를 추출합니다.
-        const query = this.$route.query;
         // 현재 페이지를 검사합니다.
-        if (path.includes('/search')) {
+        if (path.includes('/items')) {
           // 현재 페이지가 검색 페이지라면 쿼리 파라미터는 검색 조건입니다
-          const searchConditions = query;
-          if (Object.keys(searchConditions).length) {
+          const query = this.$route.query;
+          if (Object.keys(query).length) {
             // 만약 검색조건이 하나라도 존재한다면 해당 값이 현재 검색어와 일치하는지 확인합니다
-            if (document.getElementById('searchTitle').value !== query.name) {
+            if (
+              document.getElementById('searchTitle').value !== query.name &&
+              query.name
+            ) {
               // 만약 다르다면 업데이트 합니다
               document.getElementById('searchTitle').value = query.name;
-              // 검색도 합니다
-              this.searchForm();
             }
+
+            // 검색도 합니다.
+            this.searchForm();
           }
         }
       },
@@ -323,6 +331,7 @@ export default {
       // 카테고리 클릭했을 때는 특정 카테고리의 상품만 나오도록 한다.
       this.$store.commit('items/SET_CATEGORY_ID', ci);
       this.$store.commit('items/SET_SEARCH_TITLE', null);
+      document.getElementById('searchTitle').value = null;
 
       const byCategoryConditions = { categoryId: ci };
 

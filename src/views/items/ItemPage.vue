@@ -1,15 +1,15 @@
 <template>
   <div>
-    <CategoryItemForm />
+    <ItemForm />
   </div>
 </template>
 
 <script>
-import CategoryItemForm from '@/components/items/CategoryItemForm.vue';
+import ItemForm from '@/components/items/ItemForm.vue';
 
 export default {
   components: {
-    CategoryItemForm,
+    ItemForm,
   },
 };
 </script>
