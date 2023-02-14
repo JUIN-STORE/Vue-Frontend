@@ -100,8 +100,9 @@ import { getOrderList } from '@/api/orders';
 export default {
   data() {
     return {
-      startDate: '',
-      endDate: '',
+      // 디폴트는 현재 날짜로 설정
+      startDate: new Date().toISOString().substring(0, 10),
+      endDate: new Date().toISOString().substring(0, 10),
       orderStatus: '',
       page: 1,
       size: 10,
@@ -124,14 +125,12 @@ export default {
           this.orderStatus = query.orderStatus;
           this.page = query.page;
         }
-        this.manageOrderList();
       },
     },
   },
   methods: {
     async loadPage(page) {
       this.page = page;
-      this.manageOrderList();
     },
     async manageOrderList() {
       const orderInfoConditions = {
@@ -158,7 +157,7 @@ export default {
       const { data } = await getOrderList(
         this.startDate,
         this.endDate,
-        this.orderStatus == 'ALL' ? '' : this.orderStatus,
+        this.orderStatus === 'ALL' ? '' : this.orderStatus,
         this.size,
         this.page,
       );
