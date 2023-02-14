@@ -15,15 +15,15 @@ const orderEndPoint = '/api/orders';
 
 const instance = createInstance();
 
-function createOrder(request) {
-  return instance.post(orderEndPoint + '/new', request);
+export function createOrder(request) {
+  return instance.post(orderEndPoint, request);
 }
 
-function cancelOrder(payload) {
-  return instance.delete(orderEndPoint + '/cancel', { data: payload });
+export function cancelOrder(request) {
+  return instance.post(orderEndPoint, request);
 }
 
-function getOrderList(startDate, endDate, orderStatus, size, page) {
+export function getOrderList(startDate, endDate, orderStatus, size, page) {
   return instance.get(
     orderEndPoint +
       '?startDate=' +
@@ -38,5 +38,3 @@ function getOrderList(startDate, endDate, orderStatus, size, page) {
       (page - 1),
   );
 }
-
-export { createOrder, cancelOrder, getOrderList };
