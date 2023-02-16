@@ -20,10 +20,10 @@
       <div class="col-12">
         <nav>
           <ul class="pagination justify-content-center">
-            <li class="page-item" :class="{ disabled: isFirst }">
+            <li class="page-item" :class="{ disabled: pageInfo.isFirst }">
               <a
                 class="page-link text-primary2"
-                @click="updateSelectedPage(selectedPage - 1)"
+                @click="updateSelectedPage(pageInfo.selectedPage - 1)"
                 >Previous</a
               >
             </li>
@@ -31,7 +31,7 @@
               class="page-item"
               v-for="n in this.pageList"
               v-bind:key="n"
-              :class="{ active: n === selectedPage }"
+              :class="{ active: n === pageInfo.selectedPage }"
             >
               <a
                 class="page-link text-primary2"
@@ -40,10 +40,10 @@
                 >{{ n }}</a
               >
             </li>
-            <li class="page-item" :class="{ disabled: isLast }">
+            <li class="page-item" :class="{ disabled: pageInfo.isLast }">
               <a
                 class="page-link text-primary2"
-                @click.prevent="updateSelectedPage(selectedPage + 1)"
+                @click.prevent="updateSelectedPage(pageInfo.selectedPage + 1)"
                 >Next</a
               >
             </li>
@@ -67,12 +67,14 @@ export default {
       // 데이터
       itemList: [],
       // 페이지네이션
-      isFirst: true,
-      isLast: true,
-      size: 3, // 한 번에 가져올 아이템 개수,
-      selectedPage: 1, // 현재 선택된 페이지
-      totalPages: 0, // 아이템 전체 페이지 수
-      pageListSize: 10, // 아래 표시할 페이지 수
+      pageInfo: {
+        isFirst: true,
+        isLast: true,
+        size: 3,
+        selectedPage: 1,
+        totalPages: 0,
+        pageListSize: 10,
+      },
     };
   },
   computed: {
@@ -81,38 +83,40 @@ export default {
      */
     pageList() {
       // 전체 페이지 수가 정해진 페이지 사이즈보다 작거나 같은 경우
-      if (this.totalPages <= this.pageListSize) {
-        return Array(this.totalPages)
+      if (this.pageInfo.totalPages <= this.pageInfo.pageListSize) {
+        return Array(this.pageInfo.totalPages)
           .fill(1)
           .map((n, idx) => n + idx);
       }
 
       // 전체 페이지 수가 정해진 페이지 사이즈보다 큰 경우
       const sizeForCalculate =
-        this.pageListSize % 2 == 0 ? this.pageListSize : this.pageListSize + 1;
+        this.pageInfo.pageListSize % 2 == 0
+          ? this.pageInfo.pageListSize
+          : this.pageInfo.pageListSize + 1;
 
       let startPage;
       let pageListSize;
 
-      if (this.selectedPage - sizeForCalculate / 2 <= 0) {
+      if (this.pageInfo.selectedPage - sizeForCalculate / 2 <= 0) {
         // 첫 부분에 가까울 때
         startPage = 1;
       } else if (
         // 끝쪽일 때
-        this.totalPages - this.selectedPage <
+        this.pageInfo.totalPages - this.pageInfo.selectedPage <
         sizeForCalculate / 2
       ) {
-        startPage = this.totalPages - this.pageListSize + 1;
+        startPage = this.pageInfo.totalPages - this.pageInfo.pageListSize + 1;
       } else {
         // 중간일 때
-        startPage = this.selectedPage - sizeForCalculate / 2 + 1;
+        startPage = this.pageInfo.selectedPage - sizeForCalculate / 2 + 1;
       }
 
       // 끝 페이지로 갈수록 페이지 수가 줄어들도록 하기
-      if (startPage + this.pageListSize > this.totalPages) {
-        pageListSize = this.totalPages - startPage + 1;
+      if (startPage + this.pageInfo.pageListSize > this.pageInfo.totalPages) {
+        pageListSize = this.pageInfo.totalPages - startPage + 1;
       } else {
-        pageListSize = this.pageListSize;
+        pageListSize = this.pageInfo.pageListSize;
       }
 
       return Array(pageListSize)
@@ -125,7 +129,7 @@ export default {
 
       const categoryId = this.$store.getters['items/getCategoryId'];
       const name = this.$store.getters['items/getSearchTitle'];
-      const page = this.selectedPage;
+      const page = this.pageInfo.selectedPage;
 
       if (categoryId) conditions.categoryId = categoryId;
       if (name) conditions.name = name;
@@ -144,12 +148,12 @@ export default {
         if (
           query.page !== undefined &&
           query.page > 0 &&
-          this.selectedPage !== Number(query.page)
+          this.pageInfo.selectedPage !== Number(query.page)
         ) {
-          this.selectedPage = Number(query.page);
-          this.searchConditions.page = this.selectedPage;
+          this.pageInfo.selectedPage = Number(query.page);
+          this.searchConditions.page = this.pageInfo.selectedPage;
         }
-        this.searchPage(this.selectedPage - 1);
+        this.searchPage(this.pageInfo.selectedPage - 1);
       },
     },
   },
@@ -159,10 +163,10 @@ export default {
      * @param {Number} page [1,2,3...]
      */
     async updateSelectedPage(inputPage) {
-      this.selectedPage = inputPage;
+      this.pageInfo.selectedPage = inputPage;
 
       if (inputPage > 0) {
-        const page = this.selectedPage;
+        const page = this.pageInfo.selectedPage;
         const categoryId = this.searchConditions.categoryId;
         const name = this.searchConditions.name;
 
@@ -181,20 +185,21 @@ export default {
     async searchPage(inputPage) {
       const payload = {
         p: inputPage,
-        s: this.size,
+        s: this.pageInfo.size,
         st: this.searchConditions.name,
         ci: this.searchConditions.categoryId,
       };
 
       const data = await this.$store.dispatch('items/searchAction', payload);
 
-      this.itemList = data.content;
+      console.log(data);
 
       this.itemList = data.content;
-      this.isFirst = data.first;
-      this.isLast = data.last;
-      this.size = data.size;
-      this.totalPages = data.totalPages;
+
+      this.pageInfo.isFirst = data.first;
+      this.pageInfo.isLast = data.last;
+      this.pageInfo.size = data.size;
+      this.pageInfo.totalPages = data.totalPages;
     },
   },
 };

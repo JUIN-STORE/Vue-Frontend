@@ -16,39 +16,41 @@
         <item-card-form :item="item"></item-card-form>
       </div>
     </div>
-    <div class="page" style="clear: both">
-      <div class="col-12">
-        <nav>
-          <ul class="pagination justify-content-center">
-            <li class="page-item" :class="{ disabled: isFirst }">
-              <a
-                class="page-link text-primary2"
-                @click="updateSelectedPage(selectedPage - 1)"
-                >Previous</a
+    <div>
+      <div class="page" style="clear: both">
+        <div class="col-12">
+          <nav>
+            <ul class="pagination justify-content-center">
+              <li class="page-item" :class="{ disabled: isFirst }">
+                <a
+                  class="page-link text-primary2"
+                  @click="updateSelectedPage(selectedPage - 1)"
+                  >Previous</a
+                >
+              </li>
+              <li
+                class="page-item"
+                v-for="n in this.pageList"
+                v-bind:key="n"
+                :class="{ active: n === selectedPage }"
               >
-            </li>
-            <li
-              class="page-item"
-              v-for="n in this.pageList"
-              v-bind:key="n"
-              :class="{ active: n === selectedPage }"
-            >
-              <a
-                class="page-link text-primary2"
-                @click.prevent="updateSelectedPage(n)"
-                style="cursor: pointer; width: 3em"
-                >{{ n }}</a
-              >
-            </li>
-            <li class="page-item" :class="{ disabled: isLast }">
-              <a
-                class="page-link text-primary2"
-                @click.prevent="updateSelectedPage(selectedPage + 1)"
-                >Next</a
-              >
-            </li>
-          </ul>
-        </nav>
+                <a
+                  class="page-link text-primary2"
+                  @click.prevent="updateSelectedPage(n)"
+                  style="cursor: pointer; width: 3em"
+                  >{{ n }}</a
+                >
+              </li>
+              <li class="page-item" :class="{ disabled: isLast }">
+                <a
+                  class="page-link text-primary2"
+                  @click.prevent="updateSelectedPage(selectedPage + 1)"
+                  >Next</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
   </div>
