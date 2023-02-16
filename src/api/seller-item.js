@@ -13,13 +13,11 @@ const itemEndPoint = '/api/seller/items';
 
 const instance = createInstance();
 
-function createItem(formData) {
+export function createItem(formData) {
   const headers = {
     headers: {
       'Content-Type': 'multipart/form-data;',
     },
   };
-  return instance.post(itemEndPoint + '/register', formData, headers);
+  return instance.post(itemEndPoint, formData, headers);
 }
-
-export { createItem };
