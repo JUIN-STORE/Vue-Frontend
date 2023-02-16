@@ -121,9 +121,17 @@ export default {
     },
 
     searchConditions() {
+      let conditions = {};
+
       const categoryId = this.$store.getters['items/getCategoryId'];
+      const name = this.$store.getters['items/getSearchTitle'];
       const page = this.selectedPage;
-      return { categoryId, page };
+
+      if (categoryId) conditions.categoryId = categoryId;
+      if (name) conditions.name = name;
+      if (page) conditions.page = page;
+
+      return conditions;
     },
   },
   watch: {
@@ -156,10 +164,12 @@ export default {
       if (inputPage > 0) {
         const page = this.selectedPage;
         const categoryId = this.searchConditions.categoryId;
+        const name = this.searchConditions.name;
 
         this.searchConditions = {
           page: page,
           categoryId: categoryId,
+          name: name,
         };
 
         await this.$router.push({
@@ -172,13 +182,11 @@ export default {
       const payload = {
         p: inputPage,
         s: this.size,
-        ci: this.$store.getters['items/getCategoryId'],
+        st: this.searchConditions.name,
+        ci: this.searchConditions.categoryId,
       };
 
-      const data = await this.$store.dispatch(
-        'items/byCategoryAction',
-        payload,
-      );
+      const data = await this.$store.dispatch('items/searchAction', payload);
 
       this.itemList = data.content;
 

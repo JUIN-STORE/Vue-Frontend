@@ -92,13 +92,16 @@
           <div class="input-group">
             <input
               id="searchTitle"
-              v-on:keyup.enter="searchForm"
+              v-on:keyup.enter="searchItemByName"
               type="text"
               class="form-control"
               placeholder="Search for items"
               style="font-weight: bold"
             />
-            <div class="input-group-append bg-primary" @click="searchForm">
+            <div
+              class="input-group-append bg-primary"
+              @click="searchItemByName"
+            >
               <span class="input-group-text bg-transparent">
                 <i class="fa fa-search"></i>
               </span>
@@ -238,9 +241,7 @@
 </template>
 ~
 <script>
-import { deleteCookie } from '@/utils/cookies';
 import { categoriesCall } from '@/api/categories';
-import { readAllItem } from '@/api/items';
 import $ from 'jquery';
 import { logoutCall } from '@/api/accounts';
 
@@ -263,20 +264,28 @@ export default {
     '$route.path': {
       immediate: true,
       handler(path) {
+        if (path === '/') {
+          this.$store.commit('items/SET_CATEGORY_ID', 0);
+          this.$store.commit('items/SET_SEARCH_TITLE', null);
+          return;
+        }
         // 현재 쿼리를 추출합니다.
-        const query = this.$route.query;
         // 현재 페이지를 검사합니다.
-        if (path.includes('/search')) {
+        if (path.includes('/items')) {
           // 현재 페이지가 검색 페이지라면 쿼리 파라미터는 검색 조건입니다
-          const searchConditions = query;
-          if (Object.keys(searchConditions).length) {
+          const query = this.$route.query;
+          if (Object.keys(query).length) {
             // 만약 검색조건이 하나라도 존재한다면 해당 값이 현재 검색어와 일치하는지 확인합니다
-            if (document.getElementById('searchTitle').value !== query.name) {
+            if (
+              document.getElementById('searchTitle').value !== query.name &&
+              query.name
+            ) {
               // 만약 다르다면 업데이트 합니다
               document.getElementById('searchTitle').value = query.name;
-              // 검색도 합니다
-              this.searchForm();
             }
+
+            // 검색도 합니다.
+            this.searchForm();
           }
         }
       },
@@ -286,10 +295,6 @@ export default {
     $(document).ready(function () {
       function toggleNavbarMethod() {
         if ($(window).width() > 992) {
-          // $('.dropdown-toggle').on('click', function () {
-          //   alert('hi');
-          // });
-
           $('.navbar .dropend')
             .on('mouseover', function () {
               $('.inner-category', this).show();
@@ -318,8 +323,15 @@ export default {
       alert('로그아웃되었습니다');
       this.login();
     },
+    async getAllCategories() {
+      const { data } = await categoriesCall();
+      this.categories = data.data;
+    },
     async searchItemByCategoryId(ci) {
+      // 카테고리 클릭했을 때는 특정 카테고리의 상품만 나오도록 한다.
       this.$store.commit('items/SET_CATEGORY_ID', ci);
+      this.$store.commit('items/SET_SEARCH_TITLE', null);
+      document.getElementById('searchTitle').value = null;
 
       const byCategoryConditions = { categoryId: ci };
 
@@ -333,23 +345,44 @@ export default {
         history.pushState({}, null, `${this.$route.path}?${query}`);
       }
     },
-    async getAllCategories() {
-      const { data } = await categoriesCall();
-      this.categories = data.data;
-    },
-    async searchForm() {
+    async searchItemByName() {
       let searchTitle = document.getElementById('searchTitle').value;
-      console.log('searchForm = ', searchTitle);
       this.$store.commit('items/SET_SEARCH_TITLE', searchTitle);
 
-      // 검색조건은 프로덕트 이름만 사용됩니다
-      const searchConditions = { name: searchTitle };
+      const searchConditions = {};
+      const categoryId = this.$store.getters['items/getCategoryId'];
+
+      searchConditions.name = searchTitle;
+      if (categoryId) searchConditions.categoryId = categoryId;
 
       // 검색페이지가 아닐때만 이동함
-      if (!this.$route.path.startsWith('/items/search')) {
+      if (!this.$route.path.startsWith('/items')) {
         // 검색 페이지에 있는 않은 경우 - 페이지 이동
         await this.$router.push({
-          path: '/items/search',
+          path: '/items',
+          query: searchConditions,
+        });
+      } else {
+        // 검색 페이지에 있는 경우 - 쿼리 파라미터만 수정
+        const query = new URLSearchParams(searchConditions).toString();
+        history.pushState({}, null, `${this.$route.path}?${query}`);
+      }
+    },
+    async searchForm() {
+      // 검색조건은 프로덕트 이름만 사용됩니다
+      const searchConditions = {};
+
+      const name = this.$store.getters['items/getSearchTitle'];
+      const categoryId = this.$store.getters['items/getCategoryId'];
+
+      if (name) searchConditions.name = name;
+      if (categoryId) searchConditions.categoryId = categoryId;
+
+      // 검색페이지가 아닐때만 이동함
+      if (!this.$route.path.startsWith('/items')) {
+        // 검색 페이지에 있는 않은 경우 - 페이지 이동
+        await this.$router.push({
+          path: '/items',
           query: searchConditions,
         });
       } else {

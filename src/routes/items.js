@@ -4,12 +4,6 @@ export default [
     component: () => import('@/views/items/RegisterPage.vue'),
     meta: { requireAuth: true },
   },
-
-  {
-    path: '/items/search',
-    component: () => import('@/views/items/SearchPage.vue'),
-    meta: { requireAuth: false },
-  },
   {
     path: '/items/:itemId',
     component: () => import('@/views/items/DetailPage.vue'),
@@ -17,7 +11,7 @@ export default [
   },
   {
     path: '/items',
-    component: () => import('@/views/items/CategoryItemPage.vue'),
+    component: () => import('@/views/items/ItemPage.vue'),
     meta: { requireAuth: false },
   },
 ];
