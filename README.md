@@ -1,4 +1,4 @@
-# frontend
+# JUIN.STORE
 
 ## Project setup
 ```

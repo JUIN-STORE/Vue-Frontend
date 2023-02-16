@@ -125,7 +125,7 @@ export default {
       price: '',
       quantity: '',
       description: '',
-      fileList: '',
+      detailFileList: '',
     };
   },
   computed: {
@@ -138,14 +138,13 @@ export default {
       const file = e?.target?.files[0];
 
       const box = document.querySelector('div.thumb-box');
-      box.replaceChildren();
 
       const reader = new FileReader();
       reader.onload = e => {
-        if (formData == undefined) formData = new FormData();
-        else formData.delete('thumbnail');
+        if (formData === undefined) formData = new FormData();
+        else formData.delete('representativeFile');
 
-        formData.append('thumbnail', file);
+        formData.append('representativeFile', file);
 
         const img = document.createElement('img');
         img.setAttribute('src', e.target.result);
@@ -157,8 +156,8 @@ export default {
       reader.readAsDataURL(file);
     },
     onImageChange(e) {
-      const fileList = e?.target?.files; // FileList Type
-      files = Array.from(fileList); // File Array Type
+      const detailFileList = e?.target?.files; // detailFileList Type
+      files = Array.from(detailFileList); // File Array Type
       // v-file-input 변경시
       if (!files) {
         return;
@@ -166,7 +165,7 @@ export default {
 
       if (formData == undefined)
         formData = new FormData(); // 파일을 전송할때는 FormData 형식으로 전송
-      else formData.delete('fileList');
+      else formData.delete('detailFileList');
 
       this.uploadimageurl = []; // uploadimageurl은 미리보기용으로 사용
 
@@ -175,7 +174,7 @@ export default {
       box.replaceChildren();
 
       files.forEach(item => {
-        formData.append('fileList', item); // formData의 key: 'filelist', value: 이미지
+        formData.append('detailFileList', item); // formData의 key: 'detailFileList', value: 이미지
         const reader = new FileReader();
         reader.onload = e => {
           this.uploadimageurl.push({ url: e.target.result });
@@ -217,7 +216,10 @@ export default {
         description: this.description,
       };
 
-      if (formData == undefined || formData.get('thumbnail') == undefined) {
+      if (
+        formData === undefined ||
+        formData.get('representativeFile') === undefined
+      ) {
         alert('썸네일은 필수입니다.');
         return;
       }
@@ -230,7 +232,6 @@ export default {
       try {
         const response = await createItem(formData);
         alert('상품 등록이 완료되었습니다.');
-        this.initRequest();
       } catch (e) {
         alert('상품 등록에 실패하였습니다.');
         console.log(e);
