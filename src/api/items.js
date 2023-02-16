@@ -13,23 +13,24 @@ const itemEndPoint = '/api/items';
 
 const instance = createInstance();
 
-function readAllItem(page, size, categoryId, name) {
-  let apiEndPoint = itemEndPoint + '?page=' + page + '&size=' + size;
+export function readAllItem(page, size) {
+  const apiEndPoint = itemEndPoint + '?page=' + page + '&size=' + size;
+
+  return instance.get(apiEndPoint);
+}
+
+export function searchItem(page, size, categoryId, name) {
+  let apiEndPoint =
+    itemEndPoint + '/search' + '?page=' + page + '&size=' + size;
 
   if (categoryId != undefined && categoryId > 0)
     apiEndPoint += '&categoryId=' + categoryId;
 
   if (name != undefined && name !== '') apiEndPoint += '&name=' + name;
 
-  console.log(apiEndPoint);
-
   return instance.get(apiEndPoint);
 }
 
-function detailCall(itemId) {
+export function detailCall(itemId) {
   return instance.get(itemEndPoint + '/' + itemId);
 }
-
-export { readAllItem, detailCall };
-
-// 1번째

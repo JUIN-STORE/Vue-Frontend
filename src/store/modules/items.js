@@ -1,4 +1,4 @@
-import { detailCall, readAllItem } from '@/api/items';
+import { detailCall, searchItem, readAllItem } from '@/api/items';
 
 // state: 소문자 스네이크
 const state = {
@@ -35,13 +35,21 @@ const getters = {
 
 // actions: 카멜 케이스
 const actions = {
+  async readAllAction({ commit }, payload) {
+    const page = payload.p;
+    const size = payload.s;
+
+    const { data } = await readAllItem(page, size);
+    return data.data;
+  },
+
   async searchAction({ commit }, payload) {
     let page = payload.p;
     let size = payload.s;
     let categoryId = payload.ci;
     let searchTitle = payload.st;
 
-    const { data } = await readAllItem(page, size, categoryId, searchTitle);
+    const { data } = await searchItem(page, size, categoryId, searchTitle);
     return data.data;
   },
 

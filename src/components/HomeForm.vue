@@ -55,7 +55,6 @@
 </template>
 
 <script>
-import { readAllItem, allCountCall } from '@/api/items';
 import ItemCardForm from '@/components/items/ItemCardForm';
 
 export default {
@@ -173,7 +172,7 @@ export default {
         s: this.size,
       };
 
-      const data = await this.$store.dispatch('item/searchAction', payload);
+      const data = await this.$store.dispatch('items/readAllAction', payload);
 
       this.itemList = data.content;
       this.isFirst = data.first;
