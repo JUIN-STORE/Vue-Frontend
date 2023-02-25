@@ -27,8 +27,12 @@
 
         <div class="link">
           <p></p>
-          <router-link to="/accounts/sign-up"
+          <router-link to="/accounts/sign-up" class="mr-2"
             >Don't have an account? Signup</router-link
+          >
+          |
+          <router-link to="/accounts/password" class="text-dark ml-2">
+            Forgot your password?</router-link
           >
         </div>
       </div>

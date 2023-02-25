@@ -276,9 +276,14 @@ export default {
       };
 
       const response = await sendEmail(param);
-
       if (response.data.apiStatus === 200) {
-        alert('이메일 전송이 완료되었습니다.');
+        const env = process.env.NODE_ENV;
+
+        if (env == 'local') {
+          alert(response.data.data.replace(/(<([^>]+)>|\n)/gi, ''));
+        } else {
+          alert('이메일 전송이 완료되었습니다.');
+        }
       } else {
         alert('이미 다른 계정에서 사용하는 이메일입니다.');
       }

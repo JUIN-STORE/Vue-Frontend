@@ -10,6 +10,11 @@ export default [
     meta: { requireAuth: false },
   },
   {
+    path: '/accounts/password',
+    component: () => import('@/views/accounts/PasswordPage.vue'),
+    meta: { requireAuth: false },
+  },
+  {
     path: '/accounts/profile',
     component: () => import('@/views/accounts/ProfilePage.vue'),
     meta: { requireAuth: true },
