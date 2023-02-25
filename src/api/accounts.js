@@ -17,6 +17,21 @@ export function signUpCall(signupRequest) {
   return instance.post(accountEndPoint + '/sign-up', signupRequest);
 }
 
+export function sendPasswordEmail(param) {
+  return instance.get(
+    accountEndPoint +
+      '/mail' +
+      '?identification=' +
+      param.identification +
+      '&email=' +
+      param.email,
+  );
+}
+
+export function changePassword(param) {
+  return instance.put(accountEndPoint + '/password', param);
+}
+
 export function checkDuplicatedIdentification(identification) {
   return instance.get(accountEndPoint + '/duplication' + '/' + identification);
 }

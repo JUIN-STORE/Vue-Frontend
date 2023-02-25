@@ -39,7 +39,24 @@
               />
 
               <label for="password">PASSWORD</label>
-              <input id="password" type="password" v-model="password" />
+              <input
+                id="password"
+                :type="visible ? 'text' : 'password'"
+                v-model="password"
+                required
+                style="width: 90%"
+              />
+              <div
+                @click="showPassword()"
+                style="
+                  display: inline-block;
+                  width: 10%;
+                  text-align: center;
+                  cursor: pointer;
+                "
+              >
+                <i class="fas fa-eye"></i>
+              </div>
 
               <label for="name">NAME</label>
               <input id="name" type="text" v-model="name" />
@@ -90,6 +107,7 @@ export default {
   // 화면에 표시됨
   data() {
     return {
+      visible: false,
       accountRole: 'USER',
       identification: this.$store.getters['accounts/getIdentification'],
       email: this.$store.getters['accounts/getEmail'],
@@ -129,6 +147,10 @@ export default {
       alert(this.email + '님, 탈퇴되었습니다.');
       this.$store.commit('accounts/CLEAR_COOKIE');
       await this.$router.push('/');
+    },
+
+    showPassword() {
+      this.visible = !this.visible;
     },
   },
 };
