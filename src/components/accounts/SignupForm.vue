@@ -38,15 +38,15 @@
                 id="identification"
                 v-model="identification"
                 required
-                style="width: 70%"
+                style="width: 75%"
               />
-              <div style="display: inline-block; width: 30%; text-align: right">
+              <div style="display: inline-block; width: 25%; text-align: right">
                 <button
                   type="button"
                   class="btn btn-primary"
                   @click="checkDuplicatedIdentification"
                 >
-                  아이디 중복 확인
+                  중복 확인
                 </button>
               </div>
             </div>
