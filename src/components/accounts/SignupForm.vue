@@ -110,31 +110,6 @@
                 </button>
               </div>
             </div>
-            <label for="authHash">* AUTHENTICATION CODE </label>
-            <div class="card-text">
-              <input
-                type="text"
-                id="authHash"
-                v-model="authHash"
-                required
-                style="width: 70%"
-              />
-              <div style="display: inline-block; width: 30%; text-align: right">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  @click="checkAuthHash()"
-                >
-                  인증번호 확인
-                </button>
-              </div>
-            </div>
-            <div
-              v-if="this.emailAuthorize"
-              style="color: #ffd333; margin-left: 0.25em; margin-top: 0.25em"
-            >
-              이메일 인증이 완료되었습니다.
-            </div>
           </div>
 
           <div class="card-text my-4">
@@ -217,7 +192,6 @@ export default {
   data() {
     return {
       visible: false,
-      emailAuthorize: false,
       checkedIdentification: false,
       accountRole: 'USER',
       identification: '',
@@ -279,7 +253,7 @@ export default {
       if (response.data.apiStatus === 200) {
         const env = process.env.NODE_ENV;
 
-        if (env == 'local') {
+        if (env === 'local') {
           alert(response.data.data.replace(/(<([^>]+)>|\n)/gi, ''));
         } else {
           alert('이메일 전송이 완료되었습니다.');
@@ -288,6 +262,8 @@ export default {
         alert('이미 다른 계정에서 사용하는 이메일입니다.');
       }
     },
+
+    // FIXME: 샌드박스 이슈로 보류
     async checkAuthHash() {
       const param = {
         email: this.email,
@@ -303,14 +279,10 @@ export default {
         alert(response.data.data);
       }
     },
+
     async submitForm() {
       if (!this.checkedIdentification) {
         alert('아이디 중복 확인이 필요합니다.');
-        return;
-      }
-
-      if (!this.emailAuthorize) {
-        alert('이메일 인증이 필요합니다.');
         return;
       }
 
@@ -333,7 +305,7 @@ export default {
         let data = await signUpCall(payload);
 
         if (data.data.apiStatus !== 200) {
-          alert('회원가입에 실패했습니다.');
+          alert('회원가입에 실패했습니다. 이메일 인증을 확인해 주세요.');
         } else {
           alert(
             this.identification +
