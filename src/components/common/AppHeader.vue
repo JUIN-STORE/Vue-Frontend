@@ -126,15 +126,15 @@
             <i class="fa fa-angle-down text-dark"></i>
           </a>
           <nav
-            class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
+            class="collapse position-absolute navbar-vertical navbar-light p-0 bg-light"
             id="navbar-vertical"
             style="width: calc(100% - 30px); z-index: 999"
           >
-            <div class="navbar-nav w-100">
+            <div class="w-100">
               <div
                 v-for="category in categories"
                 :key="category"
-                class="nav-item dropdown dropend"
+                class="dropend"
               >
                 <a
                   class="nav-link"
@@ -142,32 +142,37 @@
                   @click="searchItemByCategoryId(category.id)"
                   style="cursor: pointer"
                   >{{ category.categoryName }}
-                  <i class="fa fa-angle-right float-right mt-1"></i
+                  <i class="fa fa-angle-right float-right"></i
                 ></a>
-                <div
-                  class="inner-category dropdown-menu rounded-0 border-0 m-0"
-                >
+                <div class="child-menu rounded-0 border-0 m-0 w-100">
                   <div
                     v-for="first_child in category.childList"
                     :key="first_child"
+                    class="dropend"
                   >
                     <a
-                      class="dropdown-item"
+                      class="nav-link"
                       @click="searchItemByCategoryId(first_child.id)"
                       style="cursor: pointer"
-                      >{{ first_child.categoryName }}</a
-                    >
-                    <div
-                      v-for="second_child in first_child.childList"
-                      :key="second_child"
-                      class="submenu dropdown-menu rounded-0 border-0 m-0"
-                    >
-                      <a
-                        class="dropdown-item"
-                        @click="searchItemByCategoryId(second_child.id)"
-                        style="cursor: pointer"
-                        >{{ second_child.categoryName }}</a
+                      >{{ first_child.categoryName }}
+                      <i
+                        v-if="first_child.childList.length > 0"
+                        class="fa fa-angle-right float-right"
+                      ></i
+                    ></a>
+                    <div class="child-menu rounded-0 border-0 m-0 w-100">
+                      <div
+                        v-for="second_child in first_child.childList"
+                        :key="second_child"
+                        class="dropend"
                       >
+                        <a
+                          class="nav-link"
+                          @click="searchItemByCategoryId(second_child.id)"
+                          style="cursor: pointer"
+                          >{{ second_child.categoryName }}</a
+                        >
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -291,25 +296,6 @@ export default {
       },
     },
   },
-  updated() {
-    $(document).ready(function () {
-      function toggleNavbarMethod() {
-        if ($(window).width() > 992) {
-          $('.navbar .dropend')
-            .on('mouseover', function () {
-              $('.inner-category', this).show();
-            })
-            .on('mouseout', function () {
-              $('.inner-category', this).hide();
-            });
-        } else {
-          $('.navbar .dropend').off('mouseover').off('mouseout');
-        }
-      }
-      toggleNavbarMethod();
-      $(window).resize(toggleNavbarMethod);
-    });
-  },
   methods: {
     login() {
       this.$router.push('/accounts/login');
@@ -393,40 +379,6 @@ export default {
     },
   },
 };
-
-document.addEventListener('DOMContentLoaded', function () {
-  // make it as accordion for smaller screens
-  if (window.innerWidth < 992) {
-    // close all inner dropdowns when parent is closed
-    document
-      .querySelectorAll('.navbar .dropdown')
-      .forEach(function (everydropdown) {
-        everydropdown.addEventListener('hidden.bs.dropdown', function () {
-          // after dropdown is hidden, then find all submenus
-          this.querySelectorAll('.submenu').forEach(function (everysubmenu) {
-            // hide every submenu as well
-            everysubmenu.style.display = 'none';
-          });
-        });
-      });
-
-    document.querySelectorAll('.dropdown-menu a').forEach(function (element) {
-      element.addEventListener('click', function (e) {
-        let nextEl = this.nextElementSibling;
-        if (nextEl && nextEl.classList.contains('submenu')) {
-          // prevent opening link if link needs to open dropdown
-          e.preventDefault();
-          if (nextEl.style.display == 'block') {
-            nextEl.style.display = 'none';
-          } else {
-            nextEl.style.display = 'block';
-          }
-        }
-      });
-    });
-  }
-  // end if innerWidth
-});
 </script>
 
 <style>
@@ -434,34 +386,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /* ============ desktop view ============ */
 @media all and (min-width: 992px) {
-  .dropdown-menu li {
-    position: relative;
-  }
-  .nav-item .submenu {
+  .dropend .child-menu {
     display: none;
     position: absolute;
     left: 100%;
     top: 0px;
+    background-color: white;
   }
-  .nav-item .submenu-left {
-    right: 100%;
-    left: auto;
-  }
-  .dropdown-menu > li:hover {
-    background-color: #f1f1f1;
-  }
-  .dropdown-menu > div:hover > .submenu {
+
+  .dropend:hover > .child-menu {
     display: block;
   }
-}
-/* ============ desktop view .end// ============ */
 
-/* ============ small devices ============ */
-@media (max-width: 991px) {
-  .dropdown-menu .dropdown-menu {
-    margin-left: 0.7rem;
-    margin-right: 0.7rem;
-    margin-bottom: 0.5rem;
+  .dropend:hover {
+    background-color: #f5f5f5;
   }
 }
 </style>
