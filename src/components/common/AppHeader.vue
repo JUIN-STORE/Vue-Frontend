@@ -2,16 +2,7 @@
   <div>
     <div class="container-fluid header-setting2">
       <div class="row bg-secondary2 py-1 px-xl-5">
-        <div class="col-lg-6 d-none d-lg-block">
-          <div class="d-inline-flex align-items-center h-100">
-            <a class="text-body mr-3" href="https://github.com/junsu-H"
-              >junsu-H</a
-            >
-            <a class="text-body mr-3" href="https://github.com/jduckling1024"
-              >jduckling1024</a
-            >
-          </div>
-        </div>
+        <div class="col-lg-6 d-none d-lg-block"></div>
         <div class="col-lg-6 text-lg-right">
           <div class="d-inline-flex align-items-center">
             <a
@@ -207,11 +198,6 @@
               <div class="navbar-nav mr-auto py-0">
                 <a href="http://pc.juin.store" class="nav-item nav-link active"
                   >내 퍼스널 컬러는?</a
-                >
-                <a
-                  href="https://github.com/JUIN-STORE"
-                  class="nav-item nav-link"
-                  >Github Organization</a
                 >
               </div>
               <div
