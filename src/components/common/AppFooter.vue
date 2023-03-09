@@ -16,7 +16,7 @@
           <div class="col-md-4 mb-5">
             <h5 class="text-primary text-uppercase mb-4">HWANG JUNSU</h5>
             <div class="d-flex flex-column justify-content-start">
-              <a class="text-secondary mb-2" href="#">
+              <a class="text-secondary mb-2" href="https://github.com/junsu-H">
                 <div
                   style="
                     display: inline-block;
@@ -35,7 +35,7 @@
                   https://github.com/junsu-H
                 </div>
               </a>
-              <a class="text-secondary mb-2" href="#">
+              <a class="text-secondary mb-2">
                 <div
                   style="
                     display: inline-block;
@@ -59,7 +59,10 @@
           <div class="col-md-4 mb-5">
             <h5 class="text-primary text-uppercase mb-4">YOON JIN</h5>
             <div class="d-flex flex-column justify-content-start">
-              <a class="text-secondary mb-2" href="#">
+              <a
+                class="text-secondary mb-2"
+                href="https://github.com/jduckling1024"
+              >
                 <div
                   style="
                     display: inline-block;
@@ -78,7 +81,7 @@
                   https://github.com/jduckling1024
                 </div>
               </a>
-              <a class="text-secondary mb-2" href="#">
+              <a class="text-secondary mb-2">
                 <div
                   style="
                     display: inline-block;
@@ -103,7 +106,7 @@
             <h5 class="text-primary text-uppercase mb-4">
               Github Organization
             </h5>
-            <a class="text-secondary mb-2" href="#">
+            <a class="text-secondary mb-2" href="https://github.com/JUIN-STORE">
               <div
                 style="
                   display: inline-block;
