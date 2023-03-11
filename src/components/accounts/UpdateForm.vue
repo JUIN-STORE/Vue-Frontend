@@ -3,7 +3,7 @@
     <div class="container">
       <div class="layout-login">
         <div class="card">
-          <div class="card-header">ACCOUNT MODIFY</div>
+          <div class="card-header">EDIT ACCOUNT</div>
           <p></p>
           <form @submit.prevent="modifyForm" class="form">
             <div>
@@ -55,7 +55,10 @@
                   cursor: pointer;
                 "
               >
-                <i class="fas fa-eye"></i>
+                <i
+                  class="fas"
+                  v-bind:class="visible ? 'fa-eye' : 'fa-eye-slash'"
+                ></i>
               </div>
 
               <label for="name">NAME</label>

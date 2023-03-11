@@ -173,8 +173,8 @@ input {
   font-weight: 600;
 }
 .layout-login {
-  margin: auto;
-  margin: 5em 0 5em 0;
+  margin-top: 3em;
+  margin-bottom: 3em;
 }
 .link a,
 .link {
@@ -183,10 +183,6 @@ input {
 }
 .card:hover {
   transform: translate(0, 0);
-}
-
-.card-text {
-  margin-bottom: 3em;
 }
 
 .card-text > div {
