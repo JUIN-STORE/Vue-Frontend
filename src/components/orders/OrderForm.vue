@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.isCartLoaded && this.isProfileLoaded">
+  <div class="container" v-if="this.isCartLoaded && this.isProfileLoaded">
     <div class="container-fluid">
       <h5>주문 상품 확인</h5>
       <div class="row">
@@ -148,13 +148,9 @@
       </div>
     </div>
 
-    <div>
+    <div style="margin-bottom: 100px">
       <form @submit.prevent="createOrder" class="form">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          style="float: right; width: 8em; margin-bottom: 20%"
-        >
+        <button type="submit" class="btn btn-primary" style="float: right">
           주문하기
         </button>
       </form>
@@ -354,7 +350,6 @@ table {
 }
 .card {
   border: none;
-  margin: auto;
   max-width: 500px;
   padding: 10px;
 }
@@ -374,7 +369,6 @@ table {
   font-size: 18px;
   font-weight: 600;
   max-block-size: 20px;
-  margin: 8px;
   overflow: hidden;
 }
 .card-title:hover {
@@ -413,21 +407,6 @@ tr {
   text-decoration: none;
 }
 
-.hc {
-  width: 200px;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-} /* 가로 중앙 정렬 */
-.vc {
-  height: 40px;
-  top: 0;
-  bottom: 0;
-  margin-top: auto;
-  margin-bottom: auto;
-} /* 세로 중앙 정렬 */
-
 .btn {
   margin-top: 10px;
 }
@@ -437,7 +416,6 @@ tr {
   font-weight: 600;
 }
 .layout-login {
-  margin: auto;
   margin-top: 125px;
 }
 .link a,
