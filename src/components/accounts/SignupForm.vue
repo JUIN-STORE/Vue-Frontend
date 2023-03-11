@@ -69,7 +69,10 @@
                   cursor: pointer;
                 "
               >
-                <i class="fas fa-eye"></i>
+                <i
+                  class="fas"
+                  v-bind:class="visible ? 'fa-eye' : 'fa-eye-slash'"
+                ></i>
               </div>
             </div>
 
@@ -345,8 +348,8 @@ input {
   font-weight: 600;
 }
 .layout-login {
-  margin: auto;
-  margin-top: 125px;
+  margin-top: 3em;
+  margin-bottom: 3em;
 }
 .link a,
 .link {
