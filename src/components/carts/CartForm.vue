@@ -94,14 +94,12 @@
             <h5>Total Price</h5>
             <h5>{{ totalPrice.toLocaleString() }}</h5>
           </div>
-          <router-link to="/carts/buy">
-            <button
-              class="btn btn-block btn-primary font-weight-bold my-3 py-3"
-              @click="buy"
-            >
-              Buy Now
-            </button>
-          </router-link>
+          <button
+            class="btn btn-block btn-primary font-weight-bold my-3 py-3"
+            @click="buy"
+          >
+            Buy Now
+          </button>
         </div>
       </div>
     </div>
@@ -233,6 +231,7 @@ export default {
       });
 
       this.SET_ITEM_LIST(itemListToBuy);
+      this.$router.push('/carts/buy');
     },
 
     async loadCart() {
