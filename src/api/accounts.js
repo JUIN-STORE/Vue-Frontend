@@ -36,8 +36,8 @@ export function checkDuplicatedIdentification(identification) {
   return instance.get(accountEndPoint + '/duplication' + '/' + identification);
 }
 
-export function loginCall(loginRequest) {
-  return instance.post(accountEndPoint + '/login', loginRequest);
+export function signIn(signInRequest) {
+  return instance.post(accountEndPoint + '/sign-in', signInRequest);
 }
 
 export function logoutCall() {

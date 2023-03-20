@@ -4,7 +4,7 @@ import {
   saveRefreshTokenAtCookie,
   getRefreshTokenFromCookie,
 } from '@/utils/cookies';
-import { loginCall } from '@/api/accounts';
+import { signIn } from '@/api/accounts';
 
 // state: 소문자 스네이크
 const state = {
@@ -68,7 +68,7 @@ const mutations = {
 
 // getters: 카멜 케이스
 const getters = {
-  isLogin(state) {
+  isSignIn(state) {
     return state.identification !== '' && state.accessToken !== '';
   },
   getIdentification(state) {
@@ -105,8 +105,8 @@ const getters = {
 
 // actions: 카멜 케이스
 const actions = {
-  async loginSetting({ commit }, payload) {
-    const { data } = await loginCall(payload);
+  async signInSetting({ commit }, payload) {
+    const { data } = await signIn(payload);
     commit('SET_IDENTIFICATION', data.data.identification);
     commit('SET_ACCESS_TOKEN', data.data.token.accessToken);
     saveEmailToCookie(data.data.email);

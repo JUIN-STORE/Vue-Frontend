@@ -267,7 +267,7 @@ input {
   font-size: 18px;
   font-weight: 600;
 }
-.layout-login {
+.layout-signIn {
   margin: auto;
   margin-top: 125px;
 }

@@ -1,7 +1,7 @@
 export default [
   {
-    path: '/accounts/login',
-    component: () => import('@/views/accounts/LoginPage.vue'),
+    path: '/accounts/sign-in',
+    component: () => import('@/views/accounts/SignIn.vue'),
     meta: { requireAuth: false },
   },
   {
