@@ -7,16 +7,6 @@
 
         <form @submit.prevent="submitForm" class="form">
           <div>
-            <label>ROLE</label>
-            <select class="form-select" id="accountRole" v-model="accountRole">
-              <option value="USER" selected>USER</option>
-              <option value="SELLER">SELLER</option>
-              <option value="ADMIN">ADMIN</option>
-            </select>
-          </div>
-          <br />
-
-          <div class="my-4">
             <label>INFO</label>
             <br />
             <label for="identification"
