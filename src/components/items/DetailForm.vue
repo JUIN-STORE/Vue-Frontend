@@ -264,12 +264,12 @@ export default {
           break;
         case 'production':
           processedImageList = this.imageList
-            .filter(img => img.thumbnail == false)
+            .filter(img => img.thumbnail == true && img.representative == false)
             .map(img => img.imageUrl);
           break;
         default:
           processedImageList = this.imageList
-            .filter(img => img.thumbnail == false)
+            .filter(img => img.thumbnail == true && img.representative == false)
             .map(img => img.imageUrl);
       }
 
