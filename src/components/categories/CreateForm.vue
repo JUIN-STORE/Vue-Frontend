@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="layout-login">
+    <div class="layout-signIn">
       <div class="card">
         <div class="card-header">카테고리 추가</div>
 
@@ -118,7 +118,7 @@ input {
   font-size: 18px;
   font-weight: 600;
 }
-.layout-login {
+.layout-signIn {
   margin: auto;
   margin-top: 125px;
 }

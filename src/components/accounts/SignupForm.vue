@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="layout-login">
+    <div class="layout-signIn">
       <div class="card">
         <div class="card-header">Register</div>
         <p></p>
@@ -167,8 +167,8 @@
 
         <div class="link">
           <p></p>
-          <router-link to="/accounts/login"
-            >Already have an account? Login</router-link
+          <router-link to="/accounts/sign-in"
+            >Already have an account? Sign In</router-link
           >
         </div>
       </div>
@@ -304,7 +304,7 @@ export default {
             this.identification +
               '님 가입되었습니다. 로그인 페이지로 이동합니다.',
           );
-          await this.$router.push('/accounts/login');
+          await this.$router.push('/accounts/sign-in');
         }
       } catch (e) {
         alert('회원가입 중 문제가 발생했습니다.');
@@ -337,7 +337,7 @@ input {
   font-size: 18px;
   font-weight: 600;
 }
-.layout-login {
+.layout-signIn {
   margin-top: 3em;
   margin-bottom: 3em;
 }

@@ -32,7 +32,7 @@ router.beforeEach(function (to, from, next) {
 
   if (requireAuth && !accessToken) {
     alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
-    next('/accounts/login');
+    next('/accounts/sign-in');
   } else {
     next();
   }

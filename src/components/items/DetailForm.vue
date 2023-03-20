@@ -324,8 +324,8 @@ export default {
           this.$router.push('/carts');
         }
       } catch (e) {
-        alert('Login is required.');
-        await this.$router.push('/accounts/login');
+        alert('Sign In is required.');
+        await this.$router.push('/accounts/sign-in');
       }
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="layout-login" v-if="this.isLoaded">
+    <div class="layout-signIn" v-if="this.isLoaded">
       <div class="card">
         <div class="card-header">PROFILE</div>
         <p></p>
@@ -172,7 +172,7 @@ input {
   font-size: 18px;
   font-weight: 600;
 }
-.layout-login {
+.layout-signIn {
   margin-top: 3em;
   margin-bottom: 3em;
 }

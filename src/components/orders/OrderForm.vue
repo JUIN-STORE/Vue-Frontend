@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="layout-login">
+      <div class="layout-signIn">
         <table class="table">
           <h5>구매자 정보</h5>
           <tbody>
@@ -60,7 +60,7 @@
         </table>
       </div>
 
-      <div class="layout-login">
+      <div class="layout-signIn">
         <div class="tab-content" id="pills-tabContent">
           <div
             class="tab-pane fade show active"
@@ -415,7 +415,7 @@ tr {
   font-size: 18px;
   font-weight: 600;
 }
-.layout-login {
+.layout-signIn {
   margin-top: 125px;
 }
 .link a,

@@ -7,7 +7,7 @@
           <div class="d-inline-flex align-items-center">
             <a
               class="px-1 ml-2 text-dark"
-              v-if="!checkLogin"
+              v-if="!checkSignIn"
               @click="signUp"
               style="cursor: pointer"
             >
@@ -15,15 +15,15 @@
             </a>
             <a
               class="px-1 ml-2 text-dark"
-              v-if="!checkLogin"
-              @click="login"
+              v-if="!checkSignIn"
+              @click="signIn"
               style="cursor: pointer"
             >
-              <i class="fas fa-sign-in-alt"> Login</i>
+              <i class="fas fa-sign-in-alt"> Sign In</i>
             </a>
             <a
               class="px-1 ml-2 text-dark"
-              v-if="checkLogin"
+              v-if="checkSignIn"
               style="cursor: pointer"
             >
               <router-link to="/accounts/profile">
@@ -32,7 +32,7 @@
             </a>
             <a
               class="px-1 ml-2 text-dark"
-              v-if="checkLogin"
+              v-if="checkSignIn"
               @click="logout"
               style="cursor: pointer"
             >
@@ -246,8 +246,8 @@ export default {
     await this.getAllCategories();
   },
   computed: {
-    checkLogin() {
-      return this.$store.getters['accounts/isLogin'];
+    checkSignIn() {
+      return this.$store.getters['accounts/isSignIn'];
     },
   },
   watch: {
@@ -283,8 +283,8 @@ export default {
     },
   },
   methods: {
-    login() {
-      this.$router.push('/accounts/login');
+    signIn() {
+      this.$router.push('/accounts/sign-in');
     },
     signUp() {
       this.$router.push('/accounts/sign-up');
@@ -293,7 +293,7 @@ export default {
       await logoutCall();
       this.$store.commit('accounts/CLEAR_COOKIE');
       alert('로그아웃되었습니다');
-      this.login();
+      this.signIn();
     },
     async getAllCategories() {
       const { data } = await categoriesCall();
