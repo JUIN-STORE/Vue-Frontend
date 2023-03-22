@@ -5,6 +5,7 @@ const state = {
   item: {},
   searchTitle: null,
   categoryId: null,
+  personalColor: null,
 };
 
 // mutations: 대문자 스네이크
@@ -14,6 +15,9 @@ const mutations = {
   },
   SET_SEARCH_TITLE(state, searchTitle) {
     state.searchTitle = searchTitle;
+  },
+  SET_PERSONAL_COLOR(state, personalColor) {
+    state.personalColor = personalColor;
   },
   SET_ITEM(state, item) {
     state.item = item;
@@ -30,6 +34,9 @@ const getters = {
   },
   getItem(state) {
     return state.item;
+  },
+  getPersonalColor(state) {
+    return state.personalColor;
   },
 };
 
@@ -48,8 +55,15 @@ const actions = {
     let size = payload.s;
     let categoryId = payload.ci;
     let searchTitle = payload.st;
+    let personalColor = payload.pc;
 
-    const { data } = await searchItem(page, size, categoryId, searchTitle);
+    const { data } = await searchItem(
+      page,
+      size,
+      categoryId,
+      searchTitle,
+      personalColor,
+    );
     return data.data;
   },
 
