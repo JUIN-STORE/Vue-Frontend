@@ -125,10 +125,12 @@ export default {
 
       const categoryId = this.$store.getters['items/getCategoryId'];
       const name = this.$store.getters['items/getSearchTitle'];
+      const personalColor = this.$store.getters['items/getPersonalColor'];
       const page = this.selectedPage;
 
       if (categoryId) conditions.categoryId = categoryId;
       if (name) conditions.name = name;
+      if (personalColor) conditions.personalColor = personalColor;
       if (page) conditions.page = page;
 
       return conditions;
@@ -164,11 +166,13 @@ export default {
       if (inputPage > 0) {
         const page = this.selectedPage;
         const categoryId = this.searchConditions.categoryId;
+        const personalColor = this.searchConditions.personalColor;
         const name = this.searchConditions.name;
 
         this.searchConditions = {
           page: page,
           categoryId: categoryId,
+          personalColor: personalColor,
           name: name,
         };
 
@@ -184,6 +188,7 @@ export default {
         s: this.size,
         st: this.searchConditions.name,
         ci: this.searchConditions.categoryId,
+        pc: this.searchConditions.personalColor,
       };
 
       const data = await this.$store.dispatch('items/searchAction', payload);

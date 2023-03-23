@@ -19,7 +19,7 @@ export function readAllItem(page, size) {
   return instance.get(apiEndPoint);
 }
 
-export function searchItem(page, size, categoryId, name) {
+export function searchItem(page, size, categoryId, name, personalColor) {
   let apiEndPoint =
     itemEndPoint + '/search' + '?page=' + page + '&size=' + size;
 
@@ -27,6 +27,9 @@ export function searchItem(page, size, categoryId, name) {
     apiEndPoint += '&categoryId=' + categoryId;
 
   if (name != undefined && name !== '') apiEndPoint += '&name=' + name;
+
+  if (personalColor != undefined && personalColor !== '')
+    apiEndPoint += '&personalColor=' + personalColor;
 
   return instance.get(apiEndPoint);
 }
