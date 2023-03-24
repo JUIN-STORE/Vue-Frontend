@@ -137,6 +137,30 @@ export default {
     },
   },
   watch: {
+    '$route.path': {
+      immediate: true,
+      handler(path) {
+        if (path.includes('/items')) {
+          const query = this.$route.query;
+
+          if (query.personalColor != undefined) {
+            this.$store.commit('items/SET_CATEGORY_ID', null);
+            this.$store.commit('items/SET_SEARCH_TITLE', null);
+            this.$store.commit('items/SET_PERSONAL_COLOR', query.personalColor);
+          } else {
+            if (query.name != undefined) {
+              this.$store.commit('items/SET_SEARCH_TITLE', query.name);
+              this.$store.commit('items/SET_PERSONAL_COLOR', null);
+            }
+
+            if (query.categoryId != undefined) {
+              this.$store.commit('items/SET_CATEGORY_ID', query.categoryId);
+              this.$store.commit('items/SET_PERSONAL_COLOR', null);
+            }
+          }
+        }
+      },
+    },
     searchConditions: {
       immediate: true,
       deep: true, // searchConditions 는 객체이므로
@@ -151,6 +175,7 @@ export default {
           this.selectedPage = Number(query.page);
           this.searchConditions.page = this.selectedPage;
         }
+
         this.searchPage(this.selectedPage - 1);
       },
     },
@@ -192,8 +217,6 @@ export default {
       };
 
       const data = await this.$store.dispatch('items/searchAction', payload);
-
-      this.itemList = data.content;
 
       this.itemList = data.content;
       this.isFirst = data.first;

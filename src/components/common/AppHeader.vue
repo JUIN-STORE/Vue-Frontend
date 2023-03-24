@@ -315,6 +315,7 @@ export default {
     },
     async searchItemByName() {
       let searchTitle = document.getElementById('searchTitle').value;
+      this.$store.commit('items/SET_PERSONAL_COLOR', null);
       this.$store.commit('items/SET_SEARCH_TITLE', searchTitle);
 
       const searchConditions = {};
