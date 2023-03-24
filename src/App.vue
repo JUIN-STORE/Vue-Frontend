@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <AppHeader />
-    <router-view />
+    <div style="position: relative; min-height: 75vh">
+      <router-view />
+    </div>
     <AppFooter />
   </div>
 </template>
