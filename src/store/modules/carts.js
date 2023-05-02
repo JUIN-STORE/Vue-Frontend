@@ -3,12 +3,14 @@ import {
   clearCartCall,
   updateQuantityCall,
   readBuyInfoCartCall,
+  readCount,
 } from '@/api/carts';
 
 // state: 소문자 스네이크
 const state = {
   cart_list: [],
   total: 0,
+  count: 0,
 };
 
 // mutations: 대문자 스네이크
@@ -38,6 +40,11 @@ const mutations = {
         });
 
     state.cart_list = result;
+  },
+
+  SET_COUNT(state, payload) {
+    console.log(payload);
+    state.count = payload.count;
   },
 
   SET_QUANTITY(state, payload) {
@@ -74,6 +81,10 @@ const getters = {
   getTotal(state) {
     return state.total;
   },
+
+  getCount(state) {
+    return state.count;
+  },
 };
 
 // actions: 카멜 케이스
@@ -98,6 +109,14 @@ const actions = {
   async readBuyInfoCartAction({ commit }, param) {
     const { data } = await readBuyInfoCartCall(param);
     return data;
+  },
+
+  async updateCartCountAction({ commit }, param) {
+    const { data } = await readCount();
+    console.log(data);
+    const payload = { count: data.data };
+
+    commit('SET_COUNT', payload);
   },
 };
 

@@ -195,6 +195,7 @@ export default {
         try {
           await this.$store.dispatch('carts/clearCartAction', itemIdList);
           this.DEL_ITEM(itemId);
+          await this.$store.dispatch('carts/updateCartCountAction');
         } catch (e) {
           console.log(e);
         }

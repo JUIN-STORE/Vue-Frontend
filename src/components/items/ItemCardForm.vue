@@ -95,6 +95,7 @@ export default {
       try {
         this.$store.commit('carts/SET_ITEM', item);
         await this.$store.dispatch('carts/addCartAction', payload);
+        await this.$store.dispatch('carts/updateCartCountAction');
         if (
           confirm(
             item.name +
