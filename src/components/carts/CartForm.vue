@@ -4,70 +4,75 @@
       <h5 class="section-title position-relative text-uppercase mb-3">
         <span class="bg-secondary pr-3">Cart </span>
       </h5>
-      <table
-        class="table table-light table-borderless table-hover text-center mb-0"
-      >
-        <thead class="thead-dark">
-          <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Total</th>
-            <th>Remove</th>
-          </tr>
-        </thead>
-        <tbody class="align-middle">
-          <tr v-for="(item, idx) in this.cartItemList" :key="item.itemId">
-            <td class="align-middle">
-              <router-link :to="`/items/${item.itemId}`" class="text-dark">
-                <img :src="makeThumbnail(item)" style="width: 15%" />
-                {{ item.itemName }}
-              </router-link>
-            </td>
+      <div v-if="this.cartItemList.length === 0">
+        집사야, 카트가 비어있다...... (꼬르륵)
+      </div>
+      <div v-else>
+        <table
+          class="table table-light table-borderless table-hover text-center mb-0"
+        >
+          <thead class="thead-dark">
+            <tr>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody class="align-middle">
+            <tr v-for="(item, idx) in this.cartItemList" :key="item.itemId">
+              <td class="align-middle">
+                <router-link :to="`/items/${item.itemId}`" class="text-dark">
+                  <img :src="makeThumbnail(item)" style="width: 15%" />
+                  {{ item.itemName }}
+                </router-link>
+              </td>
 
-            <td class="align-middle">
-              <div class="input-group quantity mx-auto" style="width: 100px">
-                <div class="input-group-btn">
-                  <button
-                    class="btn btn-primary btn-minus"
-                    @click="minusCount(item.itemId, idx)"
-                    style="width: 30px"
-                  >
-                    <i class="fa fa-minus"></i>
-                  </button>
+              <td class="align-middle">
+                <div class="input-group quantity mx-auto" style="width: 100px">
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-primary btn-minus"
+                      @click="minusCount(item.itemId, idx)"
+                      style="width: 30px"
+                    >
+                      <i class="fa fa-minus"></i>
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    readonly
+                    class="form-control form-control-sm bg-secondary border-0 text-center"
+                    v-model="cartItemList[idx].count"
+                  />
+                  <div class="input-group-btn">
+                    <button
+                      class="btn btn-primary btn-plus"
+                      @click="plusCount(item.itemId, idx)"
+                      style="width: 30px"
+                    >
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
                 </div>
-                <input
-                  type="text"
-                  readonly
-                  class="form-control form-control-sm bg-secondary border-0 text-center"
-                  v-model="cartItemList[idx].count"
-                />
-                <div class="input-group-btn">
-                  <button
-                    class="btn btn-primary btn-plus"
-                    @click="plusCount(item.itemId, idx)"
-                    style="width: 30px"
-                  >
-                    <i class="fa fa-plus"></i>
-                  </button>
-                </div>
-              </div>
-            </td>
-            <td class="align-middle">{{ item.price.toLocaleString() }}</td>
-            <td class="align-middle">
-              {{ (item.count * item.price).toLocaleString() }}
-            </td>
-            <td class="align-middle" align="center">
-              <button
-                class="btn btn-sm btn-danger"
-                @click="deleteItem(item.itemId)"
-              >
-                <i class="fa fa-times"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+              <td class="align-middle">{{ item.price.toLocaleString() }}</td>
+              <td class="align-middle">
+                {{ (item.count * item.price).toLocaleString() }}
+              </td>
+              <td class="align-middle" align="center">
+                <button
+                  class="btn btn-sm btn-danger"
+                  @click="deleteItem(item.itemId)"
+                >
+                  <i class="fa fa-times"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="col-lg-4">
       <form class="mb-30">
