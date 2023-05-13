@@ -48,7 +48,7 @@
               <span
                 class="badge text-dark border border-dark rounded-circle"
                 style="padding-bottom: 2px"
-                >0</span
+                >{{ this.cartCount }}</span
               >
             </router-link>
             <router-link to="/orders/info" class="pl-2">
@@ -210,7 +210,7 @@
                   ></i>
                   <span
                     class="badge text-secondary border border-secondary rounded-circle"
-                    >0</span
+                    >{{ this.cartCount }}</span
                   >
                 </router-link>
                 <router-link to="/orders/info" class="pl-2">
@@ -243,10 +243,14 @@ export default {
   },
   async mounted() {
     await this.getAllCategories();
+    await this.$store.dispatch('carts/updateCartCountAction');
   },
   computed: {
     checkSignIn() {
       return this.$store.getters['accounts/isSignIn'];
+    },
+    cartCount() {
+      return this.$store.getters['carts/getCount'];
     },
   },
   watch: {

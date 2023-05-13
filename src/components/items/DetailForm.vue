@@ -314,6 +314,7 @@ export default {
           'carts/addCartAction',
           payload,
         );
+        await this.$store.dispatch('carts/updateCartCountAction');
 
         if (
           confirm(
