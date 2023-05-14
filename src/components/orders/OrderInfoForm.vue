@@ -50,7 +50,12 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody class="align-middle">
+            <tbody v-if="this.orderList.length === 0">
+              <tr>
+                <td colspan="5">집사야 주문한 게 없는데...?</td>
+              </tr>
+            </tbody>
+            <tbody v-else class="align-middle">
               <tr v-for="order in orderList" v-bind:key="order">
                 <td class="align-middle">{{ order.orderDate }}</td>
                 <td class="align-middle">
@@ -67,25 +72,40 @@
         </div>
       </div>
     </div>
-    <div class="col-12">
-      <nav>
-        <ul class="pagination justify-content-center">
-          <li class="page-item disabled">
-            <a class="page-link" href="#">Previous</a>
-          </li>
-          <li class="page-item" v-for="n in totalPages" v-bind:key="n">
-            <a
-              class="page-link text-primary2"
-              @click.prevent="loadPage(n)"
-              style="cursor: pointer"
-              >{{ n }}</a
+    <div class="page" style="clear: both">
+      <div class="col-12">
+        <nav>
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: isFirst }">
+              <a
+                class="page-link text-primary2"
+                @click="updateSelectedPage(selectedPage - 1)"
+                >Previous</a
+              >
+            </li>
+            <li
+              class="page-item"
+              v-for="n in this.pageList"
+              v-bind:key="n"
+              :class="{ active: n === selectedPage }"
             >
-          </li>
-          <li class="page-item">
-            <a class="page-link text-primary2" href="#">Next</a>
-          </li>
-        </ul>
-      </nav>
+              <a
+                class="page-link text-primary2"
+                @click.prevent="updateSelectedPage(n)"
+                style="cursor: pointer; width: 3em"
+                >{{ n }}</a
+              >
+            </li>
+            <li class="page-item" :class="{ disabled: isLast }">
+              <a
+                class="page-link text-primary2"
+                @click.prevent="updateSelectedPage(selectedPage + 1)"
+                >Next</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </div>
 </template>
@@ -96,14 +116,29 @@ import { getOrderList } from '@/api/orders';
 export default {
   data() {
     return {
-      // 디폴트는 현재 날짜로 설정
-      startDate: new Date().toISOString().substring(0, 10),
-      endDate: new Date().toISOString().substring(0, 10),
-      orderStatus: '',
-      page: 1,
-      size: 10,
+      // 데이터
       orderList: [],
-      totalPages: 0,
+
+      // 페이지네이션
+      isFirst: true,
+      isLast: true,
+      size: 3, // 한 번에 가져올 아이템 개수,
+      selectedPage: 1, // 현재 선택된 페이지
+      totalPages: 0, // 아이템 전체 페이지 수
+      pageListSize: 10, // 아래 표시할 페이지 수
+
+      // 디폴트는 최근 한 달로 설정
+      startDate: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth() - 1,
+        new Date().getDate() + 1,
+      )
+        .toISOString()
+        .substring(0, 10),
+      endDate: new Date().toISOString().substring(0, 10),
+
+      // 주문 상태
+      orderStatus: '',
     };
   },
   watch: {
@@ -120,12 +155,58 @@ export default {
           this.orderStatus = query.orderStatus;
           this.page = query.page;
         }
+
+        this.manageOrderList();
       },
+    },
+  },
+  computed: {
+    /**
+     * [1,2,3...pages] 배열을 생성하는 메서드
+     */
+    pageList() {
+      // 전체 페이지 수가 정해진 페이지 사이즈보다 작거나 같은 경우
+      if (this.totalPages <= this.pageListSize) {
+        return Array(this.totalPages)
+          .fill(1)
+          .map((n, idx) => n + idx);
+      }
+
+      // 전체 페이지 수가 정해진 페이지 사이즈보다 큰 경우
+      const sizeForCalculate =
+        this.pageListSize % 2 == 0 ? this.pageListSize : this.pageListSize + 1;
+
+      let startPage;
+      let pageListSize;
+
+      if (this.selectedPage - sizeForCalculate / 2 <= 0) {
+        // 첫 부분에 가까울 때
+        startPage = 1;
+      } else if (
+        // 끝쪽일 때
+        this.totalPages - this.selectedPage <
+        sizeForCalculate / 2
+      ) {
+        startPage = this.totalPages - this.pageListSize + 1;
+      } else {
+        // 중간일 때
+        startPage = this.selectedPage - sizeForCalculate / 2 + 1;
+      }
+
+      // 끝 페이지로 갈수록 페이지 수가 줄어들도록 하기
+      if (startPage + this.pageListSize > this.totalPages) {
+        pageListSize = this.totalPages - startPage + 1;
+      } else {
+        pageListSize = this.pageListSize;
+      }
+
+      return Array(pageListSize)
+        .fill(startPage)
+        .map((n, idx) => n + idx);
     },
   },
   methods: {
     processImage(order) {
-      console.log(order);
       switch (process.env.NODE_ENV) {
         case 'local':
           return require(`../../assets/items/thumbnail/${order.itemImageName}`);
@@ -135,16 +216,24 @@ export default {
           return order.imageUrl;
       }
     },
-    async loadPage(page) {
-      this.page = page;
+    /**
+     * 페이지 클릭시 호출
+     * @param {Number} page [1,2,3...]
+     */
+    async updateSelectedPage(inputPage) {
+      this.selectedPage = inputPage;
+
+      this.manageOrderList();
     },
     async manageOrderList() {
       const orderInfoConditions = {
         startDate: this.startDate,
         endDate: this.endDate,
         orderStatus: this.orderStatus,
-        page: this.page,
+        page: this.selectedPage,
       };
+
+      console.log(orderInfoConditions);
 
       if (!this.$route.path.startsWith('/orders/info')) {
         await this.$router.push({
@@ -165,13 +254,17 @@ export default {
         this.endDate,
         this.orderStatus === 'ALL' ? '' : this.orderStatus,
         this.size,
-        this.page,
+        this.selectedPage,
       );
 
       this.orderList = data.data.content;
+      this.totalPages = data.data.totalPages;
+
+      this.isFirst = data.data.first;
+      this.isLast = data.data.last;
+      this.size = data.data.size;
       this.totalPages = data.data.totalPages;
     },
   },
 };
 </script>
-<style></style>
