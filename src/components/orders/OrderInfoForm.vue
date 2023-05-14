@@ -54,11 +54,7 @@
               <tr v-for="order in orderList" v-bind:key="order">
                 <td class="align-middle">{{ order.orderDate }}</td>
                 <td class="align-middle">
-                  <img
-                    src="../../assets/items/1_cat.jpg"
-                    alt=""
-                    style="width: 50px"
-                  />
+                  <img :src="processImage(order)" alt="" style="width: 50px" />
                   {{ order.name }}
                 </td>
 
@@ -110,7 +106,6 @@ export default {
       totalPages: 0,
     };
   },
-  updated() {},
   watch: {
     // 현재 페이지 추적
     '$route.path': {
@@ -129,6 +124,17 @@ export default {
     },
   },
   methods: {
+    processImage(order) {
+      console.log(order);
+      switch (process.env.NODE_ENV) {
+        case 'local':
+          return require(`../../assets/items/thumbnail/${order.itemImageName}`);
+        case 'production':
+          return order.imageUrl;
+        default:
+          return order.imageUrl;
+      }
+    },
     async loadPage(page) {
       this.page = page;
     },
